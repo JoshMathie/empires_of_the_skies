@@ -4,20 +4,27 @@ export const ActionBoardButton = (props: ActionBoardButtonProps) => {
   return (
     <button
       style={{
-        width: "9.8%",
-        height: "3.7%",
-        backgroundColor: "transparent",
-        // left: props.left,
-        // bottom: props.bottom,
-        // border: "none",
+        width: props.width ? props.width : "98px",
+        height: "50px",
+        textAlign: "left",
+        backgroundImage: `url(${props.backgroundImage})`,
+        backgroundSize: "contain",
+        backgroundRepeat: "no-repeat",
+        fontFamily: "dauphinn",
+        fontSize: "18px",
       }}
+      disabled={props.disabled}
       onClick={props.onClick}
-    ></button>
+    >
+      {props.text}
+    </button>
   );
 };
 
 export type ActionBoardButtonProps = {
-  //   left: string;
-  //   bottom: string;
   onClick: () => void;
+  backgroundImage?: string;
+  text?: string;
+  disabled?: boolean;
+  width?: string;
 };
