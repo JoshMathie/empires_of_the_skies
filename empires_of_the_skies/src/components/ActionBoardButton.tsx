@@ -21,6 +21,27 @@ export const ActionBoardButton = (props: ActionBoardButtonProps) => {
   );
 };
 
+export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
+  return (
+    <button
+      style={{
+        width: props.width ? props.width : "180px",
+        height: "150px",
+        textAlign: "left",
+        backgroundImage: `url(${props.backgroundImage})`,
+        backgroundSize: "contain",
+        backgroundRepeat: "no-repeat",
+        fontFamily: "dauphinn",
+        fontSize: "18px",
+      }}
+      disabled={props.disabled}
+      onClick={props.onClick}
+    >
+      {props.text}
+    </button>
+  );
+};
+
 export type ActionBoardButtonProps = {
   onClick: () => void;
   backgroundImage?: string;
