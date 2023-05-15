@@ -192,6 +192,7 @@ export const ActionBoard = () => {
               backgroundRepeat: "no-repeat",
               fontFamily: "dauphinn",
               fontSize: "18px",
+              cursor: "pointer",
             }}
           />
         </ButtonRow>

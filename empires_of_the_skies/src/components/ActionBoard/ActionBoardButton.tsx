@@ -12,6 +12,7 @@ export const ActionBoardButton = (props: ActionBoardButtonProps) => {
         backgroundRepeat: "no-repeat",
         fontFamily: "dauphinn",
         fontSize: "18px",
+        cursor: "pointer",
       }}
       disabled={props.disabled}
       onClick={props.onClick}
@@ -33,6 +34,7 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
         backgroundRepeat: "no-repeat",
         fontFamily: "dauphinn",
         fontSize: "18px",
+        cursor: "pointer",
       }}
       disabled={props.disabled}
       onClick={props.onClick}
