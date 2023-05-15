@@ -6,10 +6,21 @@ export const WorldMapTile = (props: worldMapTileProps) => {
   return (
     <div className="flip-container">
       <div className="flipper">
-        <div className="front">
-          <img src={`url(${props.image})`} alt="World Map Tile" />
-        </div>
-        <div className="back">
+        <button
+          className="front"
+          style={{
+            backgroundImage: `url(${props.image})`,
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+            height: "123px",
+            width: "150px",
+            maxWidth: "100%",
+          }}
+        >
+          {/* <img src={props.image} alt="World Map Tile" /> */}
+          {/* <svg>{props.children}</svg> */}
+        </button>
+        <div className="back" hidden={true}>
           <button style={{ backgroundColor: "#298932", fontSize: "30px" }}>
             ?
           </button>
@@ -21,13 +32,13 @@ export const WorldMapTile = (props: worldMapTileProps) => {
 
 type worldMapTileProps = {
   image: string;
-  children:
-    | ReactNode
-    | ReactFragment
-    | ReactPortal
-    | boolean
-    | null
-    | undefined;
+  // children:
+  //   | ReactNode
+  //   | ReactFragment
+  //   | ReactPortal
+  //   | boolean
+  //   | null
+  //   | undefined;
 };
 
 //Method for displaying the known world map tile
