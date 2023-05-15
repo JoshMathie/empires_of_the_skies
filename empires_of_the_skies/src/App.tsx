@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { ActionBoard } from "./components/ActionBoard";
+import { ActionBoard } from "./components/ActionBoard/ActionBoard";
 
 function App() {
   return (

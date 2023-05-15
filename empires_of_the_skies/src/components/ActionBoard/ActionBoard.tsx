@@ -1,70 +1,71 @@
 import React from "react";
-import "../App.css";
-import { ReactComponent as ActionBoardSvg } from "../boards_and_assets/action_board.svg";
+import "../../App.css";
+// import { ReactComponent as ActionBoardSvg } from "../boards_and_assets/action_board.svg";
 import { ActionBoardButton, ActionBoardButtonLarge } from "./ActionBoardButton";
 import { ButtonRow } from "./ActionBoardButtonRow";
-import playerOrderTile from "../boards_and_assets/player_order_tile.svg";
-import recuitCounsillor1 from "../boards_and_assets/recruit_counsillor1.svg";
-import recuitCounsillor2 from "../boards_and_assets/recruit_counsillor2.svg";
-import recuitCounsillor3 from "../boards_and_assets/recruit_counsillor3.svg";
-import trainTroops1 from "../boards_and_assets/train_troops1.svg";
-import trainTroops2 from "../boards_and_assets/train_troops2.svg";
-import recruitRegiments1 from "../boards_and_assets/recruit_regiments1.svg";
-import recruitRegiments2 from "../boards_and_assets/recruit_regiments2.svg";
-import recruitRegiments3 from "../boards_and_assets/recruit_regiments3.svg";
-import recruitRegiments4 from "../boards_and_assets/recruit_regiments4.svg";
-import recruitRegiments5 from "../boards_and_assets/recruit_regiments5.svg";
-import recruitRegiments6 from "../boards_and_assets/recruit_regiments6.svg";
-import purchaseSkyships1 from "../boards_and_assets/build_skyships_zeeland1.svg";
-import purchaseSkyships2 from "../boards_and_assets/build_skyships_zeeland2.svg";
-import purchaseSkyships3 from "../boards_and_assets/build_skyships_zeeland3.svg";
-import purchaseSkyships4 from "../boards_and_assets/build_skyships_venoa1.svg";
-import purchaseSkyships5 from "../boards_and_assets/build_skyships_venoa2.svg";
-import purchaseSkyships6 from "../boards_and_assets/build_skyships_venoa3.svg";
-import buildCathedral from "../boards_and_assets/build_cathedral.svg";
-import buildPalace from "../boards_and_assets/build_palace.svg";
-import buildShipyard from "../boards_and_assets/build_shipyards.svg";
-import buildForts from "../boards_and_assets/build_forts.svg";
-import { ReactComponent as InfluencePrelatesExplination } from "../boards_and_assets/influence_prelates_explination.svg";
-import influencePrelates1 from "../boards_and_assets/influence_prelates1.svg";
-import influencePrelates2 from "../boards_and_assets/influence_prelates2.svg";
-import influencePrelates3 from "../boards_and_assets/influence_prelates3.svg";
-import influencePrelates4 from "../boards_and_assets/influence_prelates4.svg";
-import influencePrelates5 from "../boards_and_assets/influence_prelates5.svg";
-import influencePrelates6 from "../boards_and_assets/influence_prelates6.svg";
-import influencePrelates7 from "../boards_and_assets/influence_prelates7.svg";
-import influencePrelates8 from "../boards_and_assets/influence_prelates8.svg";
-import { ReactComponent as PunishDissenters } from "../boards_and_assets/punish_dissenters_explination.svg";
-import punishDissenters1 from "../boards_and_assets/punish_dissenters1.svg";
-import punishDissenters2 from "../boards_and_assets/punish_dissenters2.svg";
-import punishDissenters3 from "../boards_and_assets/punish_dissenters3.svg";
-import punishDissenters4 from "../boards_and_assets/punish_dissenters4.svg";
-import punishDissenters5 from "../boards_and_assets/punish_dissenters5.svg";
-import punishDissenters6 from "../boards_and_assets/punish_dissenters6.svg";
-import { ReactComponent as ConvertMonarchExplination } from "../boards_and_assets/convert_monarch_explination.svg";
-import convertMonarch1 from "../boards_and_assets/convert_monarch1.svg";
-import convertMonarch2 from "../boards_and_assets/convert_monarch2.svg";
-import convertMonarch3 from "../boards_and_assets/convert_monarch3.svg";
-import convertMonarch4 from "../boards_and_assets/convert_monarch4.svg";
-import convertMonarch5 from "../boards_and_assets/convert_monarch5.svg";
-import convertMonarch6 from "../boards_and_assets/convert_monarch6.svg";
-import issueHolyDecree from "../boards_and_assets/issue_holy_decree.svg";
+import playerOrderTile from "../../boards_and_assets/player_order_tile.svg";
+import recuitCounsillor1 from "../../boards_and_assets/recruit_counsillor1.svg";
+import recuitCounsillor2 from "../../boards_and_assets/recruit_counsillor2.svg";
+import recuitCounsillor3 from "../../boards_and_assets/recruit_counsillor3.svg";
+import trainTroops1 from "../../boards_and_assets/train_troops1.svg";
+import trainTroops2 from "../../boards_and_assets/train_troops2.svg";
+import recruitRegiments1 from "../../boards_and_assets/recruit_regiments1.svg";
+import recruitRegiments2 from "../../boards_and_assets/recruit_regiments2.svg";
+import recruitRegiments3 from "../../boards_and_assets/recruit_regiments3.svg";
+import recruitRegiments4 from "../../boards_and_assets/recruit_regiments4.svg";
+import recruitRegiments5 from "../../boards_and_assets/recruit_regiments5.svg";
+import recruitRegiments6 from "../../boards_and_assets/recruit_regiments6.svg";
+import purchaseSkyships1 from "../../boards_and_assets/build_skyships_zeeland1.svg";
+import purchaseSkyships2 from "../../boards_and_assets/build_skyships_zeeland2.svg";
+import purchaseSkyships3 from "../../boards_and_assets/build_skyships_zeeland3.svg";
+import purchaseSkyships4 from "../../boards_and_assets/build_skyships_venoa1.svg";
+import purchaseSkyships5 from "../../boards_and_assets/build_skyships_venoa2.svg";
+import purchaseSkyships6 from "../../boards_and_assets/build_skyships_venoa3.svg";
+import buildCathedral from "../../boards_and_assets/build_cathedral.svg";
+import buildPalace from "../../boards_and_assets/build_palace.svg";
+import buildShipyard from "../../boards_and_assets/build_shipyards.svg";
+import buildForts from "../../boards_and_assets/build_forts.svg";
+import { ReactComponent as InfluencePrelatesExplination } from "../../boards_and_assets/influence_prelates_explination.svg";
+import influencePrelates1 from "../../boards_and_assets/influence_prelates1.svg";
+import influencePrelates2 from "../../boards_and_assets/influence_prelates2.svg";
+import influencePrelates3 from "../../boards_and_assets/influence_prelates3.svg";
+import influencePrelates4 from "../../boards_and_assets/influence_prelates4.svg";
+import influencePrelates5 from "../../boards_and_assets/influence_prelates5.svg";
+import influencePrelates6 from "../../boards_and_assets/influence_prelates6.svg";
+import influencePrelates7 from "../../boards_and_assets/influence_prelates7.svg";
+import influencePrelates8 from "../../boards_and_assets/influence_prelates8.svg";
+import { ReactComponent as PunishDissenters } from "../../boards_and_assets/punish_dissenters_explination.svg";
+import punishDissenters1 from "../../boards_and_assets/punish_dissenters1.svg";
+import punishDissenters2 from "../../boards_and_assets/punish_dissenters2.svg";
+import punishDissenters3 from "../../boards_and_assets/punish_dissenters3.svg";
+import punishDissenters4 from "../../boards_and_assets/punish_dissenters4.svg";
+import punishDissenters5 from "../../boards_and_assets/punish_dissenters5.svg";
+import punishDissenters6 from "../../boards_and_assets/punish_dissenters6.svg";
+import { ReactComponent as ConvertMonarchExplination } from "../../boards_and_assets/convert_monarch_explination.svg";
+import convertMonarch1 from "../../boards_and_assets/convert_monarch1.svg";
+import convertMonarch2 from "../../boards_and_assets/convert_monarch2.svg";
+import convertMonarch3 from "../../boards_and_assets/convert_monarch3.svg";
+import convertMonarch4 from "../../boards_and_assets/convert_monarch4.svg";
+import convertMonarch5 from "../../boards_and_assets/convert_monarch5.svg";
+import convertMonarch6 from "../../boards_and_assets/convert_monarch6.svg";
+import issueHolyDecree from "../../boards_and_assets/issue_holy_decree.svg";
 
 //method which returns the complete action board
 
 export const ActionBoard = () => {
   return (
     <div>
-      <ActionBoardSvg></ActionBoardSvg>
+      {/* <ActionBoardSvg></ActionBoardSvg> */}
       {/* establishing a column for the different classes of moves to be displayed in */}
       <div
         style={{
-          width: "80%",
+          width: "100%",
           display: "flex",
           flexDirection: "column",
           // flexWrap: "wrap",
         }}
       >
+        {/* button row with the player order buttons */}
         <ButtonRow>
           {"Alter Player \n Order"}
           {generateButtonsList(
@@ -75,6 +76,7 @@ export const ActionBoard = () => {
             ["1st", "2nd", "3rd", "4th", "5th", "6th"]
           )}
         </ButtonRow>
+        {/* button row with the recruit counsellor buttons */}
         <ButtonRow>
           Recruit Counsellors
           {generateButtonsList(
@@ -85,6 +87,7 @@ export const ActionBoard = () => {
           Train Troops
           {generateButtonsList(2, [trainTroops1, trainTroops2], "98px")}
         </ButtonRow>
+        {/* button row with the recruit regiments buttons  */}
         <ButtonRow>
           Recruit Regiments
           {generateButtonsList(
@@ -100,6 +103,7 @@ export const ActionBoard = () => {
             "98px"
           )}
         </ButtonRow>
+        {/* button row with the purchase skyships buttons   */}
         <ButtonRow>
           Purchase Skyships
           {generateButtonsList(
@@ -115,6 +119,7 @@ export const ActionBoard = () => {
             "98px"
           )}
         </ButtonRow>
+        {/* button row with the found buildings buttons   */}
         <ButtonRow>
           Found Buildings
           {generateButtonsList(
@@ -124,6 +129,7 @@ export const ActionBoard = () => {
             true
           )}
         </ButtonRow>
+        {/* button row with the influence prelates buttons */}
         <ButtonRow>
           <InfluencePrelatesExplination />
           {generateButtonsList(
@@ -141,6 +147,7 @@ export const ActionBoard = () => {
             "52px"
           )}
         </ButtonRow>
+        {/* button row with the punish dissenters buttons  */}
         <ButtonRow>
           <PunishDissenters />
           {generateButtonsList(
@@ -156,6 +163,7 @@ export const ActionBoard = () => {
             "52px"
           )}
         </ButtonRow>
+        {/* button row with the convert monarch buttons   */}
         <ButtonRow>
           <ConvertMonarchExplination />
           {generateButtonsList(
@@ -171,6 +179,7 @@ export const ActionBoard = () => {
             "52px"
           )}
         </ButtonRow>
+        {/* button row with the issue holy decree button    */}
         <ButtonRow>
           <button
             onClick={() => {}}
@@ -197,6 +206,7 @@ export const generateButtonsList = (
   // listOfOnClickFunctions: () => void,
   listOfBackgroundImages: string[],
   buttonWidth: string,
+  // flag to opt for large buttons instead of regular sized buttons
   large?: boolean,
   listOfText?: string[]
 ) => {
