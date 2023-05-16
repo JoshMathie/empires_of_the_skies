@@ -1,6 +1,9 @@
 import React from "react";
+
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { Grid } from "@mui/material";
 import { WorldMapTile } from "./WorldMapTile";
+
 import KnownWorldTile1 from "../../map_tiles/known_world1.svg";
 import KnownWorldTile2 from "../../map_tiles/known_world2.svg";
 import KnownWorldTile3 from "../../map_tiles/known_world3.svg";
@@ -529,18 +532,70 @@ export const WorldMap = () => {
     {
       name: "Ocean1",
       image: Ocean1,
+      blocked: [],
+      sword: 0,
+      shield: 0,
+      loot: {
+        gold: 0,
+        mithril: 0,
+        dragonScales: 0,
+        krakenSkin: 0,
+        magicDust: 0,
+        stickyIchor: 0,
+        pipeweed: 0,
+        victoryPoints: 0,
+      },
     },
     {
       name: "Ocean2",
       image: Ocean2,
+      blocked: [],
+      sword: 0,
+      shield: 0,
+      loot: {
+        gold: 0,
+        mithril: 0,
+        dragonScales: 0,
+        krakenSkin: 0,
+        magicDust: 0,
+        stickyIchor: 0,
+        pipeweed: 0,
+        victoryPoints: 0,
+      },
     },
     {
       name: "Ocean3",
       image: Ocean3,
+      blocked: [],
+      sword: 0,
+      shield: 0,
+      loot: {
+        gold: 0,
+        mithril: 0,
+        dragonScales: 0,
+        krakenSkin: 0,
+        magicDust: 0,
+        stickyIchor: 0,
+        pipeweed: 0,
+        victoryPoints: 0,
+      },
     },
     {
       name: "Ocean4",
       image: Ocean4,
+      blocked: [],
+      sword: 0,
+      shield: 0,
+      loot: {
+        gold: 0,
+        mithril: 0,
+        dragonScales: 0,
+        krakenSkin: 0,
+        magicDust: 0,
+        stickyIchor: 0,
+        pipeweed: 0,
+        victoryPoints: 0,
+      },
     },
   ];
   const legendTiles = [
@@ -548,6 +603,8 @@ export const WorldMap = () => {
       name: "HereBeDragons",
       image: HereBeDragons,
       blocked: ["S", "SE"],
+      sword: 0,
+      shield: 0,
       loot: {
         gold: 1,
         mithril: 0,
@@ -563,6 +620,8 @@ export const WorldMap = () => {
       name: "SeaElves",
       image: SeaElves,
       blocked: [],
+      sword: 0,
+      shield: 0,
       loot: {
         gold: 1,
         mithril: 0,
@@ -578,6 +637,8 @@ export const WorldMap = () => {
       name: "TheFountainOfYouth",
       image: TheFountainOfYouth,
       blocked: [],
+      sword: 0,
+      shield: 0,
       loot: {
         gold: 0,
         mithril: 0,
@@ -593,6 +654,8 @@ export const WorldMap = () => {
       name: "TheKingdomOfTheMerfolk",
       image: TheKingdomOfTheMerfolk,
       blocked: [],
+      sword: 0,
+      shield: 0,
       loot: {
         gold: 1,
         mithril: 0,
@@ -608,6 +671,8 @@ export const WorldMap = () => {
       name: "TheKraken",
       image: TheKraken,
       blocked: [],
+      sword: 0,
+      shield: 0,
       loot: {
         gold: 0,
         mithril: 0,
@@ -623,6 +688,8 @@ export const WorldMap = () => {
       name: "TheLostCityOfGold",
       image: TheLostCityOfGold,
       blocked: [],
+      sword: 0,
+      shield: 0,
       loot: {
         gold: 1,
         mithril: 1,
@@ -669,13 +736,17 @@ export const WorldMap = () => {
     randomImages.splice(4, 0, knownWorldTiles[1].image);
     randomImages.splice(11, 0, knownWorldTiles[2].image);
     randomImages.splice(12, 0, knownWorldTiles[3].image);
-
+    const knownWorldImageIndexes = [3, 4, 11, 12];
     return (
       <>
         {randomImages.map((image) => (
           <Grid item lg={1}>
-            <WorldMapTile image={image} />
-            {/* <img src={image} height={150} /> */}
+            <WorldMapTile
+              image={image}
+              flipped={knownWorldImageIndexes.includes(
+                randomImages.indexOf(image)
+              )}
+            />
           </Grid>
         ))}
       </>
@@ -683,17 +754,15 @@ export const WorldMap = () => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        overflow: "scroll",
-        width: "100%",
-        height: "100%",
-      }}
-    >
-      <Grid container spacing={0} columns={8}>
-        <GridItems />
-      </Grid>
+    <div>
+      World Map
+      <TransformWrapper>
+        <TransformComponent>
+          <Grid container spacing={0} columns={8} width={"1600px"}>
+            <GridItems />
+          </Grid>
+        </TransformComponent>
+      </TransformWrapper>
     </div>
   );
 };
