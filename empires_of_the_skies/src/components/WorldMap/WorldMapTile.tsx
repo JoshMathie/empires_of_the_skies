@@ -1,32 +1,40 @@
-import React, { ReactNode, ReactFragment, ReactPortal } from "react";
+import React, { useState } from "react";
 
 import { ReactComponent as KnownWorld } from "../../map_tiles/known_world_tile.svg";
+import ReactCardFlip from "react-card-flip";
+
 //Method for displaying a flippable tile which contains a world map tile image
 export const WorldMapTile = (props: worldMapTileProps) => {
+  const [flip, setFlip] = useState(false);
   return (
-    <div className="flip-container">
-      <div className="flipper">
-        <button
-          className="front"
-          style={{
-            backgroundImage: `url(${props.image})`,
-            backgroundSize: "contain",
-            backgroundRepeat: "no-repeat",
-            height: "123px",
-            width: "150px",
-            maxWidth: "100%",
-          }}
-        >
-          {/* <img src={props.image} alt="World Map Tile" /> */}
-          {/* <svg>{props.children}</svg> */}
-        </button>
-        <div className="back" hidden={true}>
-          <button style={{ backgroundColor: "#298932", fontSize: "30px" }}>
-            ?
-          </button>
-        </div>
-      </div>
-    </div>
+    <ReactCardFlip isFlipped={flip}>
+      <button
+        style={{
+          backgroundColor: "#298932",
+          fontSize: "30px",
+          height: "123px",
+          width: "150px",
+          maxWidth: "100%",
+        }}
+        onClick={() => setFlip(true)}
+      >
+        ?
+      </button>
+      <button
+        className="front"
+        style={{
+          backgroundImage: `url(${props.image})`,
+          backgroundSize: "contain",
+          backgroundRepeat: "no-repeat",
+          height: "123px",
+          width: "150px",
+          maxWidth: "100%",
+        }}
+      >
+        {/* <img src={props.image} alt="World Map Tile" /> */}
+        {/* <svg>{props.children}</svg> */}
+      </button>
+    </ReactCardFlip>
   );
 };
 
