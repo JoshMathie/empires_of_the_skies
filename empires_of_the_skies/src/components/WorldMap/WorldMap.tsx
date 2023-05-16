@@ -652,9 +652,6 @@ export const WorldMap = () => {
     const legendImages = legendTiles.map((tile) => {
       return tile.image;
     });
-    const knownWorldImages = knownWorldTiles.map((tile) => {
-      return tile.image;
-    });
 
     let randomImages = oceanImages.concat(unknownWorldImages, legendImages);
 
