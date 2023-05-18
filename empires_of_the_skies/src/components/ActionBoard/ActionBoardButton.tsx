@@ -8,7 +8,9 @@ export const ActionBoardButton = (props: ActionBoardButtonProps) => {
         height: "50px",
         textAlign: "left",
         backgroundImage: `url(${props.backgroundImage})`,
-        backgroundSize: "contain",
+        // replace background size with 'contain' to displaye entire
+        backgroundSize: "cover",
+        backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         fontFamily: "dauphinn",
         fontSize: "18px",

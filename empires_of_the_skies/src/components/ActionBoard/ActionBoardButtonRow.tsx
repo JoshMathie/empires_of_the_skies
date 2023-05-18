@@ -9,6 +9,8 @@ export const ButtonRow = ({ children }: ActionBoardButtonRowChildProps) => {
         position: "relative",
         whiteSpace: "pre-line",
         flexWrap: "wrap",
+        // alignContent: "center",
+        alignItems: "center",
       }}
     >
       {children}
