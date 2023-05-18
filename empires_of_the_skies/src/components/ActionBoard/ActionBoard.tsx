@@ -55,7 +55,6 @@ import issueHolyDecree from "../../boards_and_assets/issue_holy_decree.svg";
 export const ActionBoard = () => {
   return (
     <div>
-      {/* <ActionBoardSvg></ActionBoardSvg> */}
       {/* establishing a column for the different classes of moves to be displayed in */}
       <div
         style={{
@@ -66,7 +65,7 @@ export const ActionBoard = () => {
         }}
       >
         {/* button row with the player order buttons */}
-        <ButtonRow>
+        <ButtonRow key={"player order buttons"}>
           {"Alter Player \n Order"}
           {generateButtonsList(
             6,
@@ -77,7 +76,7 @@ export const ActionBoard = () => {
           )}
         </ButtonRow>
         {/* button row with the recruit counsellor buttons */}
-        <ButtonRow>
+        <ButtonRow key={"recruit counsellor buttons"}>
           Recruit Counsellors
           {generateButtonsList(
             3,
@@ -88,7 +87,7 @@ export const ActionBoard = () => {
           {generateButtonsList(2, [trainTroops1, trainTroops2], "98px")}
         </ButtonRow>
         {/* button row with the recruit regiments buttons  */}
-        <ButtonRow>
+        <ButtonRow key={"recruit regiments buttons"}>
           Recruit Regiments
           {generateButtonsList(
             6,
@@ -104,7 +103,7 @@ export const ActionBoard = () => {
           )}
         </ButtonRow>
         {/* button row with the purchase skyships buttons   */}
-        <ButtonRow>
+        <ButtonRow key={"purchase skyships buttons"}>
           Purchase Skyships
           {generateButtonsList(
             6,
@@ -120,7 +119,7 @@ export const ActionBoard = () => {
           )}
         </ButtonRow>
         {/* button row with the found buildings buttons   */}
-        <ButtonRow>
+        <ButtonRow key={"found buildings buttons"}>
           Found Buildings
           {generateButtonsList(
             4,
@@ -130,7 +129,7 @@ export const ActionBoard = () => {
           )}
         </ButtonRow>
         {/* button row with the influence prelates buttons */}
-        <ButtonRow>
+        <ButtonRow key={"influence prelates buttons"}>
           <InfluencePrelatesExplination />
           {generateButtonsList(
             8,
@@ -148,7 +147,7 @@ export const ActionBoard = () => {
           )}
         </ButtonRow>
         {/* button row with the punish dissenters buttons  */}
-        <ButtonRow>
+        <ButtonRow key={"punish dissenters buttons"}>
           <PunishDissenters />
           {generateButtonsList(
             6,
@@ -164,7 +163,7 @@ export const ActionBoard = () => {
           )}
         </ButtonRow>
         {/* button row with the convert monarch buttons   */}
-        <ButtonRow>
+        <ButtonRow key={"convert monarch buttons"}>
           <ConvertMonarchExplination />
           {generateButtonsList(
             6,
@@ -180,7 +179,7 @@ export const ActionBoard = () => {
           )}
         </ButtonRow>
         {/* button row with the issue holy decree button    */}
-        <ButtonRow>
+        <ButtonRow key={"issue holy decree button"}>
           <button
             onClick={() => {}}
             style={{
@@ -220,6 +219,7 @@ export const generateButtonsList = (
           backgroundImage={listOfBackgroundImages[i]}
           text={listOfText ? listOfText[i] : ""}
           width={buttonWidth}
+          key={`button ${i} large`}
         />
       ) : (
         <ActionBoardButton
@@ -227,6 +227,7 @@ export const generateButtonsList = (
           backgroundImage={listOfBackgroundImages[i]}
           text={listOfText ? listOfText[i] : ""}
           width={buttonWidth}
+          key={`button ${i} regular`}
         />
       )
     );
