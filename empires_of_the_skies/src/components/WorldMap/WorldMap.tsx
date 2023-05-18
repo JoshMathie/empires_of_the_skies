@@ -755,10 +755,9 @@ export const WorldMap = () => {
 
   return (
     <div>
-      World Map
       <TransformWrapper>
         <TransformComponent>
-          <Grid container spacing={0} columns={8} width={"1600px"}>
+          <Grid container spacing={0} columns={8} width={"100%"}>
             <GridItems />
           </Grid>
         </TransformComponent>
