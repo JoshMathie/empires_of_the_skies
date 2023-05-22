@@ -1,9 +1,19 @@
 export type MapState = {
   currentTileArray: TileInfoProps[][];
   discoveredTiles: boolean[][];
-  outposts: string[][];
-  colonies: string[][];
+  buildings: MapBuildingInfo[][];
 };
+export type MapBuildingInfo = {
+  player?: PlayerInfo;
+  buildings?: (typeof BuildingOptions)[keyof typeof BuildingOptions][];
+};
+
+const BuildingOptions = {
+  outpost: "outpost",
+  colony: "colony",
+  fort: "fort",
+} as const;
+
 export type PlayerInfo = {
   id: string;
   colour: (typeof PlayerColour)[keyof typeof PlayerColour];
@@ -29,7 +39,7 @@ export type FleetInfo = {
 };
 
 export type counsellorLocations = {
-  playerBoard: boolean[];
+  playerBoard: boolean[][];
   actionBoard: boolean[];
 };
 
@@ -41,7 +51,7 @@ export type Resources = {
   magicDust: number;
   stickyIchor: number;
   pipeweed: number;
-  counsillors: number;
+  counsellors: number;
   skyships: number;
   regiments: number;
   fortuneCards: string[];
@@ -65,5 +75,28 @@ export type TileInfoProps = {
   blocked: string[];
   sword: number;
   shield: number;
-  loot: Object;
+  loot: LootInfo;
+};
+
+type LootInfo = {
+  outpost: {
+    gold: number;
+    mithril: number;
+    dragonScales: number;
+    krakenSkin: number;
+    magicDust: number;
+    stickyIchor: number;
+    pipeweed: number;
+    victoryPoints: number;
+  };
+  colony: {
+    gold: number;
+    mithril: number;
+    dragonScales: number;
+    krakenSkin: number;
+    magicDust: number;
+    stickyIchor: number;
+    pipeweed: number;
+    victoryPoints: number;
+  };
 };

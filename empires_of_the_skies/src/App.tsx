@@ -1,6 +1,8 @@
 import React from "react";
 import "./App.css";
 import { ActionBoard } from "./components/ActionBoard/ActionBoard";
+import { WorldMap } from "./components/WorldMap/WorldMap";
+import { ActionBoardsAndMap } from "./components/ActionBoardsAndMap";
 
 function App() {
   return (
@@ -10,10 +12,12 @@ function App() {
         display: "flex",
         alignItems: "center",
         flexWrap: "wrap",
-        maxWidth: "991px",
+        maxWidth: "1300px",
+        backgroundColor: "#e0ffff",
       }}
     >
-      <ActionBoard />
+      <ActionBoardsAndMap />
+      {/* <WorldMap /> */}
     </div>
   );
 }
