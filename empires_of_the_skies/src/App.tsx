@@ -1,10 +1,10 @@
 import React from "react";
 import "./App.css";
 import { Client, Lobby } from "boardgame.io/react";
-import { Local, SocketIO } from "boardgame.io/multiplayer";
+// import { Local, SocketIO } from "boardgame.io/multiplayer";
 import { ActionBoardsAndMap } from "./components/ActionBoardsAndMap";
 import { MyGame } from "./Game";
-import { Server, Origins } from "boardgame.io/server";
+// import { Server, Origins } from "boardgame.io/server";
 
 const EmpiresOfTheSkiesClient = Client({
   game: MyGame,
@@ -12,6 +12,9 @@ const EmpiresOfTheSkiesClient = Client({
   numPlayers: 6,
   // multiplayer: SocketIO(),
   debug: true,
+  loading: () => {
+    return <img src="./boards_and_assets/box_image.png"></img>;
+  },
 });
 
 // const server = Server({

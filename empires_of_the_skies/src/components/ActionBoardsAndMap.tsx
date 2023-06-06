@@ -18,6 +18,7 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
   const playerInfo = props.G.playerInfo.find(
     (playerinfo) => playerinfo.id === props.ctx.currentPlayer
   );
+
   return (
     <Box
     //   sx={{
