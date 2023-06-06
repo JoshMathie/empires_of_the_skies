@@ -8,6 +8,7 @@ import {
   MapBuildingInfo,
   PlayerColour,
   ActionBoardInfo,
+  PlayerOrder,
 } from "./types";
 import {
   unknownWorldTiles,
@@ -19,11 +20,10 @@ import {
 export interface MyGameState {
   turn: number;
   phase: string;
-
-  // tileInfo: TileInfoProps[];
   playerInfo: PlayerInfo[];
   mapState: MapState;
   boardState: ActionBoardInfo;
+  playerOrder: PlayerOrder;
 }
 
 export const MyGame: Game<MyGameState> = {
@@ -38,8 +38,8 @@ export const MyGame: Game<MyGameState> = {
     };
     const playerInfos = (ctx: Ctx): PlayerInfo[] => {
       const colours = getPlayerColours(ctx);
-      const playerColour = colours.pop();
       return ctx.playOrder.map((playerID) => {
+        const playerColour = colours.pop();
         return {
           id: playerID,
           colour: playerColour ? playerColour : PlayerColour.green,
@@ -84,66 +84,110 @@ export const MyGame: Game<MyGameState> = {
     };
     const initialBoardState = {
       alterPlayerOrder: {
-        first: undefined,
-        second: undefined,
-        third: undefined,
-        fourth: undefined,
-        fifth: undefined,
-        sixth: undefined,
+        1: undefined,
+        2: undefined,
+        3: undefined,
+        4: undefined,
+        5: undefined,
+        6: undefined,
       },
       recruitCouncilors: {
-        free: undefined,
-        oneGold: undefined,
-        threeGold: undefined,
+        1: undefined,
+        2: undefined,
+        3: undefined,
+
+        // free: undefined,
+        // oneGold: undefined,
+        // threeGold: undefined,
       },
       recruitRegiments: {
-        free: undefined,
-        oneGold: undefined,
-        twoGold: undefined,
-        threeGoldToSevenRegiments: undefined,
-        threeGoldToSixRegiments: undefined,
-        fourGold: undefined,
+        1: undefined,
+        2: undefined,
+        3: undefined,
+        4: undefined,
+        5: undefined,
+        6: undefined,
+        // free: undefined,
+        // oneGold: undefined,
+        // twoGold: undefined,
+        // threeGoldToSevenRegiments: undefined,
+        // threeGoldToSixRegiments: undefined,
+        // fourGold: undefined,
       },
-      trainTroops: { free: undefined, oneGold: undefined },
+      trainTroops: {
+        1: undefined,
+        2: undefined,
+        // free: undefined, oneGold: undefined
+      },
       purchaseSkyships: {
-        zeelandFourGold: undefined,
-        zeelandThreeGold: undefined,
-        zeelandOneGold: undefined,
-        venoaFourGold: undefined,
-        venoaThreeGold: undefined,
-        venoaOneGold: undefined,
+        1: undefined,
+        2: undefined,
+        3: undefined,
+        4: undefined,
+        5: undefined,
+        6: undefined,
+        // zeelandFourGold: undefined,
+        // zeelandThreeGold: undefined,
+        // zeelandOneGold: undefined,
+        // venoaFourGold: undefined,
+        // venoaThreeGold: undefined,
+        // venoaOneGold: undefined,
       },
       foundBuildings: {
-        forts: [],
-        palaces: [],
-        cathedrals: [],
-        shipyards: [],
+        1: [],
+        2: [],
+        3: [],
+        4: [],
+        // forts: [],
+        // palaces: [],
+        // cathedrals: [],
+        // shipyards: [],
       },
       inflencePrelates: {
-        angland: undefined,
-        gallois: undefined,
-        venoa: undefined,
-        zeeland: undefined,
-        castilia: undefined,
-        constantium: undefined,
-        normark: undefined,
-        ostreich: undefined,
+        1: undefined,
+        2: undefined,
+        3: undefined,
+        4: undefined,
+        5: undefined,
+        6: undefined,
+        7: undefined,
+        8: undefined,
+        // angland: undefined,
+        // gallois: undefined,
+        // venoa: undefined,
+        // zeeland: undefined,
+        // castilia: undefined,
+        // constantium: undefined,
+        // normark: undefined,
+        // ostreich: undefined,
       },
       punishDissenters: {
-        threeVP: undefined,
-        oneGold: undefined,
-        oneVP: undefined,
-        counsellor: undefined,
-        twoVP: undefined,
-        free: undefined,
+        1: undefined,
+        2: undefined,
+        3: undefined,
+        4: undefined,
+        5: undefined,
+        6: undefined,
+        // threeVP: undefined,
+        // oneGold: undefined,
+        // oneVP: undefined,
+        // counsellor: undefined,
+        // twoVP: undefined,
+        // free: undefined,
       },
       convertMonarch: {
-        oneGold: undefined,
-        oneVP: undefined,
-        threeVP: undefined,
-        twoCounsellors: undefined,
-        twoVP: undefined,
-        counsellor: undefined,
+        1: undefined,
+        2: undefined,
+        3: undefined,
+        4: undefined,
+        5: undefined,
+        6: undefined,
+        // oneGold: undefined,
+        // oneVP: undefined,
+        // threeVP: undefined,
+        // twoCounsellors: undefined,
+        // twoVP: undefined,
+        // counsellor: undefined,
       },
     };
 
@@ -153,6 +197,14 @@ export const MyGame: Game<MyGameState> = {
       playerInfo: playerInfos(ctx),
       mapState: mapState,
       boardState: initialBoardState,
+      playerOrder: {
+        1: undefined,
+        2: undefined,
+        3: undefined,
+        4: undefined,
+        5: undefined,
+        6: undefined,
+      },
     };
   },
   moves: {
@@ -162,11 +214,51 @@ export const MyGame: Game<MyGameState> = {
         if (G.mapState.discoveredTiles[y][x] === true) {
           return INVALID_MOVE;
         }
+        const boarderingTiles: number[][] = [
+          [x, y - 1 < 0 ? 0 : y - 1],
+          [x, y + 1 > 3 ? 3 : y + 1],
+          [(((x - 1) % 8) + 8) % 8, y],
+          [(((x + 1) % 8) + 8) % 8, y],
+        ];
+        let boardered = false;
+
+        boarderingTiles.forEach((coords) => {
+          if (G.mapState.discoveredTiles[coords[1]][coords[0]] === true) {
+            boardered = true;
+          }
+        });
+        if (boardered === false) {
+          return INVALID_MOVE;
+        }
         G.mapState.discoveredTiles[y][x] = true;
 
         events.endTurn();
       },
       undoable: true,
+    },
+    alterPlayerOrder: {
+      move: ({ G, ctx, events, random }, ...args) => {
+        const newPosition: keyof PlayerOrder = args[1] + 1;
+        const playerID = ctx.currentPlayer;
+        if (ctx.numPlayers < newPosition) {
+          console.log("Player has chosen a position that is out of bounds");
+          return INVALID_MOVE;
+        }
+        if (G.playerOrder[newPosition] !== undefined) {
+          console.log("Player has chosen a position that is already taken");
+          return INVALID_MOVE;
+        }
+        for (const value of Object.values(G.playerOrder)) {
+          if (value === playerID) {
+            console.log("Player has already altered their position");
+            return INVALID_MOVE;
+          }
+        }
+        G.boardState.alterPlayerOrder[newPosition] = playerID;
+        G.playerOrder[newPosition] = playerID;
+
+        events.endTurn();
+      },
     },
   },
   maxPlayers: 6,
