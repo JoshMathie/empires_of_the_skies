@@ -48,7 +48,7 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
         </Tabs>
 
         <TabPanel value={"0"} tabIndex={0}>
-          <ActionBoard />
+          <ActionBoard {...props} />
         </TabPanel>
         <TabPanel value={"1"} tabIndex={1}>
           <PlayerBoard

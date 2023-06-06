@@ -1,4 +1,4 @@
-import React from "react";
+import React, { MouseEventHandler } from "react";
 import "../../App.css";
 // import { ReactComponent as ActionBoardSvg } from "../boards_and_assets/action_board.svg";
 import { ActionBoardButton, ActionBoardButtonLarge } from "./ActionBoardButton";
@@ -49,10 +49,11 @@ import convertMonarch4 from "../../boards_and_assets/convert_monarch4.svg";
 import convertMonarch5 from "../../boards_and_assets/convert_monarch5.svg";
 import convertMonarch6 from "../../boards_and_assets/convert_monarch6.svg";
 import issueHolyDecree from "../../boards_and_assets/issue_holy_decree.svg";
+import { MyGameProps } from "../../types";
 
 //method which returns the complete action board
 
-export const ActionBoard = () => {
+export const ActionBoard = (props: MyGameProps) => {
   return (
     <div>
       {/* establishing a column for the different classes of moves to be displayed in */}
@@ -69,8 +70,12 @@ export const ActionBoard = () => {
           {"Alter Player \n Order"}
           {generateButtonsList(
             6,
+            props.moves.alterPlayerOrder,
             Array(6).fill(playerOrderTile),
             "98px",
+            props,
+            props.G.boardState.alterPlayerOrder,
+
             false,
             ["1st", "2nd", "3rd", "4th", "5th", "6th"]
           )}
@@ -80,17 +85,29 @@ export const ActionBoard = () => {
           Recruit Counsellors
           {generateButtonsList(
             3,
+            () => {},
             [recuitCounsillor1, recuitCounsillor2, recuitCounsillor3],
-            "98px"
+            "98px",
+            props,
+            props.G.boardState.recruitCouncilors
           )}
           Train Troops
-          {generateButtonsList(2, [trainTroops1, trainTroops2], "98px")}
+          {generateButtonsList(
+            2,
+            () => {},
+            [trainTroops1, trainTroops2],
+            "98px",
+            props,
+            props.G.boardState.trainTroops
+          )}
         </ButtonRow>
         {/* button row with the recruit regiments buttons  */}
         <ButtonRow key={"recruit regiments buttons"}>
           Recruit Regiments
           {generateButtonsList(
             6,
+            () => {},
+
             [
               recruitRegiments1,
               recruitRegiments2,
@@ -99,7 +116,9 @@ export const ActionBoard = () => {
               recruitRegiments5,
               recruitRegiments6,
             ],
-            "98px"
+            "98px",
+            props,
+            props.G.boardState.recruitRegiments
           )}
         </ButtonRow>
         {/* button row with the purchase skyships buttons   */}
@@ -107,6 +126,8 @@ export const ActionBoard = () => {
           Purchase Skyships
           {generateButtonsList(
             6,
+            () => {},
+
             [
               purchaseSkyships1,
               purchaseSkyships2,
@@ -115,7 +136,9 @@ export const ActionBoard = () => {
               purchaseSkyships5,
               purchaseSkyships6,
             ],
-            "98px"
+            "98px",
+            props,
+            props.G.boardState.purchaseSkyships
           )}
         </ButtonRow>
         {/* button row with the found buildings buttons   */}
@@ -123,8 +146,12 @@ export const ActionBoard = () => {
           Found Buildings
           {generateButtonsList(
             4,
+            () => {},
+
             [buildCathedral, buildPalace, buildShipyard, buildForts],
             "180px",
+            props,
+            props.G.boardState.foundBuildings,
             true
           )}
         </ButtonRow>
@@ -133,6 +160,8 @@ export const ActionBoard = () => {
           <InfluencePrelatesExplination />
           {generateButtonsList(
             8,
+            () => {},
+
             [
               influencePrelates1,
               influencePrelates2,
@@ -143,7 +172,9 @@ export const ActionBoard = () => {
               influencePrelates7,
               influencePrelates8,
             ],
-            "52px"
+            "52px",
+            props,
+            props.G.boardState.inflencePrelates
           )}
         </ButtonRow>
         {/* button row with the punish dissenters buttons  */}
@@ -151,6 +182,8 @@ export const ActionBoard = () => {
           <PunishDissenters />
           {generateButtonsList(
             6,
+            () => {},
+
             [
               punishDissenters1,
               punishDissenters2,
@@ -159,7 +192,9 @@ export const ActionBoard = () => {
               punishDissenters5,
               punishDissenters6,
             ],
-            "52px"
+            "52px",
+            props,
+            props.G.boardState.punishDissenters
           )}
         </ButtonRow>
         {/* button row with the convert monarch buttons   */}
@@ -167,6 +202,8 @@ export const ActionBoard = () => {
           <ConvertMonarchExplination />
           {generateButtonsList(
             6,
+            () => {},
+
             [
               convertMonarch1,
               convertMonarch2,
@@ -175,7 +212,9 @@ export const ActionBoard = () => {
               convertMonarch5,
               convertMonarch6,
             ],
-            "52px"
+            "52px",
+            props,
+            props.G.boardState.convertMonarch
           )}
         </ButtonRow>
         {/* button row with the issue holy decree button    */}
@@ -203,10 +242,12 @@ export const ActionBoard = () => {
 // generic method to generate a list of buttons to be displayed on the action board
 export const generateButtonsList = (
   numberOfButtons: number,
-  // listOfOnClickFunctions: () => void,
+  onClickFunction: () => void,
   listOfBackgroundImages: string[],
   buttonWidth: string,
   // flag to opt for large buttons instead of regular sized buttons
+  props: MyGameProps,
+  counsellors: { [key: string]: string | undefined | string[] },
   large?: boolean,
   listOfText?: string[]
 ) => {
@@ -215,19 +256,25 @@ export const generateButtonsList = (
     buttonList.push(
       large ? (
         <ActionBoardButtonLarge
-          onClick={() => {}}
+          onClickFunction={onClickFunction}
           backgroundImage={listOfBackgroundImages[i]}
           text={listOfText ? listOfText[i] : ""}
           width={buttonWidth}
           key={`button ${i} large`}
+          counsellor={counsellors[i]}
+          {...props}
+          value={i}
         />
       ) : (
         <ActionBoardButton
-          onClick={() => {}}
+          onClickFunction={onClickFunction}
           backgroundImage={listOfBackgroundImages[i]}
           text={listOfText ? listOfText[i] : ""}
           width={buttonWidth}
           key={`button ${i} regular`}
+          counsellor={counsellors[i + 1]}
+          {...props}
+          value={i}
         />
       )
     );
