@@ -3,6 +3,14 @@ import { MyGameState } from "./Game";
 
 export interface MyGameProps extends BoardProps<MyGameState> {}
 
+export type PlayerOrder = {
+  1: string | undefined;
+  2: string | undefined;
+  3: string | undefined;
+  4: string | undefined;
+  5: string | undefined;
+  6: string | undefined;
+};
 export type MapState = {
   currentTileArray: TileInfoProps[][];
   discoveredTiles: boolean[][];
@@ -109,68 +117,110 @@ type LootInfo = {
 
 export type ActionBoardInfo = {
   alterPlayerOrder: {
-    first: string | undefined;
-    second: string | undefined;
-    third: string | undefined;
-    fourth: string | undefined;
-    fifth: string | undefined;
-    sixth: string | undefined;
+    1: string | undefined;
+    2: string | undefined;
+    3: string | undefined;
+    4: string | undefined;
+    5: string | undefined;
+    6: string | undefined;
   };
   recruitCouncilors: {
-    free: string | undefined;
-    oneGold: string | undefined;
-    threeGold: string | undefined;
+    1: string | undefined;
+    2: string | undefined;
+    3: string | undefined;
+
+    // free: string | undefined;
+    // oneGold: string | undefined;
+    // threeGold: string | undefined;
   };
   trainTroops: {
-    free: string | undefined;
-    oneGold: string | undefined;
+    1: string | undefined;
+    2: string | undefined;
+    // free: string | undefined;
+    // oneGold: string | undefined;
   };
   recruitRegiments: {
-    free: string | undefined;
-    oneGold: string | undefined;
-    twoGold: string | undefined;
-    threeGoldToSixRegiments: string | undefined;
-    threeGoldToSevenRegiments: string | undefined;
-    fourGold: string | undefined;
+    1: string | undefined;
+    2: string | undefined;
+    3: string | undefined;
+    4: string | undefined;
+    5: string | undefined;
+    6: string | undefined;
+    // free: string | undefined;
+    // oneGold: string | undefined;
+    // twoGold: string | undefined;
+    // threeGoldToSixRegiments: string | undefined;
+    // threeGoldToSevenRegiments: string | undefined;
+    // fourGold: string | undefined;
   };
   purchaseSkyships: {
-    zeelandOneGold: string | undefined;
-    zeelandThreeGold: string | undefined;
-    zeelandFourGold: string | undefined;
-    venoaOneGold: string | undefined;
-    venoaThreeGold: string | undefined;
-    venoaFourGold: string | undefined;
+    1: string | undefined;
+    2: string | undefined;
+    3: string | undefined;
+    4: string | undefined;
+    5: string | undefined;
+    6: string | undefined;
+    // zeelandOneGold: string | undefined;
+    // zeelandThreeGold: string | undefined;
+    // zeelandFourGold: string | undefined;
+    // venoaOneGold: string | undefined;
+    // venoaThreeGold: string | undefined;
+    // venoaFourGold: string | undefined;
   };
   foundBuildings: {
-    cathedrals: string[];
-    palaces: string[];
-    shipyards: string[];
-    forts: string[];
+    1: string[];
+    2: string[];
+    3: string[];
+    4: string[];
+    // cathedrals: string[];
+    // palaces: string[];
+    // shipyards: string[];
+    // forts: string[];
   };
   inflencePrelates: {
-    angland: string | undefined;
-    gallois: string | undefined;
-    castilia: string | undefined;
-    zeeland: string | undefined;
-    venoa: string | undefined;
-    normark: string | undefined;
-    ostreich: string | undefined;
-    constantium: string | undefined;
+    1: string | undefined;
+    2: string | undefined;
+    3: string | undefined;
+    4: string | undefined;
+    5: string | undefined;
+    6: string | undefined;
+    7: string | undefined;
+    8: string | undefined;
+    // angland: string | undefined;
+    // gallois: string | undefined;
+    // castilia: string | undefined;
+    // zeeland: string | undefined;
+    // venoa: string | undefined;
+    // normark: string | undefined;
+    // ostreich: string | undefined;
+    // constantium: string | undefined;
   };
   punishDissenters: {
-    threeVP: string | undefined;
-    counsellor: string | undefined;
-    twoVP: string | undefined;
-    oneVP: string | undefined;
-    oneGold: string | undefined;
-    free: string | undefined;
+    1: string | undefined;
+    2: string | undefined;
+    3: string | undefined;
+    4: string | undefined;
+    5: string | undefined;
+    6: string | undefined;
+    // threeVP: string | undefined;
+    // counsellor: string | undefined;
+    // twoVP: string | undefined;
+    // oneVP: string | undefined;
+    // oneGold: string | undefined;
+    // free: string | undefined;
   };
   convertMonarch: {
-    twoCounsellors: string | undefined;
-    threeVP: string | undefined;
-    counsellor: string | undefined;
-    twoVP: string | undefined;
-    oneVP: string | undefined;
-    oneGold: string | undefined;
+    1: string | undefined;
+    2: string | undefined;
+    3: string | undefined;
+    4: string | undefined;
+    5: string | undefined;
+    6: string | undefined;
+    // twoCounsellors: string | undefined;
+    // threeVP: string | undefined;
+    // counsellor: string | undefined;
+    // twoVP: string | undefined;
+    // oneVP: string | undefined;
+    // oneGold: string | undefined;
   };
 };
