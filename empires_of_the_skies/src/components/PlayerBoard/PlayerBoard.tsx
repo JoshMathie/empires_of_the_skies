@@ -6,9 +6,7 @@ import dispatchSkyshipFleet from "../../boards_and_assets/player_boards/buttons/
 import { ButtonRow } from "../ActionBoard/ActionBoardButtonRow";
 import { PlayerColour } from "../../types";
 import { PlayerBoardButton } from "./PlayerBoardButton";
-import { ReactComponent as SkyshipIcon } from "../../boards_and_assets/skyship_icon.svg";
-import { Button } from "@mui/material";
-// import { regimentIcon} from '../../boards_and_assets/regiment_icon.svg';
+
 // displays buttons which can build cathedrals, palaces and skyships
 // also displays the button to imprison dissentors and to dispatch skyship fleets
 export const PlayerBoard = (props: PlayerBoardProps) => {
