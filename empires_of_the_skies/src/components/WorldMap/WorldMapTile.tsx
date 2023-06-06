@@ -1,7 +1,6 @@
 import React, { useState, useRef, useCallback } from "react";
 
 import ReactCardFlip from "react-card-flip";
-// import { useLongPress } from "../../helpers/useLongPress";
 import { useLongPress } from "use-long-press";
 
 //Method for displaying a flippable tile which contains a world map tile image
@@ -29,6 +28,8 @@ export const WorldMapTile = (props: worldMapTileProps) => {
   return (
     <ReactCardFlip isFlipped={flip} key={props.image}>
       <button
+        key={props.key}
+        value={props.value}
         style={{
           backgroundColor: "#298932",
           fontSize: "30px",
@@ -69,6 +70,8 @@ export const WorldMapTile = (props: worldMapTileProps) => {
 };
 
 type worldMapTileProps = {
+  key: string;
+  value: string;
   image: string;
   flipped: boolean;
 };
