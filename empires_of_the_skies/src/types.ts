@@ -1,3 +1,8 @@
+import { BoardProps } from "boardgame.io/dist/types/packages/react";
+import { MyGameState } from "./Game";
+
+export interface MyGameProps extends BoardProps<MyGameState> {}
+
 export type MapState = {
   currentTileArray: TileInfoProps[][];
   discoveredTiles: boolean[][];
@@ -20,7 +25,7 @@ export type PlayerInfo = {
   ready: boolean;
   resources: Resources;
   isArchprelate: boolean;
-  counsellorLocations: counsellorLocations;
+  playerBoardCounsellorLocations: PlayerBoardInfo;
   hereticOrOthodox: string;
   fleetInfo: FleetInfo[];
   cathedrals: number;
@@ -38,9 +43,10 @@ export type FleetInfo = {
   regiments: number;
 };
 
-export type counsellorLocations = {
-  playerBoard: boolean[][];
-  actionBoard: boolean[];
+export type PlayerBoardInfo = {
+  buildSkyships: boolean;
+  conscriptLevies: boolean;
+  dispatchSkyshipFleet: boolean;
 };
 
 export type Resources = {
@@ -98,5 +104,73 @@ type LootInfo = {
     stickyIchor: number;
     pipeweed: number;
     victoryPoints: number;
+  };
+};
+
+export type ActionBoardInfo = {
+  alterPlayerOrder: {
+    first: string | undefined;
+    second: string | undefined;
+    third: string | undefined;
+    fourth: string | undefined;
+    fifth: string | undefined;
+    sixth: string | undefined;
+  };
+  recruitCouncilors: {
+    free: string | undefined;
+    oneGold: string | undefined;
+    threeGold: string | undefined;
+  };
+  trainTroops: {
+    free: string | undefined;
+    oneGold: string | undefined;
+  };
+  recruitRegiments: {
+    free: string | undefined;
+    oneGold: string | undefined;
+    twoGold: string | undefined;
+    threeGoldToSixRegiments: string | undefined;
+    threeGoldToSevenRegiments: string | undefined;
+    fourGold: string | undefined;
+  };
+  purchaseSkyships: {
+    zeelandOneGold: string | undefined;
+    zeelandThreeGold: string | undefined;
+    zeelandFourGold: string | undefined;
+    venoaOneGold: string | undefined;
+    venoaThreeGold: string | undefined;
+    venoaFourGold: string | undefined;
+  };
+  foundBuildings: {
+    cathedrals: string[];
+    palaces: string[];
+    shipyards: string[];
+    forts: string[];
+  };
+  inflencePrelates: {
+    angland: string | undefined;
+    gallois: string | undefined;
+    castilia: string | undefined;
+    zeeland: string | undefined;
+    venoa: string | undefined;
+    normark: string | undefined;
+    ostreich: string | undefined;
+    constantium: string | undefined;
+  };
+  punishDissenters: {
+    threeVP: string | undefined;
+    counsellor: string | undefined;
+    twoVP: string | undefined;
+    oneVP: string | undefined;
+    oneGold: string | undefined;
+    free: string | undefined;
+  };
+  convertMonarch: {
+    twoCounsellors: string | undefined;
+    threeVP: string | undefined;
+    counsellor: string | undefined;
+    twoVP: string | undefined;
+    oneVP: string | undefined;
+    oneGold: string | undefined;
   };
 };
