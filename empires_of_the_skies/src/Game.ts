@@ -1,4 +1,5 @@
-import type { Game, Move, Ctx } from "boardgame.io";
+import type { Game, Ctx } from "boardgame.io";
+import { INVALID_MOVE } from "boardgame.io/core/";
 
 import {
   TileInfoProps,
@@ -154,7 +155,20 @@ export const MyGame: Game<MyGameState> = {
       boardState: initialBoardState,
     };
   },
-  moves: {},
+  moves: {
+    discoverTile: {
+      move: ({ G, ctx, playerID, events, random }, ...args) => {
+        const [x, y] = args[1];
+        if (G.mapState.discoveredTiles[y][x] === true) {
+          return INVALID_MOVE;
+        }
+        G.mapState.discoveredTiles[y][x] = true;
+
+        events.endTurn();
+      },
+      undoable: true,
+    },
+  },
   maxPlayers: 6,
   minPlayers: 1,
 };
@@ -188,10 +202,10 @@ const getRandomisedMapTileArray = () => {
 const getInitialDiscoveredTiles = () => {
   const eightFalses = [false, false, false, false, false, false, false, false];
   const twoDimensionalBooleanArray: boolean[][] = [
-    eightFalses,
-    eightFalses,
-    eightFalses,
-    eightFalses,
+    [...eightFalses],
+    [...eightFalses],
+    [...eightFalses],
+    [...eightFalses],
   ];
   twoDimensionalBooleanArray[0][3] = true;
   twoDimensionalBooleanArray[0][4] = true;
