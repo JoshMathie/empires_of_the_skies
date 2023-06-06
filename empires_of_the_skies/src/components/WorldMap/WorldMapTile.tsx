@@ -2,15 +2,16 @@ import React, { useState, useRef, useCallback } from "react";
 
 import ReactCardFlip from "react-card-flip";
 import { useLongPress } from "use-long-press";
+import { MyGameProps } from "../../types";
 
 //Method for displaying a flippable tile which contains a world map tile image
 export const WorldMapTile = (props: worldMapTileProps) => {
-  const onClick = () => setFlip(true);
-
   const xPosition = useRef(0);
   const yPosition = useRef(0);
   const longPressCallback = useCallback(() => {}, []);
+  const [xLocation, yLocation] = props.location;
 
+  const currentTile = props.G.mapState.currentTileArray[yLocation][xLocation];
   const longPressEvent = useLongPress(longPressCallback, {
     cancelOnMovement: true,
     cancelOutsideElement: true,
@@ -23,13 +24,15 @@ export const WorldMapTile = (props: worldMapTileProps) => {
 
   const bind = longPressEvent("test context");
 
-  const [flip, setFlip] = useState(props.flipped);
+  const [flip, setFlip] = useState(
+    props.G.mapState.discoveredTiles[yLocation][xLocation]
+  );
 
   return (
-    <ReactCardFlip isFlipped={flip} key={props.image}>
+    <ReactCardFlip isFlipped={flip} key={props.location.toString()}>
       <button
-        key={props.key}
-        value={props.value}
+        key={props.location.toString()}
+        value={currentTile.name}
         style={{
           backgroundColor: "#298932",
           fontSize: "30px",
@@ -45,7 +48,8 @@ export const WorldMapTile = (props: worldMapTileProps) => {
             Math.abs(event.clientX - xPosition.current) < 10 &&
             Math.abs(event.clientY - yPosition.current) < 10
           ) {
-            setFlip(true);
+            // setFlip(true);
+            props.moves.discoverTile({ ...props }, [xLocation, yLocation]);
           }
         }}
         {...bind}
@@ -55,7 +59,7 @@ export const WorldMapTile = (props: worldMapTileProps) => {
       <button
         className="front"
         style={{
-          backgroundImage: `url(${props.image})`,
+          backgroundImage: `url(${currentTile.image})`,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           height: "100%",
@@ -69,9 +73,6 @@ export const WorldMapTile = (props: worldMapTileProps) => {
   );
 };
 
-type worldMapTileProps = {
-  key: string;
-  value: string;
-  image: string;
-  flipped: boolean;
-};
+interface worldMapTileProps extends MyGameProps {
+  location: number[];
+}
