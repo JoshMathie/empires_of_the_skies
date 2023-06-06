@@ -6,6 +6,7 @@ import {
   MapState,
   MapBuildingInfo,
   PlayerColour,
+  ActionBoardInfo,
 } from "./types";
 import {
   unknownWorldTiles,
@@ -13,7 +14,6 @@ import {
   legendTiles,
   knownWorldTiles,
 } from "./codifiedGameInfo";
-import { isArrayTypeNode } from "typescript";
 
 export interface MyGameState {
   turn: number;
@@ -22,6 +22,7 @@ export interface MyGameState {
   // tileInfo: TileInfoProps[];
   playerInfo: PlayerInfo[];
   mapState: MapState;
+  boardState: ActionBoardInfo;
 }
 
 export const MyGame: Game<MyGameState> = {
@@ -29,7 +30,6 @@ export const MyGame: Game<MyGameState> = {
   setup: ({ ctx }): MyGameState => {
     const turn = 0;
     const phase = "not sure yet";
-    // const cty: Ctx = ctx
     const mapState: MapState = {
       currentTileArray: getRandomisedMapTileArray(),
       discoveredTiles: getInitialDiscoveredTiles(),
@@ -42,35 +42,38 @@ export const MyGame: Game<MyGameState> = {
         return {
           id: playerID,
           colour: playerColour ? playerColour : PlayerColour.green,
-          ready: true, //lookk into what this should be
+          ready: true, //look into what this should be
           resources: {
             //update this to reflect starting resources
-            gold: 0,
+            gold: 6,
             mithril: 0,
             dragonScales: 0,
             krakenSkin: 0,
             magicDust: 0,
             stickyIchor: 0,
             pipeweed: 0,
-            counsellors: 0,
-            skyships: 0,
-            regiments: 0,
+            counsellors: 6,
+            skyships: 3,
+            regiments: 6,
             fortuneCards: [""],
             advantageCard: "",
             eventCards: [""],
             legacyCard: "",
           },
-          isArchprelate: false,
-          counsellorLocations: {
-            playerBoard: [[false]], //update in future
-            actionBoard: [false],
+          isArchprelate: playerID === ctx.playOrder[ctx.playOrder.length - 1],
+          playerBoardCounsellorLocations: {
+            buildSkyships: false,
+            conscriptLevies: false,
+            dispatchSkyshipFleet: false,
           },
           hereticOrOthodox: "orthodox",
           fleetInfo: [
-            { fleetId: 1, location: [1, 1], skyships: 0, regiments: 0 },
+            { fleetId: 1, location: [0, 4], skyships: 0, regiments: 0 },
+            { fleetId: 2, location: [0, 4], skyships: 0, regiments: 0 },
+            { fleetId: 3, location: [0, 4], skyships: 0, regiments: 0 },
           ],
-          cathedrals: 0,
-          palaces: 0,
+          cathedrals: 1,
+          palaces: 1,
           victoryPoints: 0,
           heresyTracker: [0, 0],
           prisoners: 0,
@@ -78,14 +81,82 @@ export const MyGame: Game<MyGameState> = {
         };
       });
     };
+    const initialBoardState = {
+      alterPlayerOrder: {
+        first: undefined,
+        second: undefined,
+        third: undefined,
+        fourth: undefined,
+        fifth: undefined,
+        sixth: undefined,
+      },
+      recruitCouncilors: {
+        free: undefined,
+        oneGold: undefined,
+        threeGold: undefined,
+      },
+      recruitRegiments: {
+        free: undefined,
+        oneGold: undefined,
+        twoGold: undefined,
+        threeGoldToSevenRegiments: undefined,
+        threeGoldToSixRegiments: undefined,
+        fourGold: undefined,
+      },
+      trainTroops: { free: undefined, oneGold: undefined },
+      purchaseSkyships: {
+        zeelandFourGold: undefined,
+        zeelandThreeGold: undefined,
+        zeelandOneGold: undefined,
+        venoaFourGold: undefined,
+        venoaThreeGold: undefined,
+        venoaOneGold: undefined,
+      },
+      foundBuildings: {
+        forts: [],
+        palaces: [],
+        cathedrals: [],
+        shipyards: [],
+      },
+      inflencePrelates: {
+        angland: undefined,
+        gallois: undefined,
+        venoa: undefined,
+        zeeland: undefined,
+        castilia: undefined,
+        constantium: undefined,
+        normark: undefined,
+        ostreich: undefined,
+      },
+      punishDissenters: {
+        threeVP: undefined,
+        oneGold: undefined,
+        oneVP: undefined,
+        counsellor: undefined,
+        twoVP: undefined,
+        free: undefined,
+      },
+      convertMonarch: {
+        oneGold: undefined,
+        oneVP: undefined,
+        threeVP: undefined,
+        twoCounsellors: undefined,
+        twoVP: undefined,
+        counsellor: undefined,
+      },
+    };
 
     return {
       phase: phase,
       turn: turn,
       playerInfo: playerInfos(ctx),
       mapState: mapState,
+      boardState: initialBoardState,
     };
   },
+  moves: {},
+  maxPlayers: 6,
+  minPlayers: 1,
 };
 
 const getRandomisedMapTileArray = () => {
@@ -115,11 +186,12 @@ const getRandomisedMapTileArray = () => {
 };
 
 const getInitialDiscoveredTiles = () => {
+  const eightFalses = [false, false, false, false, false, false, false, false];
   const twoDimensionalBooleanArray: boolean[][] = [
-    Array.prototype.fill(false, 0, 8),
-    Array.prototype.fill(false, 0, 8),
-    Array.prototype.fill(false, 0, 8),
-    Array.prototype.fill(false, 0, 8),
+    eightFalses,
+    eightFalses,
+    eightFalses,
+    eightFalses,
   ];
   twoDimensionalBooleanArray[0][3] = true;
   twoDimensionalBooleanArray[0][4] = true;
@@ -131,11 +203,21 @@ const getInitialDiscoveredTiles = () => {
 
 const getInitialOutpostsAndColonysInfo = () => {
   const buildingInfo: MapBuildingInfo = {};
+  const eightBuildingInfo: MapBuildingInfo[] = [
+    buildingInfo,
+    buildingInfo,
+    buildingInfo,
+    buildingInfo,
+    buildingInfo,
+    buildingInfo,
+    buildingInfo,
+    buildingInfo,
+  ];
   return [
-    Array.prototype.fill(buildingInfo, 0, 8),
-    Array.prototype.fill(buildingInfo, 0, 8),
-    Array.prototype.fill(buildingInfo, 0, 8),
-    Array.prototype.fill(buildingInfo, 0, 8),
+    eightBuildingInfo,
+    eightBuildingInfo,
+    eightBuildingInfo,
+    eightBuildingInfo,
   ];
 };
 
