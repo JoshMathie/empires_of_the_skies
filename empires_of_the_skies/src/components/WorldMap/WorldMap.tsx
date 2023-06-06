@@ -69,7 +69,7 @@ export const WorldMap = (props: MyGameProps) => {
     <div>
       <TransformWrapper>
         <TransformComponent>
-          <Grid container spacing={0} columns={8} width={"100%"}>
+          <Grid container spacing={0} columns={8} maxWidth={1200}>
             <GridItems {...props} />
           </Grid>
         </TransformComponent>
