@@ -1,8 +1,6 @@
 import React from "react";
 
-import { MyGame, MyGameState } from "../Game";
-
-import { BoardProps } from "boardgame.io/react";
+import { MyGameProps } from "../types";
 import { ActionBoard } from "./ActionBoard/ActionBoard";
 import { WorldMap } from "./WorldMap/WorldMap";
 import { PlayerBoard } from "./PlayerBoard/PlayerBoard";
@@ -11,14 +9,15 @@ import { PlayerColour } from "../types";
 import { Box, Tab, Tabs } from "@mui/material";
 import { TabPanel, TabContext } from "@mui/lab";
 
-interface MyGameProps extends BoardProps<MyGameState> {}
-
-export const ActionBoardsAndMap = () => {
+export const ActionBoardsAndMap = (props: MyGameProps) => {
   const [value, setValue] = React.useState("0");
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
+  const playerInfo = props.G.playerInfo.find(
+    (playerinfo) => playerinfo.id === props.ctx.currentPlayer
+  );
   return (
     <Box
     //   sx={{
@@ -51,10 +50,15 @@ export const ActionBoardsAndMap = () => {
           <ActionBoard />
         </TabPanel>
         <TabPanel value={"1"} tabIndex={1}>
-          <PlayerBoard playerColour={PlayerColour["green"]} prisoners={2} />
+          <PlayerBoard
+            playerColour={
+              playerInfo?.colour ? playerInfo.colour : PlayerColour.black
+            }
+            prisoners={playerInfo?.prisoners ? playerInfo.prisoners : 0}
+          />
         </TabPanel>
         <TabPanel value={"2"} tabIndex={2}>
-          <WorldMap />
+          <WorldMap {...props} />
         </TabPanel>
       </TabContext>
     </Box>
