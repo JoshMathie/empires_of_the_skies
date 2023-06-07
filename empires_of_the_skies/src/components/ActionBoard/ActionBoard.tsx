@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from "react";
+import React from "react";
 import "../../App.css";
 // import { ReactComponent as ActionBoardSvg } from "../boards_and_assets/action_board.svg";
 import { ActionBoardButton, ActionBoardButtonLarge } from "./ActionBoardButton";
@@ -75,7 +75,7 @@ export const ActionBoard = (props: MyGameProps) => {
             "98px",
             props,
             props.G.boardState.alterPlayerOrder,
-
+            undefined,
             false,
             ["1st", "2nd", "3rd", "4th", "5th", "6th"]
           )}
@@ -151,6 +151,7 @@ export const ActionBoard = (props: MyGameProps) => {
             [buildCathedral, buildPalace, buildShipyard, buildForts],
             "180px",
             props,
+            undefined,
             props.G.boardState.foundBuildings,
             true
           )}
@@ -247,12 +248,14 @@ export const generateButtonsList = (
   buttonWidth: string,
   // flag to opt for large buttons instead of regular sized buttons
   props: MyGameProps,
-  counsellors: { [key: string]: string | undefined | string[] },
+  counsellor?: { [key: string]: string | undefined },
+  counsellors?: { [key: string]: string[] | undefined },
   large?: boolean,
   listOfText?: string[]
 ) => {
   let buttonList = [];
   for (let i = 0; i < numberOfButtons; i++) {
+    // console.log(counsellor ? counsellor[i + 1] : undefined);
     buttonList.push(
       large ? (
         <ActionBoardButtonLarge
@@ -261,7 +264,7 @@ export const generateButtonsList = (
           text={listOfText ? listOfText[i] : ""}
           width={buttonWidth}
           key={`button ${i} large`}
-          counsellor={counsellors[i]}
+          counsellors={counsellors ? counsellors[i + 1] : undefined}
           {...props}
           value={i}
         />
@@ -272,7 +275,7 @@ export const generateButtonsList = (
           text={listOfText ? listOfText[i] : ""}
           width={buttonWidth}
           key={`button ${i} regular`}
-          counsellor={counsellors[i + 1]}
+          counsellor={counsellor ? counsellor[i + 1] : undefined}
           {...props}
           value={i}
         />

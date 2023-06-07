@@ -1,5 +1,6 @@
 import type { Game, Ctx } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core/";
+import { checkCounsellorsNotZero } from "./moves/moveValidation";
 
 import {
   TileInfoProps,
@@ -16,11 +17,13 @@ import {
   legendTiles,
   knownWorldTiles,
 } from "./codifiedGameInfo";
+import { discoverTile } from "./moves/discoverTile";
+import { alterPlayerOrder } from "./moves/alterPlayerOrder";
 
 export interface MyGameState {
   turn: number;
   phase: string;
-  playerInfo: PlayerInfo[];
+  playerInfo: { [details: string]: PlayerInfo };
   mapState: MapState;
   boardState: ActionBoardInfo;
   playerOrder: PlayerOrder;
@@ -36,11 +39,12 @@ export const MyGame: Game<MyGameState> = {
       discoveredTiles: getInitialDiscoveredTiles(),
       buildings: getInitialOutpostsAndColonysInfo(),
     };
-    const playerInfos = (ctx: Ctx): PlayerInfo[] => {
+    const playerInfos = (ctx: Ctx): { [details: string]: PlayerInfo } => {
       const colours = getPlayerColours(ctx);
-      return ctx.playOrder.map((playerID) => {
+      const playerIDMap: { [details: string]: PlayerInfo } = {};
+      ctx.playOrder.forEach((playerID) => {
         const playerColour = colours.pop();
-        return {
+        playerIDMap[playerID] = {
           id: playerID,
           colour: playerColour ? playerColour : PlayerColour.green,
           ready: true, //look into what this should be
@@ -81,6 +85,7 @@ export const MyGame: Game<MyGameState> = {
           shipyards: 0,
         };
       });
+      return playerIDMap;
     };
     const initialBoardState = {
       alterPlayerOrder: {
@@ -209,56 +214,11 @@ export const MyGame: Game<MyGameState> = {
   },
   moves: {
     discoverTile: {
-      move: ({ G, ctx, playerID, events, random }, ...args) => {
-        const [x, y] = args[1];
-        if (G.mapState.discoveredTiles[y][x] === true) {
-          return INVALID_MOVE;
-        }
-        const boarderingTiles: number[][] = [
-          [x, y - 1 < 0 ? 0 : y - 1],
-          [x, y + 1 > 3 ? 3 : y + 1],
-          [(((x - 1) % 8) + 8) % 8, y],
-          [(((x + 1) % 8) + 8) % 8, y],
-        ];
-        let boardered = false;
-
-        boarderingTiles.forEach((coords) => {
-          if (G.mapState.discoveredTiles[coords[1]][coords[0]] === true) {
-            boardered = true;
-          }
-        });
-        if (boardered === false) {
-          return INVALID_MOVE;
-        }
-        G.mapState.discoveredTiles[y][x] = true;
-
-        events.endTurn();
-      },
+      move: discoverTile,
       undoable: true,
     },
     alterPlayerOrder: {
-      move: ({ G, ctx, events, random }, ...args) => {
-        const newPosition: keyof PlayerOrder = args[1] + 1;
-        const playerID = ctx.currentPlayer;
-        if (ctx.numPlayers < newPosition) {
-          console.log("Player has chosen a position that is out of bounds");
-          return INVALID_MOVE;
-        }
-        if (G.playerOrder[newPosition] !== undefined) {
-          console.log("Player has chosen a position that is already taken");
-          return INVALID_MOVE;
-        }
-        for (const value of Object.values(G.playerOrder)) {
-          if (value === playerID) {
-            console.log("Player has already altered their position");
-            return INVALID_MOVE;
-          }
-        }
-        G.boardState.alterPlayerOrder[newPosition] = playerID;
-        G.playerOrder[newPosition] = playerID;
-
-        events.endTurn();
-      },
+      move: alterPlayerOrder,
     },
   },
   maxPlayers: 6,

@@ -4,7 +4,6 @@ import { MyGameProps } from "../types";
 import { ActionBoard } from "./ActionBoard/ActionBoard";
 import { WorldMap } from "./WorldMap/WorldMap";
 import { PlayerBoard } from "./PlayerBoard/PlayerBoard";
-import { PlayerColour } from "../types";
 
 import { Box, Tab, Tabs } from "@mui/material";
 import { TabPanel, TabContext } from "@mui/lab";
@@ -15,9 +14,7 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
-  const playerInfo = props.G.playerInfo.find(
-    (playerinfo) => playerinfo.id === props.ctx.currentPlayer
-  );
+  const playerInfo = props.G.playerInfo[props.ctx.currentPlayer];
 
   return (
     <Box
@@ -52,10 +49,8 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
         </TabPanel>
         <TabPanel value={"1"} tabIndex={1}>
           <PlayerBoard
-            playerColour={
-              playerInfo?.colour ? playerInfo.colour : PlayerColour.black
-            }
-            prisoners={playerInfo?.prisoners ? playerInfo.prisoners : 0}
+            playerColour={playerInfo.colour}
+            prisoners={playerInfo.prisoners}
           />
         </TabPanel>
         <TabPanel value={"2"} tabIndex={2}>
