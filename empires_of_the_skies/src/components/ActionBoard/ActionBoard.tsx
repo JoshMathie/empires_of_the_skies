@@ -85,11 +85,11 @@ export const ActionBoard = (props: MyGameProps) => {
           Recruit Counsellors
           {generateButtonsList(
             3,
-            () => {},
+            props.moves.recruitCounsellors,
             [recuitCounsillor1, recuitCounsillor2, recuitCounsillor3],
             "98px",
             props,
-            props.G.boardState.recruitCouncilors
+            props.G.boardState.recruitCounsellors
           )}
           Train Troops
           {generateButtonsList(
@@ -106,7 +106,7 @@ export const ActionBoard = (props: MyGameProps) => {
           Recruit Regiments
           {generateButtonsList(
             6,
-            () => {},
+            props.moves.recruitRegiments,
 
             [
               recruitRegiments1,
@@ -126,7 +126,7 @@ export const ActionBoard = (props: MyGameProps) => {
           Purchase Skyships
           {generateButtonsList(
             6,
-            () => {},
+            props.moves.purchaseSkyships,
 
             [
               purchaseSkyships1,
@@ -146,7 +146,7 @@ export const ActionBoard = (props: MyGameProps) => {
           Found Buildings
           {generateButtonsList(
             4,
-            () => {},
+            props.moves.foundBuildings,
 
             [buildCathedral, buildPalace, buildShipyard, buildForts],
             "180px",

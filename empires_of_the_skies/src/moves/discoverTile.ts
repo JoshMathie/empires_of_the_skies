@@ -30,3 +30,5 @@ export const discoverTile: MoveFn<MyGameState> = (
 
   events.endTurn();
 };
+
+export default discoverTile;

@@ -32,3 +32,5 @@ export const alterPlayerOrder: MoveFn<MyGameState> = (
 
   events.endTurn();
 };
+
+export default alterPlayerOrder;

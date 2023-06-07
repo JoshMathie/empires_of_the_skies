@@ -27,10 +27,18 @@ export const addSkyship = (G: MyGameState, playerID: string) => {
   G.playerInfo[playerID].resources.skyships += 1;
 };
 
-export const removeRegiments = (G: MyGameState, playerID: string) => {
-  G.playerInfo[playerID].resources.regiments -= 1;
+export const removeRegiments = (
+  G: MyGameState,
+  playerID: string,
+  amount: number
+) => {
+  G.playerInfo[playerID].resources.regiments -= amount;
 };
 
-export const addRegiments = (G: MyGameState, playerID: string) => {
-  G.playerInfo[playerID].resources.regiments += 1;
+export const addRegiments = (
+  G: MyGameState,
+  playerID: string,
+  amount: number
+) => {
+  G.playerInfo[playerID].resources.regiments += amount;
 };
