@@ -39,9 +39,10 @@ export type PlayerInfo = {
   cathedrals: number;
   palaces: number;
   victoryPoints: number;
-  heresyTracker: number[];
+  heresyTracker: number;
   prisoners: number;
   shipyards: number;
+  forts: number[][];
 };
 
 export type FleetInfo = {
@@ -124,7 +125,7 @@ export type ActionBoardInfo = {
     5: string | undefined;
     6: string | undefined;
   };
-  recruitCouncilors: {
+  recruitCounsellors: {
     1: string | undefined;
     2: string | undefined;
     3: string | undefined;
