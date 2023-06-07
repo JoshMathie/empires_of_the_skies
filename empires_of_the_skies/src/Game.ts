@@ -17,8 +17,12 @@ import {
   legendTiles,
   knownWorldTiles,
 } from "./codifiedGameInfo";
-import { discoverTile } from "./moves/discoverTile";
-import { alterPlayerOrder } from "./moves/alterPlayerOrder";
+import discoverTile from "./moves/discoverTile";
+import alterPlayerOrder from "./moves/alterPlayerOrder";
+import recruitCounsellors from "./moves/recruitCounsellors";
+import recruitRegiments from "./moves/recruitRegiments";
+import purchaseSkyships from "./moves/purchaseSkyships";
+import foundBuildings from "./moves/foundBuildings";
 
 export interface MyGameState {
   turn: number;
@@ -80,9 +84,10 @@ export const MyGame: Game<MyGameState> = {
           cathedrals: 1,
           palaces: 1,
           victoryPoints: 0,
-          heresyTracker: [0, 0],
+          heresyTracker: 0,
           prisoners: 0,
           shipyards: 0,
+          forts: [],
         };
       });
       return playerIDMap;
@@ -96,7 +101,7 @@ export const MyGame: Game<MyGameState> = {
         5: undefined,
         6: undefined,
       },
-      recruitCouncilors: {
+      recruitCounsellors: {
         1: undefined,
         2: undefined,
         3: undefined,
@@ -215,11 +220,19 @@ export const MyGame: Game<MyGameState> = {
   moves: {
     discoverTile: {
       move: discoverTile,
-      undoable: true,
+      undoable: false,
     },
     alterPlayerOrder: {
       move: alterPlayerOrder,
+      undoable: true,
     },
+    recruitCounsellors: {
+      move: recruitCounsellors,
+      undoable: true,
+    },
+    recruitRegiments: { move: recruitRegiments, undoable: true },
+    purchaseSkyships: { move: purchaseSkyships, undoable: true },
+    foundBuildings: { move: foundBuildings, undoable: true },
   },
   maxPlayers: 6,
   minPlayers: 1,
