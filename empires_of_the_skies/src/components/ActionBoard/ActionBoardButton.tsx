@@ -1,6 +1,15 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useRef, useState } from "react";
 import { MyGameProps } from "../../types";
-import { Button } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
+import { WorldMap } from "../WorldMap/WorldMap";
+import { checkAndPlaceFort } from "../../moves/resourceUpdates";
 export const ActionBoardButton = (props: ActionBoardButtonProps) => {
   let counsellorColour: string | undefined;
 
@@ -8,7 +17,7 @@ export const ActionBoardButton = (props: ActionBoardButtonProps) => {
     counsellorColour = props.G.playerInfo[props.counsellor.toString()].colour;
   }
   return (
-    <button
+    <Button
       style={{
         width: props.width ? props.width : "98px",
         height: "50px",
@@ -18,11 +27,14 @@ export const ActionBoardButton = (props: ActionBoardButtonProps) => {
         backgroundSize: "contain",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
+        backgroundColor: "#e0e0e0",
         fontFamily: "dauphinn",
         fontSize: "18px",
         cursor: "pointer",
+        color: "black",
+        justifyContent: "flex-start",
       }}
-      onClick={() => props.onClickFunction({ ...props }, props.value)}
+      onClick={() => props.onClickFunction({ ...props }, [props.value])}
       value={props.value}
     >
       {props.text}
@@ -73,11 +85,18 @@ export const ActionBoardButton = (props: ActionBoardButtonProps) => {
           />
         </svg>
       ) : null}
-    </button>
+    </Button>
   );
 };
 
 export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
+  const [heresyOrOrthodoxyDialogOpen, setHeresyOrOrthodoxyDialogOpen] =
+    useState(false);
+  const playerID = useRef("0");
+  const [worldMapDialogOpen, setWorldMapDialogOpen] = useState(false);
+  const [selectedTile, setSelectedTile] = useState([0, 0]);
+  const fortPlacementFailed = useRef(false);
+
   let listOfCounsellors: ReactElement[] = [];
   if (props.counsellors) {
     props.counsellors.forEach((counsellor) => {
@@ -132,33 +151,130 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
     });
   }
 
+  const alternateOnClickFunction = (coords: number[]) => {
+    setSelectedTile(coords);
+  };
+
   return (
-    <Button
-      style={{
-        width: props.width ? props.width : "180px",
-        height: "150px",
-        textAlign: "left",
-        display: "flex",
-        flexWrap: "wrap",
-        flexDirection: "column",
-        backgroundImage: `url(${props.backgroundImage})`,
-        backgroundSize: "contain",
-        backgroundRepeat: "no-repeat",
-        fontFamily: "dauphinn",
-        fontSize: "18px",
-        cursor: "pointer",
-      }}
-      onClick={() => props.onClickFunction({ ...props }, props.value)}
-      value={props.value}
-    >
-      {props.text}
-      {props.counsellors ? listOfCounsellors : null}
-    </Button>
+    <>
+      <Button
+        style={{
+          width: props.width ? props.width : "180px",
+          height: "150px",
+          textAlign: "left",
+          display: "flex",
+          flexWrap: "wrap",
+          flexDirection: "column",
+          backgroundImage: `url(${props.backgroundImage})`,
+          backgroundSize: "contain",
+          backgroundRepeat: "no-repeat",
+          backgroundColor: "#5ebf85",
+          fontFamily: "dauphinn",
+          fontSize: "18px",
+          cursor: "pointer",
+        }}
+        onClick={() =>
+          props.onClickFunction({ ...props }, [
+            props.value,
+            props.value === 1
+              ? setHeresyOrOrthodoxyDialogOpen
+              : setWorldMapDialogOpen,
+            playerID,
+          ])
+        }
+        value={props.value}
+      >
+        {props.text}
+        {props.counsellors ? listOfCounsellors : null}
+      </Button>
+      <Dialog
+        maxWidth={false}
+        open={
+          props.value === 1 ? heresyOrOrthodoxyDialogOpen : worldMapDialogOpen
+        }
+      >
+        <DialogTitle style={{ fontFamily: "dauphinn" }}>
+          {props.value === 1
+            ? "Select direction to move heresy tracker"
+            : `Select location for your fort. Current selection:${selectedTile}`}
+        </DialogTitle>
+        <DialogContent>
+          {props.value === 1 ? (
+            <DialogContentText
+              style={{
+                fontFamily: "dauphinn",
+                color: "black",
+              }}
+            >
+              The direction you pick will advance your heresy tracker by 1 in
+              your chosen direction, this affects the victory points you will
+              earn at the end of the game.
+            </DialogContentText>
+          ) : (
+            <WorldMap {...props} alternateOnClick={alternateOnClickFunction} />
+          )}
+        </DialogContent>
+        <DialogActions>
+          {props.value === 1 ? (
+            <>
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: "#cd0ffc",
+                  fontFamily: "dauphinn",
+                }}
+                onClick={() => {
+                  props.moves.increaseHeresy({ ...props });
+                  setHeresyOrOrthodoxyDialogOpen(false);
+                }}
+              >
+                Heresy
+              </Button>
+              <Button
+                variant="contained"
+                style={{ backgroundColor: "#fa921b", fontFamily: "dauphinn" }}
+                onClick={() => {
+                  props.moves.increaseOrthodoxy({ ...props });
+                  setHeresyOrOrthodoxyDialogOpen(false);
+                }}
+              >
+                Orthodoxy
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                onClick={() => {
+                  props.moves.checkAndPlaceFort({ ...props }, [
+                    selectedTile,
+                    fortPlacementFailed,
+                  ]);
+                  if (fortPlacementFailed) {
+                    props.undo();
+                  }
+                  setWorldMapDialogOpen(false);
+                }}
+              >
+                Confirm
+              </Button>
+              <Button
+                onClick={() => {
+                  props.undo();
+                  setWorldMapDialogOpen(false);
+                }}
+              >
+                Cancel
+              </Button>
+            </>
+          )}
+        </DialogActions>
+      </Dialog>
+    </>
   );
 };
 
 export interface ActionBoardButtonProps extends MyGameProps {
-  onClickFunction: ({ ...props }, args: number) => void;
+  onClickFunction: ({ ...props }, args: any[]) => void;
   value: number;
   counsellor?: string | undefined;
   counsellors?: string[] | undefined;
