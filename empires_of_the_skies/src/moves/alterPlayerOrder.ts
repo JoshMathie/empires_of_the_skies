@@ -28,8 +28,6 @@ export const alterPlayerOrder: MoveFn<MyGameState> = (
   removeOneCounsellor(G, playerID);
   G.boardState.alterPlayerOrder[newPosition] = playerID;
   G.playerOrder[newPosition] = playerID;
-
-  events.endTurn();
 };
 
 export default alterPlayerOrder;

@@ -40,7 +40,6 @@ const recruitRegiments: MoveFn<MyGameState> = (
   removeGoldAmount(G, playerID, cost[value]);
   addRegiments(G, playerID, reward[value]);
   G.boardState.recruitRegiments[value] = playerID;
-  events.endTurn();
 };
 
 export default recruitRegiments;

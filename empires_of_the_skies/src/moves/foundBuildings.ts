@@ -59,7 +59,6 @@ const foundCathedral = (
   }
   G.boardState.foundBuildings[1].push(playerID);
   removeOneCounsellor(G, playerID);
-  events.endTurn();
 };
 //TODO: add a input for the user to select the heresy tracker movement direction
 const foundPalace = (
@@ -102,7 +101,6 @@ const foundShipyard = (
   G.playerInfo[playerID].shipyards += 1;
   G.boardState.foundBuildings[3].push(playerID);
   removeOneCounsellor(G, playerID);
-  events.endTurn();
 };
 //TODO: add capability for the user to select the map tile to build the fort on
 // and validate that they have either an outpost or colony on that tile as well as regiments

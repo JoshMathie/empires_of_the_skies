@@ -47,7 +47,6 @@ const purchaseSkyships: MoveFn<MyGameState> = (
     addSkyship(G, playerID);
   }
   G.boardState.purchaseSkyships[value] = playerID;
-  events.endTurn();
 };
 
 export default purchaseSkyships;

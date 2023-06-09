@@ -50,14 +50,12 @@ export const increaseHeresy: MoveFn<MyGameState> = (
   ...args
 ) => {
   G.playerInfo[playerID].heresyTracker += 1;
-  events.endTurn();
 };
 export const increaseOrthodoxy: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random: RandomAPI },
   ...args
 ) => {
   G.playerInfo[playerID].heresyTracker -= 1;
-  events.endTurn();
 };
 
 export const checkAndPlaceFort: MoveFn<MyGameState> = (
@@ -100,5 +98,4 @@ export const checkAndPlaceFort: MoveFn<MyGameState> = (
   }
   G.playerInfo[playerID].forts.push(coords);
   tileInfo.fort = true;
-  events.endTurn();
 };
