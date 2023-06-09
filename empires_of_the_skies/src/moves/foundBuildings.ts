@@ -1,9 +1,17 @@
 import { MoveFn } from "boardgame.io";
-import { MyGameState } from "../Game";
+import { MyGameState } from "../types";
 import { INVALID_MOVE } from "boardgame.io/core";
 import { checkCounsellorsNotZero } from "./moveValidation";
 import { removeOneCounsellor } from "./resourceUpdates";
 import { EventsAPI } from "boardgame.io/dist/types/src/plugins/plugin-events";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
 // needs a stage where the player selects a map tile to place the fort onto and that tile is verified to ensure they can build on it
 const foundBuildings: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random: RandomAPI },
@@ -12,7 +20,7 @@ const foundBuildings: MoveFn<MyGameState> = (
   if (checkCounsellorsNotZero(playerID, G)) {
     return INVALID_MOVE;
   }
-  const value: keyof typeof G.boardState.foundBuildings = args[1] + 1;
+  const value: keyof typeof G.boardState.foundBuildings = args[1][0] + 1;
 
   if (value === 4) {
     for (let playerInfo of Object.values(G.playerInfo)) {
@@ -27,13 +35,14 @@ const foundBuildings: MoveFn<MyGameState> = (
     4: foundFort,
   };
 
-  return specialisedBuildingFunctions[value](G, playerID, events);
+  return specialisedBuildingFunctions[value](G, playerID, events, args);
 };
 
 const foundCathedral = (
   G: MyGameState,
   playerID: string,
-  events: EventsAPI
+  events: EventsAPI,
+  args: any[]
 ) => {
   if (G.playerInfo[playerID].cathedrals === 6) {
     return INVALID_MOVE;
@@ -53,7 +62,12 @@ const foundCathedral = (
   events.endTurn();
 };
 //TODO: add a input for the user to select the heresy tracker movement direction
-const foundPalace = (G: MyGameState, playerID: string, events: EventsAPI) => {
+const foundPalace = (
+  G: MyGameState,
+  playerID: string,
+  events: EventsAPI,
+  args: any[]
+) => {
   if (G.playerInfo[playerID].palaces === 6) {
     return INVALID_MOVE;
   }
@@ -69,10 +83,16 @@ const foundPalace = (G: MyGameState, playerID: string, events: EventsAPI) => {
   }
   G.boardState.foundBuildings[2].push(playerID);
   removeOneCounsellor(G, playerID);
-  events.endTurn();
+  args[1][2] = playerID;
+  args[1][1](true);
 };
 
-const foundShipyard = (G: MyGameState, playerID: string, events: EventsAPI) => {
+const foundShipyard = (
+  G: MyGameState,
+  playerID: string,
+  events: EventsAPI,
+  args: any[]
+) => {
   if (G.playerInfo[playerID].shipyards === 3) {
     return INVALID_MOVE;
   }
@@ -86,11 +106,17 @@ const foundShipyard = (G: MyGameState, playerID: string, events: EventsAPI) => {
 };
 //TODO: add capability for the user to select the map tile to build the fort on
 // and validate that they have either an outpost or colony on that tile as well as regiments
-const foundFort = (G: MyGameState, playerID: string, events: EventsAPI) => {
+const foundFort = (
+  G: MyGameState,
+  playerID: string,
+  events: EventsAPI,
+  args: any[]
+) => {
   const cost = 3;
 
   G.playerInfo[playerID].resources.gold -= cost;
   removeOneCounsellor(G, playerID);
-  events.endTurn();
+  args[1][2] = playerID;
+  args[1][1](true);
 };
 export default foundBuildings;
