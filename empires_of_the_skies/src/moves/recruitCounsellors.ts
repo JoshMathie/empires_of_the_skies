@@ -1,4 +1,4 @@
-import { MyGameState } from "../Game";
+import { MyGameState } from "../types";
 import { MoveFn } from "boardgame.io";
 import { checkCounsellorsNotZero } from "./moveValidation";
 import { removeGoldAmount } from "./resourceUpdates";
@@ -12,7 +12,7 @@ export const recruitCounsellors: MoveFn<MyGameState> = (
     return INVALID_MOVE;
   }
 
-  const value: keyof typeof G.boardState.recruitCounsellors = args[1] + 1;
+  const value: keyof typeof G.boardState.recruitCounsellors = args[1][0] + 1;
   if (G.boardState.recruitCounsellors[value] !== undefined) {
     console.log("Player selected a move which has already been taken");
     return INVALID_MOVE;

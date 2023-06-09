@@ -1,6 +1,5 @@
 import { MoveFn } from "boardgame.io";
-import { MyGameState } from "../Game";
-import { PlayerOrder } from "../types";
+import { PlayerOrder, MyGameState } from "../types";
 import { checkCounsellorsNotZero } from "./moveValidation";
 import { INVALID_MOVE } from "boardgame.io/core";
 import { removeOneCounsellor } from "./resourceUpdates";
@@ -9,7 +8,7 @@ export const alterPlayerOrder: MoveFn<MyGameState> = (
   { G, ctx, events, random },
   ...args
 ) => {
-  const newPosition: keyof PlayerOrder = args[1] + 1;
+  const newPosition: keyof PlayerOrder = args[1][0] + 1;
   const playerID = ctx.currentPlayer;
   checkCounsellorsNotZero(playerID, G);
   if (ctx.numPlayers < newPosition) {

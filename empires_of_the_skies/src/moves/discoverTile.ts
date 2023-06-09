@@ -1,5 +1,5 @@
 import { INVALID_MOVE } from "boardgame.io/core/";
-import { MyGameState } from "../Game";
+import { MyGameState } from "../types";
 import { MoveFn } from "boardgame.io";
 
 export const discoverTile: MoveFn<MyGameState> = (

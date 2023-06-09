@@ -1,5 +1,5 @@
 import { Ctx } from "boardgame.io";
-import { MyGameState } from "../Game";
+import { MyGameState } from "../types";
 import { INVALID_MOVE } from "boardgame.io/core/";
 
 export const checkCounsellorsNotZero = (playerID: string, G: MyGameState) => {

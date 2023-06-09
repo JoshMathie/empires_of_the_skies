@@ -1,5 +1,5 @@
 import { MoveFn } from "boardgame.io";
-import { MyGameState } from "../Game";
+import { MyGameState } from "../types";
 import { INVALID_MOVE } from "boardgame.io/core";
 import { checkCounsellorsNotZero } from "./moveValidation";
 import {
@@ -16,7 +16,7 @@ const purchaseSkyships: MoveFn<MyGameState> = (
   if (checkCounsellorsNotZero(playerID, G)) {
     return INVALID_MOVE;
   }
-  const value: keyof typeof G.boardState.purchaseSkyships = args[1] + 1;
+  const value: keyof typeof G.boardState.purchaseSkyships = args[1][0] + 1;
 
   if (G.boardState.purchaseSkyships[value] !== undefined) {
     console.log("Player has chosen an action which has already been taken");
