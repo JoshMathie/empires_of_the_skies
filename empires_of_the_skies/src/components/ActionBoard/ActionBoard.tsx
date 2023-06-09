@@ -50,12 +50,14 @@ import convertMonarch5 from "../../boards_and_assets/convert_monarch5.svg";
 import convertMonarch6 from "../../boards_and_assets/convert_monarch6.svg";
 import issueHolyDecree from "../../boards_and_assets/issue_holy_decree.svg";
 import { MyGameProps } from "../../types";
+import { ThemeProvider } from "@emotion/react";
+import { generalTheme } from "../themes";
 
 //method which returns the complete action board
 
 export const ActionBoard = (props: MyGameProps) => {
   return (
-    <div>
+    <ThemeProvider theme={generalTheme}>
       {/* establishing a column for the different classes of moves to be displayed in */}
       <div
         style={{
@@ -236,7 +238,7 @@ export const ActionBoard = (props: MyGameProps) => {
           />
         </ButtonRow>
       </div>
-    </div>
+    </ThemeProvider>
   );
 };
 

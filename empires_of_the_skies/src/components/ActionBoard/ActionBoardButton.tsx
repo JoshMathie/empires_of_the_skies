@@ -9,7 +9,6 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { WorldMap } from "../WorldMap/WorldMap";
-import { checkAndPlaceFort } from "../../moves/resourceUpdates";
 export const ActionBoardButton = (props: ActionBoardButtonProps) => {
   let counsellorColour: string | undefined;
 
@@ -33,6 +32,7 @@ export const ActionBoardButton = (props: ActionBoardButtonProps) => {
         cursor: "pointer",
         color: "black",
         justifyContent: "flex-start",
+        textTransform: "none",
       }}
       onClick={() => props.onClickFunction({ ...props }, [props.value])}
       value={props.value}
@@ -244,6 +244,8 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
           ) : (
             <>
               <Button
+                variant="contained"
+                color="success"
                 onClick={() => {
                   props.moves.checkAndPlaceFort({ ...props }, [
                     selectedTile,
@@ -258,6 +260,8 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
                 Confirm
               </Button>
               <Button
+                variant="contained"
+                color="error"
                 onClick={() => {
                   props.undo();
                   setWorldMapDialogOpen(false);

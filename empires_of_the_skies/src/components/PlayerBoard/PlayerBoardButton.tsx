@@ -1,5 +1,6 @@
 import React from "react";
 import { PlayerColour } from "../../types";
+import { Button } from "@mui/material";
 
 export const PlayerBoardButton = (props: PlayerBoardButtonProps) => {
   let colour = "#1A1A18";
@@ -11,7 +12,7 @@ export const PlayerBoardButton = (props: PlayerBoardButtonProps) => {
     colour = "#FFFFFF";
   }
   return (
-    <button
+    <Button
       style={{
         width: props.width ? props.width : "98px",
         height: props.height ? props.height : "50px",
@@ -31,7 +32,7 @@ export const PlayerBoardButton = (props: PlayerBoardButtonProps) => {
       onClick={props.onClick}
     >
       {props.text}
-    </button>
+    </Button>
   );
 };
 
