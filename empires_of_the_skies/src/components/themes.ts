@@ -19,5 +19,12 @@ export const generalTheme = createTheme({
         },
       },
     },
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          whiteSpace: "pre",
+        },
+      },
+    },
   },
 });

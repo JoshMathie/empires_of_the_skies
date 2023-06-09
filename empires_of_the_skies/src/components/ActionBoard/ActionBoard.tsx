@@ -78,6 +78,7 @@ export const ActionBoard = (props: MyGameProps) => {
             props,
             props.G.boardState.alterPlayerOrder,
             undefined,
+            ["#9EE8FF", "#9EE8FF", "#9EE8FF", "#9EE8FF", "#9EE8FF", "#9EE8FF"],
             false,
             ["1st", "2nd", "3rd", "4th", "5th", "6th"]
           )}
@@ -140,7 +141,9 @@ export const ActionBoard = (props: MyGameProps) => {
             ],
             "98px",
             props,
-            props.G.boardState.purchaseSkyships
+            props.G.boardState.purchaseSkyships,
+            undefined,
+            ["#EF7C00", "#EF7C00", "#EF7C00", "#FF9AD1", "#FF9AD1", "#FF9AD1"]
           )}
         </ButtonRow>
         {/* button row with the found buildings buttons   */}
@@ -155,6 +158,7 @@ export const ActionBoard = (props: MyGameProps) => {
             props,
             undefined,
             props.G.boardState.foundBuildings,
+            [],
             true
           )}
         </ButtonRow>
@@ -177,7 +181,18 @@ export const ActionBoard = (props: MyGameProps) => {
             ],
             "52px",
             props,
-            props.G.boardState.inflencePrelates
+            props.G.boardState.inflencePrelates,
+            undefined,
+            [
+              "#E3000F",
+              "#51658D",
+              "#FFCC00",
+              "#EF7C00",
+              "#FF9AD1",
+              "#1A1A18",
+              "#FFFFFF",
+              "#478779",
+            ]
           )}
         </ButtonRow>
         {/* button row with the punish dissenters buttons  */}
@@ -197,7 +212,9 @@ export const ActionBoard = (props: MyGameProps) => {
             ],
             "52px",
             props,
-            props.G.boardState.punishDissenters
+            props.G.boardState.punishDissenters,
+            undefined,
+            ["#9EE8FF", "#9EE8FF", "#9EE8FF", "#9EE8FF", "#9EE8FF", "#9EE8FF"]
           )}
         </ButtonRow>
         {/* button row with the convert monarch buttons   */}
@@ -217,7 +234,9 @@ export const ActionBoard = (props: MyGameProps) => {
             ],
             "52px",
             props,
-            props.G.boardState.convertMonarch
+            props.G.boardState.convertMonarch,
+            undefined,
+            ["#9EE8FF", "#9EE8FF", "#9EE8FF", "#9EE8FF", "#9EE8FF", "#9EE8FF"]
           )}
         </ButtonRow>
         {/* button row with the issue holy decree button    */}
@@ -252,6 +271,7 @@ export const generateButtonsList = (
   props: MyGameProps,
   counsellor?: { [key: string]: string | undefined },
   counsellors?: { [key: string]: string[] | undefined },
+  backgroundColor?: string[],
   large?: boolean,
   listOfText?: string[]
 ) => {
@@ -274,6 +294,7 @@ export const generateButtonsList = (
         <ActionBoardButton
           onClickFunction={onClickFunction}
           backgroundImage={listOfBackgroundImages[i]}
+          backgroundColour={backgroundColor ? backgroundColor[i] : undefined}
           text={listOfText ? listOfText[i] : ""}
           width={buttonWidth}
           key={`button ${i} regular`}

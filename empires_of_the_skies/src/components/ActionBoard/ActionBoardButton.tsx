@@ -9,6 +9,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { WorldMap } from "../WorldMap/WorldMap";
+import { clearMoves } from "../../helpers/helpers";
 export const ActionBoardButton = (props: ActionBoardButtonProps) => {
   let counsellorColour: string | undefined;
 
@@ -26,7 +27,6 @@ export const ActionBoardButton = (props: ActionBoardButtonProps) => {
         backgroundSize: "contain",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        backgroundColor: "#e0e0e0",
         fontFamily: "dauphinn",
         fontSize: "18px",
         cursor: "pointer",
@@ -34,7 +34,15 @@ export const ActionBoardButton = (props: ActionBoardButtonProps) => {
         justifyContent: "flex-start",
         textTransform: "none",
       }}
-      onClick={() => props.onClickFunction({ ...props }, [props.value])}
+      sx={{
+        backgroundColor: props.backgroundColour
+          ? props.backgroundColour
+          : "#e0e0e0",
+      }}
+      onClick={() => {
+        clearMoves(props);
+        props.onClickFunction({ ...props }, [props.value]);
+      }}
       value={props.value}
     >
       {props.text}
@@ -173,15 +181,16 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
           fontSize: "18px",
           cursor: "pointer",
         }}
-        onClick={() =>
+        onClick={() => {
+          clearMoves(props);
           props.onClickFunction({ ...props }, [
             props.value,
             props.value === 1
               ? setHeresyOrOrthodoxyDialogOpen
               : setWorldMapDialogOpen,
             playerID,
-          ])
-        }
+          ]);
+        }}
         value={props.value}
       >
         {props.text}
@@ -285,4 +294,5 @@ export interface ActionBoardButtonProps extends MyGameProps {
   backgroundImage?: string;
   text?: string;
   width?: string;
+  backgroundColour?: string;
 }

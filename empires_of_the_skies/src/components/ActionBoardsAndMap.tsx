@@ -7,6 +7,7 @@ import { PlayerBoard } from "./PlayerBoard/PlayerBoard";
 
 import { Box, Tab, Tabs } from "@mui/material";
 import { TabPanel, TabContext } from "@mui/lab";
+import { ResourceTrackerBar } from "./ResourceTrackerBar/ResourceTrackerBar";
 
 export const ActionBoardsAndMap = (props: MyGameProps) => {
   const [value, setValue] = React.useState("0");
@@ -17,44 +18,47 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
   const playerInfo = props.G.playerInfo[props.ctx.currentPlayer];
 
   return (
-    <Box
-      sx={{
-        flexGrow: 1,
-        // bgcolor: "#e6f7ff",
-      }}
-    >
-      <TabContext value={value}>
-        <Tabs value={value} onChange={handleChange} variant="scrollable">
-          <Tab
-            label="Action Board"
-            value={"0"}
-            style={{ fontFamily: "dauphinn", fontSize: 20 }}
-          />
-          <Tab
-            label="Player Board"
-            value={"1"}
-            style={{ fontFamily: "dauphinn", fontSize: 20 }}
-          />
-          <Tab
-            label="World Map"
-            value={"2"}
-            style={{ fontFamily: "dauphinn", fontSize: 20 }}
-          />
-        </Tabs>
+    <>
+      <ResourceTrackerBar {...props} />
+      <Box
+        sx={{
+          flexGrow: 1,
+          // bgcolor: "#e6f7ff",
+        }}
+      >
+        <TabContext value={value}>
+          <Tabs value={value} onChange={handleChange} variant="scrollable">
+            <Tab
+              label="Action Board"
+              value={"0"}
+              style={{ fontFamily: "dauphinn", fontSize: 20 }}
+            />
+            <Tab
+              label="Player Board"
+              value={"1"}
+              style={{ fontFamily: "dauphinn", fontSize: 20 }}
+            />
+            <Tab
+              label="World Map"
+              value={"2"}
+              style={{ fontFamily: "dauphinn", fontSize: 20 }}
+            />
+          </Tabs>
 
-        <TabPanel value={"0"} tabIndex={0}>
-          <ActionBoard {...props} />
-        </TabPanel>
-        <TabPanel value={"1"} tabIndex={1}>
-          <PlayerBoard
-            playerColour={playerInfo.colour}
-            prisoners={playerInfo.prisoners}
-          />
-        </TabPanel>
-        <TabPanel value={"2"} tabIndex={2}>
-          <WorldMap {...props} />
-        </TabPanel>
-      </TabContext>
-    </Box>
+          <TabPanel value={"0"} tabIndex={0}>
+            <ActionBoard {...props} />
+          </TabPanel>
+          <TabPanel value={"1"} tabIndex={1}>
+            <PlayerBoard
+              playerColour={playerInfo.colour}
+              prisoners={playerInfo.prisoners}
+            />
+          </TabPanel>
+          <TabPanel value={"2"} tabIndex={2}>
+            <WorldMap {...props} />
+          </TabPanel>
+        </TabContext>
+      </Box>
+    </>
   );
 };
