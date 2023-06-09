@@ -3,7 +3,8 @@ import React, { useState, useRef, useCallback } from "react";
 import ReactCardFlip from "react-card-flip";
 import { useLongPress } from "use-long-press";
 import { MyGameProps } from "../../types";
-
+//TODO: enable displaying shyship fleets on world map tiles
+//TODO: build a tooltip for displaying fleet information
 //Method for displaying a flippable tile which contains a world map tile image
 export const WorldMapTile = (props: worldMapTileProps) => {
   const xPosition = useRef(0);
@@ -28,6 +29,12 @@ export const WorldMapTile = (props: worldMapTileProps) => {
     props.G.mapState.discoveredTiles[yLocation][xLocation]
   );
 
+  const altOnClick = () => {
+    if (props.alternateOnClick) {
+      props.alternateOnClick([xLocation, yLocation]);
+    }
+  };
+
   return (
     <ReactCardFlip isFlipped={flip} key={props.location.toString()}>
       <button
@@ -43,15 +50,21 @@ export const WorldMapTile = (props: worldMapTileProps) => {
           minWidth: "100px",
           fontFamily: "dauphinn",
         }}
-        onClick={(event) => {
-          if (
-            Math.abs(event.clientX - xPosition.current) < 10 &&
-            Math.abs(event.clientY - yPosition.current) < 10
-          ) {
-            // setFlip(true);
-            props.moves.discoverTile({ ...props }, [xLocation, yLocation]);
-          }
-        }}
+        onClick={
+          !props.alternateOnClick
+            ? (event) => {
+                if (
+                  Math.abs(event.clientX - xPosition.current) < 10 &&
+                  Math.abs(event.clientY - yPosition.current) < 10
+                ) {
+                  props.moves.discoverTile({ ...props }, [
+                    xLocation,
+                    yLocation,
+                  ]);
+                }
+              }
+            : () => {}
+        }
         {...bind}
       >
         ?
@@ -68,6 +81,7 @@ export const WorldMapTile = (props: worldMapTileProps) => {
           minHeight: "150px",
           minWidth: "100px",
         }}
+        onClick={altOnClick}
       ></button>
     </ReactCardFlip>
   );
@@ -75,4 +89,5 @@ export const WorldMapTile = (props: worldMapTileProps) => {
 
 interface worldMapTileProps extends MyGameProps {
   location: number[];
+  alternateOnClick?: (coords: number[]) => void;
 }
