@@ -3,6 +3,9 @@ import React, { useState, useRef, useCallback } from "react";
 import ReactCardFlip from "react-card-flip";
 import { useLongPress } from "use-long-press";
 import { MyGameProps } from "../../types";
+import { Tooltip } from "@mui/material";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { generalTheme } from "../themes";
 //TODO: enable displaying shyship fleets on world map tiles
 //TODO: build a tooltip for displaying fleet information
 //Method for displaying a flippable tile which contains a world map tile image
@@ -13,6 +16,41 @@ export const WorldMapTile = (props: worldMapTileProps) => {
   const [xLocation, yLocation] = props.location;
 
   const currentTile = props.G.mapState.currentTileArray[yLocation][xLocation];
+  const lootNameMap: Record<string, string> = {
+    gold: "Gold",
+    mithril: "Mithril",
+    dragonScales: "Dragon Scales",
+    krakenSkin: "Kraken Skin",
+    magicDust: "Magic Dust",
+    stickyIchor: "Sticky Ichor",
+    pipeweed: "Pipeweed",
+    victoryPoints: "Victory Points",
+  };
+  const outpostLoot = () => {
+    let text = "";
+    Object.entries(currentTile.loot.outpost).map(([key, value]) => {
+      if (value > 0) {
+        text += `\t\t${lootNameMap[key]}: ${value}\n`;
+      }
+    });
+    return text;
+  };
+
+  const colonyLoot = () => {
+    let text = "";
+    Object.entries(currentTile.loot.colony).map(([key, value]) => {
+      if (value > 0) {
+        text += `\t\t${lootNameMap[key]}: ${value}\n`;
+      }
+    });
+    return text;
+  };
+  let tooltipText = `Attack: ${currentTile.sword}\n
+Defence: ${currentTile.shield}\n
+Loot:
+\t Outpost:\n ${outpostLoot()}
+\t Colony:\n ${colonyLoot()}`;
+
   const longPressEvent = useLongPress(longPressCallback, {
     cancelOnMovement: true,
     cancelOutsideElement: true,
@@ -69,20 +107,31 @@ export const WorldMapTile = (props: worldMapTileProps) => {
       >
         ?
       </button>
-      <button
-        className="front"
-        style={{
-          backgroundImage: `url(${currentTile.image})`,
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-          height: "100%",
-          width: "200px",
-          maxWidth: "100%",
-          minHeight: "150px",
-          minWidth: "100px",
-        }}
-        onClick={altOnClick}
-      ></button>
+      <ThemeProvider theme={generalTheme}>
+        <Tooltip
+          title={tooltipText}
+          arrow
+          disableFocusListener
+          placement="right-start"
+          style={{ whiteSpace: "pre", fontSize: "20px" }}
+          sx={{ whiteSpace: "pre-line", fontSize: "20px" }}
+        >
+          <button
+            className="front"
+            style={{
+              backgroundImage: `url(${currentTile.image})`,
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+              height: "100%",
+              width: "200px",
+              maxWidth: "100%",
+              minHeight: "150px",
+              minWidth: "100px",
+            }}
+            onClick={altOnClick}
+          ></button>
+        </Tooltip>
+      </ThemeProvider>
     </ReactCardFlip>
   );
 };
