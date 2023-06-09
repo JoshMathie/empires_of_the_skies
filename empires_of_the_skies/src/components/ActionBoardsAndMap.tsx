@@ -18,12 +18,10 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
 
   return (
     <Box
-    //   sx={{
-    //     flexGrow: 1,
-    //     bgcolor: "background.paper",
-    //     display: "flex",
-    //     // height: 224
-    //   }}
+      sx={{
+        flexGrow: 1,
+        // bgcolor: "#e6f7ff",
+      }}
     >
       <TabContext value={value}>
         <Tabs value={value} onChange={handleChange} variant="scrollable">
