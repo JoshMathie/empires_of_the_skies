@@ -1,6 +1,7 @@
 import type { Game, Ctx } from "boardgame.io";
 import { INVALID_MOVE } from "boardgame.io/core/";
 import { checkCounsellorsNotZero } from "./moves/moveValidation";
+import { MyGameState } from "./types";
 
 import {
   TileInfoProps,
@@ -23,15 +24,11 @@ import recruitCounsellors from "./moves/recruitCounsellors";
 import recruitRegiments from "./moves/recruitRegiments";
 import purchaseSkyships from "./moves/purchaseSkyships";
 import foundBuildings from "./moves/foundBuildings";
-
-export interface MyGameState {
-  turn: number;
-  phase: string;
-  playerInfo: { [details: string]: PlayerInfo };
-  mapState: MapState;
-  boardState: ActionBoardInfo;
-  playerOrder: PlayerOrder;
-}
+import {
+  checkAndPlaceFort,
+  increaseHeresy,
+  increaseOrthodoxy,
+} from "./moves/resourceUpdates";
 
 export const MyGame: Game<MyGameState> = {
   name: "empires-of-the-skies",
@@ -233,6 +230,9 @@ export const MyGame: Game<MyGameState> = {
     recruitRegiments: { move: recruitRegiments, undoable: true },
     purchaseSkyships: { move: purchaseSkyships, undoable: true },
     foundBuildings: { move: foundBuildings, undoable: true },
+    increaseHeresy: { move: increaseHeresy, undoable: true },
+    increaseOrthodoxy: { move: increaseOrthodoxy, undoable: true },
+    checkAndPlaceFort: { move: checkAndPlaceFort, undoable: true },
   },
   maxPlayers: 6,
   minPlayers: 1,

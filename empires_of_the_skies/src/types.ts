@@ -1,8 +1,15 @@
 import { BoardProps } from "boardgame.io/dist/types/packages/react";
-import { MyGameState } from "./Game";
 
 export interface MyGameProps extends BoardProps<MyGameState> {}
 
+export interface MyGameState {
+  turn: number;
+  phase: string;
+  playerInfo: { [details: string]: PlayerInfo };
+  mapState: MapState;
+  boardState: ActionBoardInfo;
+  playerOrder: PlayerOrder;
+}
 export type PlayerOrder = {
   1: string | undefined;
   2: string | undefined;
@@ -18,14 +25,16 @@ export type MapState = {
 };
 export type MapBuildingInfo = {
   player?: PlayerInfo;
-  buildings?: (typeof BuildingOptions)[keyof typeof BuildingOptions][];
+  buildings?: "outpost" | "colony" | "fort";
+  fort?: boolean;
+  garrisonedRegiments?: number;
 };
 
-const BuildingOptions = {
-  outpost: "outpost",
-  colony: "colony",
-  fort: "fort",
-} as const;
+// export const BuildingOptions = {
+//   outpost: "outpost",
+//   colony: "colony",
+//   fort: "fort",
+// } as const;
 
 export type PlayerInfo = {
   id: string;
@@ -42,7 +51,12 @@ export type PlayerInfo = {
   heresyTracker: number;
   prisoners: number;
   shipyards: number;
-  forts: number[][];
+  forts: FortInfo[];
+};
+
+type FortInfo = {
+  location: number[];
+  garrisonedRegiments: number;
 };
 
 export type FleetInfo = {
