@@ -200,7 +200,7 @@ export const ActionBoard = (props: MyGameProps) => {
           <PunishDissenters />
           {generateButtonsList(
             6,
-            () => {},
+            props.moves.punishDissenters,
 
             [
               punishDissenters1,
@@ -222,7 +222,7 @@ export const ActionBoard = (props: MyGameProps) => {
           <ConvertMonarchExplination />
           {generateButtonsList(
             6,
-            () => {},
+            props.moves.convertMonarch,
 
             [
               convertMonarch1,
