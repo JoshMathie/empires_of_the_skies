@@ -25,7 +25,7 @@ export type MapState = {
 };
 export type MapBuildingInfo = {
   player?: PlayerInfo;
-  buildings?: "outpost" | "colony" | "fort";
+  buildings?: "outpost" | "colony";
   fort?: boolean;
   garrisonedRegiments?: number;
 };
