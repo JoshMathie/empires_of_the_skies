@@ -3,14 +3,16 @@ import { MyGameProps } from "../../types";
 import { AppBar, Button, ThemeProvider, Toolbar } from "@mui/material";
 import { ReactComponent as GoldIcon } from "../../boards_and_assets/gold_icon.svg";
 import { generalTheme } from "../themes";
+import { checkPlayerIDAndReturnPlayerInfo } from "../../helpers/helpers";
 
 export const ResourceTrackerBar = (props: MyGameProps) => {
-  const currentPlayer = props.G.playerInfo[props.ctx.currentPlayer];
+  const currentPlayer = checkPlayerIDAndReturnPlayerInfo(props);
   const counsellors = currentPlayer.resources.counsellors;
   const gold = currentPlayer.resources.gold;
   const skyships = currentPlayer.resources.skyships;
   const regiments = currentPlayer.resources.regiments;
   const colour = currentPlayer.colour;
+  const victoryPoints = currentPlayer.victoryPoints;
 
   const endTurn = () => {
     if (props.events.endTurn) {
@@ -146,6 +148,22 @@ export const ResourceTrackerBar = (props: MyGameProps) => {
             />
           </svg>
           {"   " + regiments + "\t"}
+          <svg
+            width="29"
+            height="31"
+            viewBox="0 0 29 31"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M14.6062 1.50915L11.3822 12.9416L0.766357 12.3625L9.84318 19.2049L6.05273 29.9237L14.8866 22.7202L23.1597 29.9237L19.5426 18.6293L28.446 12.3625L17.3766 12.5858L14.6062 1.50915Z"
+              fill={colour}
+              stroke="#1A1A18"
+              strokeWidth="0.288"
+              strokeMiterlimit="22.9256"
+            />
+          </svg>
+          {"   " + victoryPoints + "\t"}
           <Button
             variant="contained"
             color="error"
