@@ -260,8 +260,9 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
                     selectedTile,
                     fortPlacementFailed,
                   ]);
-                  if (fortPlacementFailed) {
-                    props.undo();
+                  if (fortPlacementFailed.current) {
+                    console.log("fort placement failed");
+                    clearMoves(props);
                   }
                   setWorldMapDialogOpen(false);
                 }}
@@ -272,7 +273,8 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
                 variant="contained"
                 color="error"
                 onClick={() => {
-                  props.undo();
+                  console.log("fort placement aborted");
+                  clearMoves(props);
                   setWorldMapDialogOpen(false);
                 }}
               >
