@@ -9,8 +9,6 @@ import {
   MapState,
   MapBuildingInfo,
   PlayerColour,
-  ActionBoardInfo,
-  PlayerOrder,
 } from "./types";
 import {
   unknownWorldTiles,
