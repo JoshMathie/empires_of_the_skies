@@ -5,6 +5,21 @@ import { INVALID_MOVE } from "boardgame.io/core";
 export const removeOneCounsellor = (G: MyGameState, playerID: string) => {
   G.playerInfo[playerID].resources.counsellors -= 1;
 };
+export const removeVPAmount = (
+  G: MyGameState,
+  playerID: string,
+  vpAmount: number
+) => {
+  G.playerInfo[playerID].victoryPoints -= vpAmount;
+};
+
+export const addVPAmount = (
+  G: MyGameState,
+  playerID: string,
+  vpAmount: number
+) => {
+  G.playerInfo[playerID].victoryPoints += vpAmount;
+};
 
 export const removeGoldAmount = (
   G: MyGameState,
@@ -62,9 +77,8 @@ export const checkAndPlaceFort: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random: RandomAPI },
   ...args
 ) => {
-  console.log(args[1][1]);
   const coords = args[1];
-  const tileInfo = G.mapState.buildings[coords[0][1]][coords[0][0]];
+  let tileInfo = G.mapState.buildings[coords[0][1]][coords[0][0]];
   if (tileInfo === undefined) {
     //args[1][1] = fortPlacementFailed reference
     args[1][1].current = true;
@@ -98,6 +112,8 @@ export const checkAndPlaceFort: MoveFn<MyGameState> = (
     args[1][1].current = true;
     return INVALID_MOVE;
   }
-  G.playerInfo[playerID].forts.push(coords);
+  args[1][1].current = false;
+  tileInfo.player = G.playerInfo[playerID];
+  G.playerInfo[playerID].forts.push(coords[0]);
   tileInfo.fort = true;
 };
