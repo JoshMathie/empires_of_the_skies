@@ -6,6 +6,8 @@ import { MyGameProps } from "../../types";
 import { Tooltip } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { generalTheme } from "../themes";
+import FortIcon from "../Icons/FortIcon";
+import { clearMoves } from "../../helpers/helpers";
 //TODO: enable displaying shyship fleets on world map tiles
 //TODO: build a tooltip for displaying fleet information
 //Method for displaying a flippable tile which contains a world map tile image
@@ -14,6 +16,14 @@ export const WorldMapTile = (props: worldMapTileProps) => {
   const yPosition = useRef(0);
   const longPressCallback = useCallback(() => {}, []);
   const [xLocation, yLocation] = props.location;
+  const fort = props.G.mapState.buildings[yLocation][xLocation].fort;
+
+  const fortColour =
+    props.G.mapState.buildings[yLocation][xLocation].player?.colour;
+
+  if (fort) {
+    console.log(fortColour);
+  }
 
   const currentTile = props.G.mapState.currentTileArray[yLocation][xLocation];
   const lootNameMap: Record<string, string> = {
@@ -95,6 +105,7 @@ Loot:
                   Math.abs(event.clientX - xPosition.current) < 10 &&
                   Math.abs(event.clientY - yPosition.current) < 10
                 ) {
+                  clearMoves(props);
                   props.moves.discoverTile({ ...props }, [
                     xLocation,
                     yLocation,
@@ -129,7 +140,11 @@ Loot:
               minWidth: "100px",
             }}
             onClick={altOnClick}
-          ></button>
+          >
+            {fort ? (
+              <FortIcon colour={fortColour ? fortColour : "white"}></FortIcon>
+            ) : null}
+          </button>
         </Tooltip>
       </ThemeProvider>
     </ReactCardFlip>
