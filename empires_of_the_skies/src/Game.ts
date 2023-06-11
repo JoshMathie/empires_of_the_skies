@@ -27,6 +27,8 @@ import {
   increaseHeresy,
   increaseOrthodoxy,
 } from "./moves/resourceUpdates";
+import { punishDissenters } from "./moves/punishDissenters";
+import { convertMonarch } from "./moves/convertMonarch";
 
 export const MyGame: Game<MyGameState> = {
   name: "empires-of-the-skies",
@@ -78,7 +80,7 @@ export const MyGame: Game<MyGameState> = {
           ],
           cathedrals: 1,
           palaces: 1,
-          victoryPoints: 0,
+          victoryPoints: 10,
           heresyTracker: 0,
           prisoners: 0,
           shipyards: 0,
@@ -231,6 +233,8 @@ export const MyGame: Game<MyGameState> = {
     increaseHeresy: { move: increaseHeresy, undoable: true },
     increaseOrthodoxy: { move: increaseOrthodoxy, undoable: true },
     checkAndPlaceFort: { move: checkAndPlaceFort, undoable: true },
+    punishDissenters: { move: punishDissenters, undoable: true },
+    convertMonarch: { move: convertMonarch, undoable: true },
   },
   maxPlayers: 6,
   minPlayers: 1,
