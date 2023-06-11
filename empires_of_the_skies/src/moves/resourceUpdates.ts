@@ -71,15 +71,17 @@ export const checkAndPlaceFort: MoveFn<MyGameState> = (
     return INVALID_MOVE;
   }
   let hasRelevantPresence = false;
-  if (
-    tileInfo.player?.id === playerID &&
-    (tileInfo.buildings === "colony" || tileInfo.buildings === "outpost") &&
-    tileInfo.fort === false &&
-    tileInfo.garrisonedRegiments
-      ? tileInfo.garrisonedRegiments > 0
-      : false
-  ) {
-    hasRelevantPresence = true;
+  if (tileInfo.player) {
+    if (
+      tileInfo.player.id === playerID &&
+      (tileInfo.buildings === "colony" || tileInfo.buildings === "outpost") &&
+      tileInfo.fort === false &&
+      tileInfo.garrisonedRegiments
+        ? tileInfo.garrisonedRegiments > 0
+        : false
+    ) {
+      hasRelevantPresence = true;
+    }
   }
 
   let matched = false;

@@ -1,3 +1,4 @@
+import React from "react";
 import { MyGameProps } from "../../types";
 import { AppBar, Button, ThemeProvider, Toolbar } from "@mui/material";
 import { ReactComponent as GoldIcon } from "../../boards_and_assets/gold_icon.svg";
