@@ -3,14 +3,6 @@ import { PlayerColour } from "../../types";
 import { Button } from "@mui/material";
 
 export const PlayerBoardButton = (props: PlayerBoardButtonProps) => {
-  let colour = "#1A1A18";
-  if (
-    props.colour === PlayerColour["blue"] ||
-    props.colour === PlayerColour["black"] ||
-    props.colour === PlayerColour["green"]
-  ) {
-    colour = "#FFFFFF";
-  }
   return (
     <Button
       style={{
@@ -26,7 +18,6 @@ export const PlayerBoardButton = (props: PlayerBoardButtonProps) => {
         fontSize: "18px",
         cursor: "pointer",
         backgroundColor: props.colour,
-        color: colour,
       }}
       disabled={props.disabled}
       onClick={props.onClick}

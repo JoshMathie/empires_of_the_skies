@@ -75,6 +75,7 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
                 height: "50px",
                 fontSize: "30px",
                 cursor: disabled ? "not-allowed" : "pointer",
+                color: "#000000",
               }}
               disabled={disabled || skyshipCount >= 5}
             >
@@ -150,6 +151,7 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
                 height: "50px",
                 fontSize: "30px",
                 cursor: disabled ? "not-allowed" : "pointer",
+                color: "#000000",
               }}
               disabled={disabled || skyshipCount <= 0}
             >
@@ -166,6 +168,7 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
                 height: "50px",
                 fontSize: "30px",
                 cursor: disabled ? "not-allowed" : "pointer",
+                color: "#000000",
               }}
               disabled={disabled || regimentCount >= skyshipCount}
             >
@@ -220,6 +223,7 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
                 height: "50px",
                 fontSize: "30px",
                 cursor: disabled ? "not-allowed" : "pointer",
+                color: "#000000",
               }}
               disabled={disabled || regimentCount <= 0}
             >
@@ -233,6 +237,7 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
                 fontSize: "20px",
                 cursor: disabled ? "not-allowed" : "pointer",
                 fontFamily: "dauphinn",
+                color: "#000000",
               }}
               disabled={disabled || skyshipCount <= 0}
             >

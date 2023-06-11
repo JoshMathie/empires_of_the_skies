@@ -8,6 +8,7 @@ export const generalTheme = createTheme({
       textTransform: "none",
       textAlign: "left",
       border: "1px solid black",
+      color: "#000000",
     },
   },
   components: {
@@ -24,6 +25,11 @@ export const generalTheme = createTheme({
         root: {
           whiteSpace: "pre",
         },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        textPrimary: "#000000",
       },
     },
   },

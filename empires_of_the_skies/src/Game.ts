@@ -304,7 +304,7 @@ const getInitialOutpostsAndColonysInfo = () => {
 
 const getPlayerColours = (ctx: Ctx) => {
   const colours = [
-    PlayerColour.black,
+    PlayerColour.purple,
     PlayerColour.blue,
     PlayerColour.green,
     PlayerColour.red,

@@ -94,7 +94,7 @@ export const PlayerColour = {
   green: "#478779",
   yellow: "#FFCC00",
   blue: "#51658D",
-  black: "#1A1A18",
+  purple: "#bc73c9",
   white: "#FFFFFF",
 } as const;
 
