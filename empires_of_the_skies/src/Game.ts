@@ -32,6 +32,7 @@ import convertMonarch from "./moves/convertMonarch";
 import influencePrelates from "./moves/influencePrelates";
 import { fullResetFortuneOfWarCardDeck } from "./helpers/helpers";
 import trainTroops from "./moves/trainTroops";
+import buildSkyships from "./moves/buildSkyships";
 
 export const MyGame: Game<MyGameState> = {
   name: "empires-of-the-skies",
@@ -245,6 +246,7 @@ export const MyGame: Game<MyGameState> = {
     influencePrelates: { move: influencePrelates, undoable: true },
     trainTroops: { move: trainTroops, undoable: true },
     flipCards: { move: flipCards, undoable: false },
+    buildSkyships: { move: buildSkyships, undoable: true },
   },
   maxPlayers: 6,
   minPlayers: 1,

@@ -5,7 +5,7 @@ export const ButtonRow = ({ children }: ActionBoardButtonRowChildProps) => {
     <div
       style={{
         display: "flex",
-        marginTop: "3%",
+        marginBottom: "3%",
         position: "relative",
         whiteSpace: "pre-line",
         flexWrap: "wrap",

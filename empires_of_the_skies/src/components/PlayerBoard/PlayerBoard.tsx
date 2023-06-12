@@ -9,6 +9,7 @@ import { PlayerBoardButton } from "./PlayerBoardButton";
 import { Button, ThemeProvider } from "@mui/material";
 import { generalTheme } from "../themes";
 import FortuneOfWarCardDisplay from "./FortuneOfWarCardDisplay";
+import ShipYardDisplay from "./ShipYardDisplay";
 
 // displays buttons which can build cathedrals, palaces and skyships
 // also displays the button to imprison dissentors and to dispatch skyship fleets
@@ -19,10 +20,11 @@ export const PlayerBoard = (props: MyGameProps) => {
   let colour: (typeof PlayerColour)[keyof typeof PlayerColour] =
     PlayerColour.purple;
   let prisoners = 0;
-
+  let playerInfo = undefined;
   if (props.playerID) {
     colour = props.G.playerInfo[props.playerID].colour;
     prisoners = props.G.playerInfo[props.playerID].prisoners;
+    playerInfo = props.G.playerInfo[props.playerID];
   }
 
   const fortuneOfWarCards = [];
@@ -49,7 +51,11 @@ export const PlayerBoard = (props: MyGameProps) => {
             <PlayerBoardButton
               onClick={() => {
                 setDisabled(true);
+                props.moves.buildSkyships();
               }}
+              counsellor={
+                playerInfo?.playerBoardCounsellorLocations.buildSkyships
+              }
               backgroundImage={buildSkyships}
               width="59px"
               height="59px"
@@ -495,6 +501,8 @@ export const PlayerBoard = (props: MyGameProps) => {
               />
             </svg>
           </ButtonRow>
+          Shipyards
+          <ShipYardDisplay {...props} />
         </div>
       </div>
     </ThemeProvider>
