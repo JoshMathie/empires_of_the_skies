@@ -8,7 +8,6 @@ import { PlayerBoard } from "./PlayerBoard/PlayerBoard";
 import { Box, Tab, Tabs } from "@mui/material";
 import { TabPanel, TabContext } from "@mui/lab";
 import { ResourceTrackerBar } from "./ResourceTrackerBar/ResourceTrackerBar";
-import { checkPlayerIDAndReturnPlayerInfo } from "../helpers/helpers";
 
 export const ActionBoardsAndMap = (props: MyGameProps) => {
   const [value, setValue] = React.useState("0");
@@ -16,8 +15,6 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
-
-  const playerInfo = checkPlayerIDAndReturnPlayerInfo(props);
 
   return (
     <>

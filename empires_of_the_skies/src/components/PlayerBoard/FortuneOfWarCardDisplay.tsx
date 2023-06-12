@@ -3,7 +3,6 @@ import { MyGameProps } from "../../types";
 import fortuneOfWarCardBack from "../../boards_and_assets/fortunes_of_war_card_back.svg";
 
 const FortuneOfWarCardDisplay = (props: FortuneOfWarCardDisplayProps) => {
-  console.log("creating fow card display");
   const defaultImage = fortuneOfWarCardBack;
   let displayImage;
   let card;

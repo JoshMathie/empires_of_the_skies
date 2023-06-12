@@ -1,4 +1,3 @@
-import { Ctx } from "boardgame.io";
 import { MyGameState } from "../types";
 import { INVALID_MOVE } from "boardgame.io/core/";
 
