@@ -1,4 +1,5 @@
-import { MyGameProps, PlayerInfo } from "../types";
+import { FortuneOfWarCardInfo, MyGameProps, PlayerInfo } from "../types";
+import { fortuneOfWarCards } from "../codifiedGameInfo";
 
 export const clearMoves = (props: MyGameProps) => {
   if (props.ctx.numMoves) {
@@ -20,4 +21,11 @@ export const checkPlayerIDAndReturnPlayerInfo = (
     throw new Error("No playerID found in props");
   }
   return playerInfo;
+};
+
+export const resetFortuneOfWarCardDeck = (): FortuneOfWarCardInfo[] => {
+  const fullDeck: FortuneOfWarCardInfo[] =
+    fortuneOfWarCards.concat(fortuneOfWarCards);
+
+  return [...fullDeck];
 };

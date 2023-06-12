@@ -1,6 +1,5 @@
 import type { Game, Ctx } from "boardgame.io";
-import { INVALID_MOVE } from "boardgame.io/core/";
-import { checkCounsellorsNotZero } from "./moves/moveValidation";
+
 import { MyGameState } from "./types";
 
 import {
@@ -27,8 +26,10 @@ import {
   increaseHeresy,
   increaseOrthodoxy,
 } from "./moves/resourceUpdates";
-import { punishDissenters } from "./moves/punishDissenters";
-import { convertMonarch } from "./moves/convertMonarch";
+import punishDissenters from "./moves/punishDissenters";
+import convertMonarch from "./moves/convertMonarch";
+import influencePrelates from "./moves/influencePrelates";
+import { resetFortuneOfWarCardDeck } from "./helpers/helpers";
 
 export const MyGame: Game<MyGameState> = {
   name: "empires-of-the-skies",
@@ -150,7 +151,7 @@ export const MyGame: Game<MyGameState> = {
         // cathedrals: [],
         // shipyards: [],
       },
-      inflencePrelates: {
+      influencePrelates: {
         1: undefined,
         2: undefined,
         3: undefined,
@@ -212,6 +213,7 @@ export const MyGame: Game<MyGameState> = {
         5: undefined,
         6: undefined,
       },
+      cardDecks: { fortuneOfWarCards: resetFortuneOfWarCardDeck() },
     };
   },
   moves: {
@@ -235,6 +237,7 @@ export const MyGame: Game<MyGameState> = {
     checkAndPlaceFort: { move: checkAndPlaceFort, undoable: true },
     punishDissenters: { move: punishDissenters, undoable: true },
     convertMonarch: { move: convertMonarch, undoable: true },
+    influencePrelates: { move: influencePrelates, undoable: true },
   },
   maxPlayers: 6,
   minPlayers: 1,

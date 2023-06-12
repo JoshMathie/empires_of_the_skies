@@ -30,8 +30,19 @@ import TheLostCityOfGold from "./map_tiles/unknown_world_tiles/the_lost_city_of_
 import Trolls1 from "./map_tiles/unknown_world_tiles/trolls1.svg";
 import Trolls2 from "./map_tiles/unknown_world_tiles/trolls2.svg";
 import Trolls3 from "./map_tiles/unknown_world_tiles/trolls3.svg";
+import swordOne from "./boards_and_assets/fortunes_of_war_cards/1_sword.svg";
+import swordtwo from "./boards_and_assets/fortunes_of_war_cards/2_sword.svg";
+import swordThree from "./boards_and_assets/fortunes_of_war_cards/3_sword.svg";
+import swordFour from "./boards_and_assets/fortunes_of_war_cards/4_sword.svg";
+import swordFive from "./boards_and_assets/fortunes_of_war_cards/5_sword.svg";
+import shieldFour from "./boards_and_assets/fortunes_of_war_cards/4_shield.svg";
+import shieldFive from "./boards_and_assets/fortunes_of_war_cards/5_shield.svg";
+import shieldSix from "./boards_and_assets/fortunes_of_war_cards/6_shield.svg";
+import shieldSeven from "./boards_and_assets/fortunes_of_war_cards/7_shield.svg";
+import shieldEight from "./boards_and_assets/fortunes_of_war_cards/8_shield.svg";
+import noEffect from "./boards_and_assets/fortunes_of_war_cards/no_effect.svg";
 
-import { TileInfoProps } from "./types";
+import { FortuneOfWarCardInfo, TileInfoProps } from "./types";
 
 export const unknownWorldTiles: TileInfoProps[] = [
   {
@@ -970,5 +981,63 @@ export const knownWorldTiles: TileInfoProps[] = [
         victoryPoints: 0,
       },
     },
+  },
+];
+
+export const fortuneOfWarCards: FortuneOfWarCardInfo[] = [
+  {
+    image: swordOne,
+    sword: 1,
+    shield: 0,
+  },
+  {
+    image: swordtwo,
+    sword: 2,
+    shield: 0,
+  },
+  {
+    image: swordThree,
+    sword: 3,
+    shield: 0,
+  },
+  {
+    image: swordFour,
+    sword: 4,
+    shield: 0,
+  },
+  {
+    image: swordFive,
+    sword: 5,
+    shield: 0,
+  },
+  {
+    image: shieldFour,
+    sword: 0,
+    shield: 4,
+  },
+  {
+    image: shieldFive,
+    sword: 0,
+    shield: 5,
+  },
+  {
+    image: shieldSix,
+    sword: 0,
+    shield: 6,
+  },
+  {
+    image: shieldSeven,
+    sword: 0,
+    shield: 7,
+  },
+  {
+    image: shieldEight,
+    sword: 0,
+    shield: 8,
+  },
+  {
+    image: noEffect,
+    sword: 0,
+    shield: 0,
   },
 ];

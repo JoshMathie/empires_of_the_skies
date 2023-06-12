@@ -9,7 +9,18 @@ export interface MyGameState {
   mapState: MapState;
   boardState: ActionBoardInfo;
   playerOrder: PlayerOrder;
+  cardDecks: CardDeckInfo;
 }
+
+export type CardDeckInfo = {
+  fortuneOfWarCards: FortuneOfWarCardInfo[];
+};
+
+export type FortuneOfWarCardInfo = {
+  image: string;
+  sword: number;
+  shield: number;
+};
 export type PlayerOrder = {
   1: string | undefined;
   2: string | undefined;
@@ -29,12 +40,6 @@ export type MapBuildingInfo = {
   fort?: boolean;
   garrisonedRegiments?: number;
 };
-
-// export const BuildingOptions = {
-//   outpost: "outpost",
-//   colony: "colony",
-//   fort: "fort",
-// } as const;
 
 export type PlayerInfo = {
   id: string;
@@ -192,7 +197,7 @@ export type ActionBoardInfo = {
     // shipyards: string[];
     // forts: string[];
   };
-  inflencePrelates: {
+  influencePrelates: {
     1: string | undefined;
     2: string | undefined;
     3: string | undefined;
