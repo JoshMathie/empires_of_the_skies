@@ -167,7 +167,7 @@ export const ActionBoard = (props: MyGameProps) => {
           <InfluencePrelatesExplination />
           {generateButtonsList(
             8,
-            () => {},
+            props.moves.influencePrelates,
 
             [
               influencePrelates1,
@@ -181,7 +181,7 @@ export const ActionBoard = (props: MyGameProps) => {
             ],
             "52px",
             props,
-            props.G.boardState.inflencePrelates,
+            props.G.boardState.influencePrelates,
             undefined,
             [
               "#E3000F",
