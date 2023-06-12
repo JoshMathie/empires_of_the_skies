@@ -17,15 +17,6 @@ const EmpiresOfTheSkiesClient = Client({
   },
 });
 
-// const server = Server({
-//   games: [MyGame],
-//   origins: [Origins.LOCALHOST_IN_DEVELOPMENT],
-// });
-
-// server.run(3000, () => {
-//   console.log("sever is running...");
-// });
-
 const App = () => {
   return (
     <div
