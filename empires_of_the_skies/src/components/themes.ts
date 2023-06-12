@@ -9,6 +9,9 @@ export const generalTheme = createTheme({
       textAlign: "left",
       border: "1px solid black",
       color: "#000000",
+      textOverflow: "ellipsis",
+      // width: "100%",
+      overflow: "auto",
     },
   },
   components: {

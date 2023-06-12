@@ -4,21 +4,19 @@ import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { Grid } from "@mui/material";
 import { WorldMapTile } from "./WorldMapTile";
 import { MyGameProps } from "../../types";
-import { MoveFn } from "boardgame.io";
-import { MyGameState } from "../../types";
 
 export const WorldMap = (props: WorldMapProps) => {
   const GridItems = (props: WorldMapProps) => {
     const currentMap = props.G.mapState.currentTileArray;
-    let tiles: ReactElement[] = [];
+    let tiles: ReactElement[][] = [[], [], [], []];
     for (let y = 0; y < currentMap.length; y++) {
       for (let x = 0; x < currentMap[y].length; x++) {
         const tileProps = {
           location: [x, y],
           ...props,
         };
-        tiles.push(
-          <Grid item lg={1}>
+        tiles[y].push(
+          <Grid item lg={1} maxWidth={150} minWidth={150}>
             <WorldMapTile
               {...tileProps}
               alternateOnClick={
@@ -34,10 +32,16 @@ export const WorldMap = (props: WorldMapProps) => {
   };
 
   return (
-    <div>
+    <div style={{ overflow: "scroll", overflowY: "hidden", overflowX: "auto" }}>
       <TransformWrapper>
         <TransformComponent>
-          <Grid container spacing={0} columns={8} maxWidth={1200}>
+          <Grid
+            container
+            spacing={0}
+            columns={8}
+            maxWidth={1220}
+            minWidth={1220}
+          >
             <GridItems {...props} />
           </Grid>
         </TransformComponent>

@@ -92,10 +92,10 @@ Loot:
           backgroundColor: "#298932",
           fontSize: "30px",
           height: "100%",
-          width: "200px",
+          width: "150px",
           maxWidth: "100%",
           minHeight: "150px",
-          minWidth: "100px",
+          minWidth: "150px",
           fontFamily: "dauphinn",
         }}
         onClick={
@@ -134,10 +134,10 @@ Loot:
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",
               height: "100%",
-              width: "200px",
+              width: "150px",
               maxWidth: "100%",
               minHeight: "150px",
-              minWidth: "100px",
+              minWidth: "150px",
             }}
             onClick={altOnClick}
           >

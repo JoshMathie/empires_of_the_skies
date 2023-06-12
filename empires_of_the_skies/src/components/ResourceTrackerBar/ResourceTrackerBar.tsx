@@ -4,6 +4,7 @@ import { AppBar, Button, ThemeProvider, Toolbar } from "@mui/material";
 import { ReactComponent as GoldIcon } from "../../boards_and_assets/gold_icon.svg";
 import { generalTheme } from "../themes";
 import { checkPlayerIDAndReturnPlayerInfo } from "../../helpers/helpers";
+import { Person4Sharp } from "@mui/icons-material";
 
 export const ResourceTrackerBar = (props: MyGameProps) => {
   const currentPlayer = checkPlayerIDAndReturnPlayerInfo(props);
@@ -27,6 +28,14 @@ export const ResourceTrackerBar = (props: MyGameProps) => {
     <ThemeProvider theme={generalTheme}>
       <AppBar position={"sticky"}>
         <Toolbar sx={{ justifyContent: "right" }}>
+          {"Kingdom to play:   "}
+          <Person4Sharp
+            sx={{
+              color: props.G.playerInfo[props.ctx.currentPlayer].colour,
+              marginRight: "20%",
+            }}
+          ></Person4Sharp>
+          {"   \t"}
           <svg
             width="35"
             height="33"
