@@ -3,7 +3,7 @@ import { MyGameState } from "../types";
 import { MoveFn } from "boardgame.io";
 
 export const discoverTile: MoveFn<MyGameState> = (
-  { G, ctx, playerID, events, random: RandomAPI },
+  { G, ctx, playerID, events, random },
   ...args
 ) => {
   const [x, y] = args[1];

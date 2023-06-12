@@ -7,8 +7,8 @@ import {
 } from "./resourceUpdates";
 import { INVALID_MOVE } from "boardgame.io/core";
 
-export const convertMonarch: MoveFn<MyGameState> = (
-  { G, ctx, playerID, events, random: RandomAPI },
+const convertMonarch: MoveFn<MyGameState> = (
+  { G, ctx, playerID, events, random },
   ...args
 ) => {
   const value: keyof typeof G.boardState.convertMonarch = args[1][0] + 1;
@@ -74,3 +74,5 @@ export const convertMonarch: MoveFn<MyGameState> = (
 
   G.boardState.convertMonarch[value] = playerID;
 };
+
+export default convertMonarch;

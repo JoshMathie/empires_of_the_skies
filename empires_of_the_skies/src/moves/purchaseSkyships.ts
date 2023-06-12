@@ -3,14 +3,13 @@ import { MyGameState } from "../types";
 import { INVALID_MOVE } from "boardgame.io/core";
 import { checkCounsellorsNotZero } from "./moveValidation";
 import {
-  addRegiments,
   addSkyship,
   removeGoldAmount,
   removeOneCounsellor,
 } from "./resourceUpdates";
 
 const purchaseSkyships: MoveFn<MyGameState> = (
-  { G, ctx, playerID, events, random: RandomAPI },
+  { G, ctx, playerID, events, random },
   ...args
 ) => {
   if (checkCounsellorsNotZero(playerID, G)) {

@@ -4,7 +4,7 @@ import ReactCardFlip from "react-card-flip";
 import { useLongPress } from "use-long-press";
 import { MyGameProps } from "../../types";
 import { Tooltip } from "@mui/material";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import { generalTheme } from "../themes";
 import FortIcon from "../Icons/FortIcon";
 import { clearMoves } from "../../helpers/helpers";
@@ -38,7 +38,7 @@ export const WorldMapTile = (props: worldMapTileProps) => {
   };
   const outpostLoot = () => {
     let text = "";
-    Object.entries(currentTile.loot.outpost).map(([key, value]) => {
+    Object.entries(currentTile.loot.outpost).forEach(([key, value]) => {
       if (value > 0) {
         text += `\t\t${lootNameMap[key]}: ${value}\n`;
       }
@@ -48,7 +48,7 @@ export const WorldMapTile = (props: worldMapTileProps) => {
 
   const colonyLoot = () => {
     let text = "";
-    Object.entries(currentTile.loot.colony).map(([key, value]) => {
+    Object.entries(currentTile.loot.colony).forEach(([key, value]) => {
       if (value > 0) {
         text += `\t\t${lootNameMap[key]}: ${value}\n`;
       }
@@ -106,6 +106,7 @@ Loot:
                   Math.abs(event.clientY - yPosition.current) < 10
                 ) {
                   clearMoves(props);
+                  setFlip(true);
                   props.moves.discoverTile({ ...props }, [
                     xLocation,
                     yLocation,

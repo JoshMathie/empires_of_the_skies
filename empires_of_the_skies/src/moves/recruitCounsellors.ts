@@ -5,7 +5,7 @@ import { removeGoldAmount } from "./resourceUpdates";
 import { INVALID_MOVE } from "boardgame.io/core";
 
 export const recruitCounsellors: MoveFn<MyGameState> = (
-  { G, ctx, playerID, events, random: RandomAPI },
+  { G, ctx, playerID, events, random },
   ...args
 ) => {
   if (checkCounsellorsNotZero(playerID, G)) {

@@ -8,8 +8,8 @@ import {
   removeVPAmount,
 } from "./resourceUpdates";
 //TODO: add functionality for executing prisoners
-export const punishDissenters: MoveFn<MyGameState> = (
-  { G, ctx, playerID, events, random: RandomAPI },
+const punishDissenters: MoveFn<MyGameState> = (
+  { G, ctx, playerID, events, random },
   ...args
 ) => {
   const value: keyof typeof G.boardState.punishDissenters = args[1][0] + 1;
@@ -60,3 +60,5 @@ export const punishDissenters: MoveFn<MyGameState> = (
   playerInfo.prisoners += 1;
   G.boardState.punishDissenters[value] = playerID;
 };
+
+export default punishDissenters;

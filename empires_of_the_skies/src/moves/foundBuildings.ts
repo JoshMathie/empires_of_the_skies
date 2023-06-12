@@ -4,17 +4,10 @@ import { INVALID_MOVE } from "boardgame.io/core";
 import { checkCounsellorsNotZero } from "./moveValidation";
 import { removeOneCounsellor } from "./resourceUpdates";
 import { EventsAPI } from "boardgame.io/dist/types/src/plugins/plugin-events";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from "@mui/material";
+
 // needs a stage where the player selects a map tile to place the fort onto and that tile is verified to ensure they can build on it
 const foundBuildings: MoveFn<MyGameState> = (
-  { G, ctx, playerID, events, random: RandomAPI },
+  { G, ctx, playerID, events, random },
   ...args
 ) => {
   if (checkCounsellorsNotZero(playerID, G)) {

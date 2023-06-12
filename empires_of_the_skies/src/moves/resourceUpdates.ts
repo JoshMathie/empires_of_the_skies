@@ -1,4 +1,4 @@
-import { Move, MoveFn } from "boardgame.io";
+import { MoveFn } from "boardgame.io";
 import { MyGameState } from "../types";
 import { INVALID_MOVE } from "boardgame.io/core";
 
@@ -61,20 +61,20 @@ export const addRegiments = (
 };
 
 export const increaseHeresy: MoveFn<MyGameState> = (
-  { G, ctx, playerID, events, random: RandomAPI },
+  { G, ctx, playerID, events, random },
   ...args
 ) => {
   G.playerInfo[playerID].heresyTracker += 1;
 };
 export const increaseOrthodoxy: MoveFn<MyGameState> = (
-  { G, ctx, playerID, events, random: RandomAPI },
+  { G, ctx, playerID, events, random },
   ...args
 ) => {
   G.playerInfo[playerID].heresyTracker -= 1;
 };
 
 export const checkAndPlaceFort: MoveFn<MyGameState> = (
-  { G, ctx, playerID, events, random: RandomAPI },
+  { G, ctx, playerID, events, random },
   ...args
 ) => {
   const coords = args[1];
