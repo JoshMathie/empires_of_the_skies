@@ -97,7 +97,7 @@ export const ActionBoard = (props: MyGameProps) => {
           Train Troops
           {generateButtonsList(
             2,
-            () => {},
+            props.moves.trainTroops,
             [trainTroops1, trainTroops2],
             "98px",
             props,

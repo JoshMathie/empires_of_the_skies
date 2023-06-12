@@ -14,6 +14,7 @@ export interface MyGameState {
 
 export type CardDeckInfo = {
   fortuneOfWarCards: FortuneOfWarCardInfo[];
+  discardedFortuneOfWarCards: FortuneOfWarCardInfo[];
 };
 
 export type FortuneOfWarCardInfo = {
@@ -21,6 +22,10 @@ export type FortuneOfWarCardInfo = {
   sword: number;
   shield: number;
 };
+
+export interface PlayerFortuneOfWarCardInfo extends FortuneOfWarCardInfo {
+  flipped: boolean;
+}
 export type PlayerOrder = {
   1: string | undefined;
   2: string | undefined;
@@ -88,7 +93,7 @@ export type Resources = {
   counsellors: number;
   skyships: number;
   regiments: number;
-  fortuneCards: string[];
+  fortuneCards: PlayerFortuneOfWarCardInfo[];
   advantageCard: string;
   eventCards: string[];
   legacyCard: string;

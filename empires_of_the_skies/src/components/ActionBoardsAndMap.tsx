@@ -51,10 +51,7 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
             <ActionBoard {...props} />
           </TabPanel>
           <TabPanel value={"1"} tabIndex={1}>
-            <PlayerBoard
-              playerColour={playerInfo.colour}
-              prisoners={playerInfo.prisoners}
-            />
+            <PlayerBoard {...props} />
           </TabPanel>
           <TabPanel value={"2"} tabIndex={2}>
             <WorldMap {...props} />

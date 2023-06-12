@@ -185,6 +185,7 @@ export const ResourceTrackerBar = (props: MyGameProps) => {
             color="success"
             sx={{ marginLeft: "10px" }}
             onClick={() => {
+              props.moves.flipCards();
               endTurn();
             }}
           >

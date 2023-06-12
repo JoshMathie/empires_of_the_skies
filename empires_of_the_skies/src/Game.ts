@@ -23,13 +23,15 @@ import purchaseSkyships from "./moves/purchaseSkyships";
 import foundBuildings from "./moves/foundBuildings";
 import {
   checkAndPlaceFort,
+  flipCards,
   increaseHeresy,
   increaseOrthodoxy,
 } from "./moves/resourceUpdates";
 import punishDissenters from "./moves/punishDissenters";
 import convertMonarch from "./moves/convertMonarch";
 import influencePrelates from "./moves/influencePrelates";
-import { resetFortuneOfWarCardDeck } from "./helpers/helpers";
+import { fullResetFortuneOfWarCardDeck } from "./helpers/helpers";
+import trainTroops from "./moves/trainTroops";
 
 export const MyGame: Game<MyGameState> = {
   name: "empires-of-the-skies",
@@ -62,7 +64,7 @@ export const MyGame: Game<MyGameState> = {
             counsellors: 6,
             skyships: 3,
             regiments: 6,
-            fortuneCards: [""],
+            fortuneCards: [],
             advantageCard: "",
             eventCards: [""],
             legacyCard: "",
@@ -213,7 +215,10 @@ export const MyGame: Game<MyGameState> = {
         5: undefined,
         6: undefined,
       },
-      cardDecks: { fortuneOfWarCards: resetFortuneOfWarCardDeck() },
+      cardDecks: {
+        fortuneOfWarCards: fullResetFortuneOfWarCardDeck(),
+        discardedFortuneOfWarCards: [],
+      },
     };
   },
   moves: {
@@ -238,6 +243,8 @@ export const MyGame: Game<MyGameState> = {
     punishDissenters: { move: punishDissenters, undoable: true },
     convertMonarch: { move: convertMonarch, undoable: true },
     influencePrelates: { move: influencePrelates, undoable: true },
+    trainTroops: { move: trainTroops, undoable: true },
+    flipCards: { move: flipCards, undoable: false },
   },
   maxPlayers: 6,
   minPlayers: 1,

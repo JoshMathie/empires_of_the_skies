@@ -1,4 +1,9 @@
-import { FortuneOfWarCardInfo, MyGameProps, PlayerInfo } from "../types";
+import {
+  FortuneOfWarCardInfo,
+  MyGameState,
+  MyGameProps,
+  PlayerInfo,
+} from "../types";
 import { fortuneOfWarCards } from "../codifiedGameInfo";
 
 export const clearMoves = (props: MyGameProps) => {
@@ -23,9 +28,16 @@ export const checkPlayerIDAndReturnPlayerInfo = (
   return playerInfo;
 };
 
-export const resetFortuneOfWarCardDeck = (): FortuneOfWarCardInfo[] => {
+export const fullResetFortuneOfWarCardDeck = (): FortuneOfWarCardInfo[] => {
   const fullDeck: FortuneOfWarCardInfo[] =
     fortuneOfWarCards.concat(fortuneOfWarCards);
 
   return [...fullDeck];
+};
+
+export const resetFortuneOfWarCardDeck = (props: MyGameState) => {
+  props.cardDecks.fortuneOfWarCards = props.cardDecks.fortuneOfWarCards.concat(
+    props.cardDecks.discardedFortuneOfWarCards
+  );
+  props.cardDecks.discardedFortuneOfWarCards = [];
 };

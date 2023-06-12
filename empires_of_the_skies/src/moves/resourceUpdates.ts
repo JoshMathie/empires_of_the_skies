@@ -117,3 +117,12 @@ export const checkAndPlaceFort: MoveFn<MyGameState> = (
   G.playerInfo[playerID].forts.push(coords[0]);
   tileInfo.fort = true;
 };
+
+export const flipCards: MoveFn<MyGameState> = (
+  { G, ctx, playerID, events, random },
+  ...args
+) => {
+  G.playerInfo[playerID].resources.fortuneCards.forEach((card) => {
+    card.flipped = true;
+  });
+};
