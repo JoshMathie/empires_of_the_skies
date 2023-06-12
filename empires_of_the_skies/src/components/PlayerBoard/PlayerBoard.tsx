@@ -72,7 +72,7 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
                 backgroundColor: "transparent",
                 border: "none",
                 width: "30px",
-                height: "50px",
+                height: "100%",
                 fontSize: "30px",
                 cursor: disabled ? "not-allowed" : "pointer",
                 color: "#000000",
@@ -91,7 +91,7 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
               {skyshipCount}
               <svg
                 width="44"
-                height="24"
+                height="100%"
                 viewBox="0 0 44 17"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -148,7 +148,7 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
                 backgroundColor: "transparent",
                 border: "none",
                 width: "30px",
-                height: "50px",
+                height: "100%",
                 fontSize: "30px",
                 cursor: disabled ? "not-allowed" : "pointer",
                 color: "#000000",
@@ -165,7 +165,7 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
                 backgroundColor: "transparent",
                 border: "none",
                 width: "30px",
-                height: "50px",
+                height: "100%",
                 fontSize: "30px",
                 cursor: disabled ? "not-allowed" : "pointer",
                 color: "#000000",
@@ -184,7 +184,7 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
               {regimentCount}
               <svg
                 width="28"
-                height="24"
+                height="100%"
                 viewBox="0 0 28 31"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -220,7 +220,7 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
                 backgroundColor: "transparent",
                 border: "none",
                 width: "30px",
-                height: "50px",
+                height: "100%",
                 fontSize: "30px",
                 cursor: disabled ? "not-allowed" : "pointer",
                 color: "#000000",
