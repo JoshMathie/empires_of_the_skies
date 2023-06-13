@@ -3,6 +3,8 @@ import { MyGameState } from "../types";
 import { INVALID_MOVE } from "boardgame.io/core";
 import { checkCounsellorsNotZero } from "./moveValidation";
 import {
+  increaseHeresyWithinMove,
+  increaseOrthodoxyWithinMove,
   removeGoldAmount,
   removeOneCounsellor,
   removeVPAmount,
@@ -58,6 +60,13 @@ const punishDissenters: MoveFn<MyGameState> = (
   }
   removeOneCounsellor(G, playerID);
   playerInfo.prisoners += 1;
+
+  if (G.playerInfo[playerID].hereticOrOthodox === "orthodox") {
+    increaseOrthodoxyWithinMove(G, playerID);
+  } else {
+    increaseHeresyWithinMove(G, playerID);
+  }
+
   G.boardState.punishDissenters[value] = playerID;
 };
 

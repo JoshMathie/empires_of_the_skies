@@ -18,6 +18,12 @@ const convertMonarch: MoveFn<MyGameState> = (
     console.log("Player has chosen a move which is already taken");
     return INVALID_MOVE;
   }
+  if (value > ctx.numPlayers) {
+    console.log(
+      "Player has selected a move which is only available in games with more players"
+    );
+    return INVALID_MOVE;
+  }
 
   let hasConvertedMonarchAlready = false;
   Object.values(G.boardState.convertMonarch).forEach((id) => {

@@ -8,7 +8,7 @@ import { fortuneOfWarCards } from "../codifiedGameInfo";
 
 export const clearMoves = (props: MyGameProps) => {
   if (props.ctx.numMoves) {
-    console.log("undoing one move");
+    console.log(`undoing ${props.ctx.numMoves} move(s)`);
 
     for (let i = 0; i < props.ctx.numMoves; i++) {
       props.undo();
