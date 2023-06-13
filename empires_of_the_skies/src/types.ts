@@ -38,6 +38,8 @@ export type MapState = {
   currentTileArray: TileInfoProps[][];
   discoveredTiles: boolean[][];
   buildings: MapBuildingInfo[][];
+  mostRecentlyDiscoveredTile: number[];
+  discoveredRaces: string[];
 };
 export type MapBuildingInfo = {
   player?: PlayerInfo;

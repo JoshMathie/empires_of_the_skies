@@ -1,6 +1,7 @@
 import { INVALID_MOVE } from "boardgame.io/core/";
 import { MyGameState } from "../types";
 import { MoveFn } from "boardgame.io";
+import { advanceAllHereseyTrackers } from "./resourceUpdates";
 
 export const discoverTile: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random },
@@ -16,19 +17,38 @@ export const discoverTile: MoveFn<MyGameState> = (
     [(((x - 1) % 8) + 8) % 8, y],
     [(((x + 1) % 8) + 8) % 8, y],
   ];
-  let boardered = false;
+  let bordered = false;
 
   boarderingTiles.forEach((coords) => {
-    if (G.mapState.discoveredTiles[coords[1]][coords[0]] === true) {
-      boardered = true;
+    if (ctx.numMoves === 0) {
+      if (G.mapState.discoveredTiles[coords[1]][coords[0]] === true) {
+        bordered = true;
+      }
+    } else {
+      if (
+        coords[0] === G.mapState.mostRecentlyDiscoveredTile[0] &&
+        coords[1] === G.mapState.mostRecentlyDiscoveredTile[1]
+      ) {
+        bordered = true;
+      }
     }
   });
-  if (boardered === false) {
+  if (bordered === false) {
     return INVALID_MOVE;
   }
-  G.mapState.discoveredTiles[y][x] = true;
+  const currentTile = G.mapState.currentTileArray[y][x];
+  // splits the tile name on any number
+  const tileRace = currentTile.name.split(/(\d+)/)[0].toLowerCase();
 
-  events.endTurn();
+  if (tileRace !== "ocean" && !G.mapState.discoveredRaces.includes(tileRace)) {
+    advanceAllHereseyTrackers(G);
+    G.mapState.discoveredRaces.push(tileRace);
+  }
+  G.mapState.discoveredTiles[y][x] = true;
+  G.mapState.mostRecentlyDiscoveredTile = [x, y];
+  if (currentTile.shield != 0 || currentTile.sword != 0) {
+    events.endTurn();
+  }
 };
 
 export default discoverTile;

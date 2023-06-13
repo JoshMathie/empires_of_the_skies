@@ -76,8 +76,10 @@ Loot:
   const [flip, setFlip] = useState(
     props.G.mapState.discoveredTiles[yLocation][xLocation]
   );
+  const [selected, setSelected] = useState(false);
 
   const altOnClick = () => {
+    setSelected(!selected);
     if (props.alternateOnClick) {
       props.alternateOnClick([xLocation, yLocation]);
     }
@@ -106,7 +108,8 @@ Loot:
                   Math.abs(event.clientY - yPosition.current) < 10
                 ) {
                   clearMoves(props);
-                  setFlip(true);
+                  // setFlip(true);
+                  setSelected(true);
                   props.moves.discoverTile({ ...props }, [
                     xLocation,
                     yLocation,
@@ -139,6 +142,7 @@ Loot:
               maxWidth: "100%",
               minHeight: "150px",
               minWidth: "150px",
+              border: selected ? "5px solid yellow" : "0px ",
             }}
             onClick={altOnClick}
           >

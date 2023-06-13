@@ -1,6 +1,7 @@
 import React from "react";
-import { PlayerColour } from "../../types";
+import { MyGameProps, PlayerColour } from "../../types";
 import { Button } from "@mui/material";
+import { clearMoves } from "../../helpers/helpers";
 
 export const PlayerBoardButton = (props: PlayerBoardButtonProps) => {
   return (
@@ -17,7 +18,10 @@ export const PlayerBoardButton = (props: PlayerBoardButtonProps) => {
         backgroundColor: props.colour,
       }}
       disabled={props.disabled}
-      onClick={props.onClick}
+      onClick={() => {
+        clearMoves(props);
+        props.onClick();
+      }}
     >
       {props.text}
       {props.counsellor ? (
@@ -71,7 +75,7 @@ export const PlayerBoardButton = (props: PlayerBoardButtonProps) => {
   );
 };
 
-export type PlayerBoardButtonProps = {
+interface PlayerBoardButtonProps extends MyGameProps {
   onClick: () => void;
   colour: (typeof PlayerColour)[keyof typeof PlayerColour];
   counsellor?: boolean;
@@ -80,4 +84,4 @@ export type PlayerBoardButtonProps = {
   disabled?: boolean;
   width?: string;
   height?: string;
-};
+}

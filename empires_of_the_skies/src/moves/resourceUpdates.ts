@@ -64,15 +64,29 @@ export const increaseHeresy: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random },
   ...args
 ) => {
-  G.playerInfo[playerID].heresyTracker += 1;
+  increaseHeresyWithinMove(G, playerID);
+};
+
+export const increaseHeresyWithinMove = (G: MyGameState, playerID: string) => {
+  if (G.playerInfo[playerID].heresyTracker < 11) {
+    G.playerInfo[playerID].heresyTracker += 1;
+  }
 };
 export const increaseOrthodoxy: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random },
   ...args
 ) => {
-  G.playerInfo[playerID].heresyTracker -= 1;
+  increaseOrthodoxyWithinMove(G, playerID);
 };
 
+export const increaseOrthodoxyWithinMove = (
+  G: MyGameState,
+  playerID: string
+) => {
+  if (G.playerInfo[playerID].heresyTracker > -11) {
+    G.playerInfo[playerID].heresyTracker -= 1;
+  }
+};
 export const checkAndPlaceFort: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random },
   ...args
@@ -124,5 +138,27 @@ export const flipCards: MoveFn<MyGameState> = (
 ) => {
   G.playerInfo[playerID].resources.fortuneCards.forEach((card) => {
     card.flipped = true;
+  });
+};
+
+export const removeLevyAmount = (
+  G: MyGameState,
+  playerID: string,
+  levyAmount: number
+) => {
+  G.playerInfo[playerID].resources.levies -= levyAmount;
+};
+
+export const addLevyAmount = (
+  G: MyGameState,
+  playerID: string,
+  levyAmount: number
+) => {
+  G.playerInfo[playerID].resources.levies += levyAmount;
+};
+
+export const advanceAllHereseyTrackers = (G: MyGameState) => {
+  Object.values(G.playerInfo).forEach((player) => {
+    increaseHeresyWithinMove(G, player.id);
   });
 };
