@@ -65,6 +65,7 @@ export const MyGame: Game<MyGameState> = {
             counsellors: 6,
             skyships: 3,
             regiments: 6,
+            levies: 0,
             fortuneCards: [],
             advantageCard: "",
             eventCards: [""],
@@ -316,7 +317,7 @@ const getInitialOutpostsAndColonysInfo = () => {
 
 const getPlayerColours = (ctx: Ctx) => {
   const colours = [
-    PlayerColour.purple,
+    PlayerColour.brown,
     PlayerColour.blue,
     PlayerColour.green,
     PlayerColour.red,
