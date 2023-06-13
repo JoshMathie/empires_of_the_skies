@@ -26,14 +26,6 @@ import buildPalace from "../../boards_and_assets/build_palace.svg";
 import buildShipyard from "../../boards_and_assets/build_shipyards.svg";
 import buildForts from "../../boards_and_assets/build_forts.svg";
 import { ReactComponent as InfluencePrelatesExplination } from "../../boards_and_assets/influence_prelates_explination.svg";
-import influencePrelates1 from "../../boards_and_assets/influence_prelates1.svg";
-import influencePrelates2 from "../../boards_and_assets/influence_prelates2.svg";
-import influencePrelates3 from "../../boards_and_assets/influence_prelates3.svg";
-import influencePrelates4 from "../../boards_and_assets/influence_prelates4.svg";
-import influencePrelates5 from "../../boards_and_assets/influence_prelates5.svg";
-import influencePrelates6 from "../../boards_and_assets/influence_prelates6.svg";
-import influencePrelates7 from "../../boards_and_assets/influence_prelates7.svg";
-import influencePrelates8 from "../../boards_and_assets/influence_prelates8.svg";
 import { ReactComponent as PunishDissenters } from "../../boards_and_assets/punish_dissenters_explination.svg";
 import punishDissenters1 from "../../boards_and_assets/punish_dissenters1.svg";
 import punishDissenters2 from "../../boards_and_assets/punish_dissenters2.svg";
@@ -169,17 +161,7 @@ export const ActionBoard = (props: MyGameProps) => {
             {generateButtonsList(
               8,
               props.moves.influencePrelates,
-
-              [
-                "influencePrelates1",
-                "influencePrelates2",
-                "influencePrelates3",
-                "influencePrelates4",
-                "influencePrelates5",
-                "influencePrelates6",
-                "influencePrelates7",
-                "influencePrelates8",
-              ],
+              [],
               "95px",
               props,
               props.G.boardState.influencePrelates,
