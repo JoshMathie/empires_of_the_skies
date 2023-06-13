@@ -14,9 +14,10 @@ import ShipYardDisplay from "./ShipYardDisplay";
 // displays buttons which can build cathedrals, palaces and skyships
 // also displays the button to imprison dissentors and to dispatch skyship fleets
 export const PlayerBoard = (props: MyGameProps) => {
-  const [disabled, setDisabled] = useState(true);
+  const [dispatchDisabled, setDispatchDisabled] = useState(true);
   const [skyshipCount, setSkyshipCount] = useState(0);
   const [regimentCount, setRegimentCount] = useState(0);
+  const [levyCount, setLevyCount] = useState(0);
   let colour: (typeof PlayerColour)[keyof typeof PlayerColour] =
     PlayerColour.brown;
   let prisoners = 0;
@@ -50,7 +51,7 @@ export const PlayerBoard = (props: MyGameProps) => {
             Build Skyships
             <PlayerBoardButton
               onClick={() => {
-                setDisabled(true);
+                setDispatchDisabled(true);
                 props.moves.buildSkyships();
               }}
               counsellor={
@@ -60,30 +61,107 @@ export const PlayerBoard = (props: MyGameProps) => {
               width="59px"
               height="59px"
               colour={colour}
+              {...props}
             />
           </ButtonRow>
           <ButtonRow>
             Conscript Levies
             <PlayerBoardButton
               onClick={() => {
-                setDisabled(true);
+                setDispatchDisabled(true);
+                props.moves.conscriptLevies({ ...props }, [levyCount]);
               }}
               backgroundImage={conscriptLevies}
               colour={colour}
               width="130px"
               height="59px"
-            />
+              {...props}
+            />{" "}
+            <Button
+              onClick={() => {
+                setLevyCount(levyCount + 3);
+              }}
+              style={{
+                backgroundColor: "transparent",
+                border: "none",
+                width: "30px",
+                height: "100%",
+                fontSize: "30px",
+                cursor: "pointer",
+                color: "#000000",
+              }}
+              disabled={levyCount === 12}
+            >
+              +
+            </Button>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                color: "#000000",
+              }}
+            >
+              {levyCount}
+              <svg
+                width="28"
+                height="100%"
+                viewBox="0 0 28 31"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M14.1211 1L20.6815 4.57861L27.2424 8.1569L20.6814 12.2358L14.1814 15.7358L7.56055 11.7358L1 8.00002L7.56055 4.57861L14.1211 1Z"
+                  fill="#B1B2B2"
+                  stroke="#1A1A18"
+                  strokeWidth="0.288"
+                  strokeMiterlimit="22.9256"
+                />
+                <path
+                  d="M1.54036 22.6996L1.36064 15.468L1.1814 8.23584L7.6814 11.7358L14.1812 15.7358V22.7358V30.2358L7.86088 26.4677L1.54036 22.6996Z"
+                  fill="#B1B2B2"
+                  stroke="#1A1A18"
+                  strokeWidth="0.288"
+                  strokeMiterlimit="22.9256"
+                />
+                <path
+                  d="M14.1814 15.7358L20.8609 12.0039L27.1814 8.23584L27.0018 15.4681L26.8224 22.7001L20.5019 26.4677L14.1814 30.2358V23.2358V15.7358Z"
+                  fill="#B1B2B2"
+                  stroke="#1A1A18"
+                  strokeWidth="0.288"
+                  strokeMiterlimit="22.9256"
+                />
+              </svg>
+            </div>
+            <Button
+              onClick={() => {
+                setLevyCount(levyCount - 3);
+              }}
+              style={{
+                backgroundColor: "transparent",
+                border: "none",
+                width: "30px",
+                height: "100%",
+                fontSize: "30px",
+                cursor: "pointer",
+                color: "#000000",
+              }}
+              disabled={levyCount === 0}
+            >
+              -
+            </Button>
           </ButtonRow>
           <ButtonRow>
             Dispatch Skyship Fleet
             <PlayerBoardButton
               onClick={() => {
-                setDisabled(false);
+                setDispatchDisabled(false);
               }}
               backgroundImage={dispatchSkyshipFleet}
               colour={colour}
               height="70px"
               width="60px"
+              {...props}
             />
           </ButtonRow>
           <ButtonRow>
@@ -98,10 +176,10 @@ export const PlayerBoard = (props: MyGameProps) => {
                 width: "30px",
                 height: "100%",
                 fontSize: "30px",
-                cursor: disabled ? "not-allowed" : "pointer",
-                color: disabled ? "grey" : "#000000",
+                cursor: dispatchDisabled ? "not-allowed" : "pointer",
+                color: dispatchDisabled ? "grey" : "#000000",
               }}
-              disabled={disabled || skyshipCount >= 5}
+              disabled={dispatchDisabled || skyshipCount >= 5}
             >
               +
             </Button>
@@ -110,7 +188,7 @@ export const PlayerBoard = (props: MyGameProps) => {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                color: disabled ? "grey" : "#000000",
+                color: dispatchDisabled ? "grey" : "#000000",
               }}
             >
               {skyshipCount}
@@ -175,10 +253,10 @@ export const PlayerBoard = (props: MyGameProps) => {
                 width: "30px",
                 height: "100%",
                 fontSize: "30px",
-                cursor: disabled ? "not-allowed" : "pointer",
-                color: disabled ? "grey" : "#000000",
+                cursor: dispatchDisabled ? "not-allowed" : "pointer",
+                color: dispatchDisabled ? "grey" : "#000000",
               }}
-              disabled={disabled || skyshipCount <= 0}
+              disabled={dispatchDisabled || skyshipCount <= 0}
             >
               -
             </Button>
@@ -192,10 +270,10 @@ export const PlayerBoard = (props: MyGameProps) => {
                 width: "30px",
                 height: "100%",
                 fontSize: "30px",
-                cursor: disabled ? "not-allowed" : "pointer",
-                color: disabled ? "grey" : "#000000",
+                cursor: dispatchDisabled ? "not-allowed" : "pointer",
+                color: dispatchDisabled ? "grey" : "#000000",
               }}
-              disabled={disabled || regimentCount >= skyshipCount}
+              disabled={dispatchDisabled || regimentCount >= skyshipCount}
             >
               +
             </Button>
@@ -204,7 +282,7 @@ export const PlayerBoard = (props: MyGameProps) => {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                color: disabled ? "grey" : "#000000",
+                color: dispatchDisabled ? "grey" : "#000000",
               }}
             >
               {regimentCount}
@@ -248,10 +326,10 @@ export const PlayerBoard = (props: MyGameProps) => {
                 width: "30px",
                 height: "100%",
                 fontSize: "30px",
-                cursor: disabled ? "not-allowed" : "pointer",
-                color: disabled ? "grey" : "#000000",
+                cursor: dispatchDisabled ? "not-allowed" : "pointer",
+                color: dispatchDisabled ? "grey" : "#000000",
               }}
-              disabled={disabled || regimentCount <= 0}
+              disabled={dispatchDisabled || regimentCount <= 0}
             >
               -
             </Button>
@@ -261,12 +339,12 @@ export const PlayerBoard = (props: MyGameProps) => {
                 width: "80px",
                 height: "50px",
                 fontSize: "20px",
-                cursor: disabled ? "not-allowed" : "pointer",
+                cursor: dispatchDisabled ? "not-allowed" : "pointer",
                 fontFamily: "dauphinn",
-                color: disabled ? "grey" : "#000000",
-                borderColor: disabled ? "grey" : "#000000",
+                color: dispatchDisabled ? "grey" : "#000000",
+                borderColor: dispatchDisabled ? "grey" : "#000000",
               }}
-              disabled={disabled || skyshipCount <= 0}
+              disabled={dispatchDisabled || skyshipCount <= 0}
             >
               Deploy
             </Button>

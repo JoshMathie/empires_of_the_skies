@@ -33,6 +33,7 @@ import influencePrelates from "./moves/influencePrelates";
 import { fullResetFortuneOfWarCardDeck } from "./helpers/helpers";
 import trainTroops from "./moves/trainTroops";
 import buildSkyships from "./moves/buildSkyships";
+import conscriptLevies from "./moves/conscriptLevies";
 
 export const MyGame: Game<MyGameState> = {
   name: "empires-of-the-skies",
@@ -43,6 +44,8 @@ export const MyGame: Game<MyGameState> = {
       currentTileArray: getRandomisedMapTileArray(),
       discoveredTiles: getInitialDiscoveredTiles(),
       buildings: getInitialOutpostsAndColonysInfo(),
+      mostRecentlyDiscoveredTile: [4, 0],
+      discoveredRaces: [],
     };
     const playerInfos = (ctx: Ctx): { [details: string]: PlayerInfo } => {
       const colours = getPlayerColours(ctx);
@@ -248,6 +251,7 @@ export const MyGame: Game<MyGameState> = {
     trainTroops: { move: trainTroops, undoable: true },
     flipCards: { move: flipCards, undoable: false },
     buildSkyships: { move: buildSkyships, undoable: true },
+    conscriptLevies: { move: conscriptLevies, undoable: true },
   },
   maxPlayers: 6,
   minPlayers: 1,
