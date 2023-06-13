@@ -7,7 +7,7 @@ import { ButtonRow } from "../ActionBoard/ActionBoardButtonRow";
 import { MyGameProps, PlayerColour } from "../../types";
 import { PlayerBoardButton } from "./PlayerBoardButton";
 import { Button, ThemeProvider } from "@mui/material";
-import { generalTheme } from "../themes";
+import { influencePrelatesTheme } from "../themes";
 import FortuneOfWarCardDisplay from "./FortuneOfWarCardDisplay";
 import ShipYardDisplay from "./ShipYardDisplay";
 
@@ -18,7 +18,7 @@ export const PlayerBoard = (props: MyGameProps) => {
   const [skyshipCount, setSkyshipCount] = useState(0);
   const [regimentCount, setRegimentCount] = useState(0);
   let colour: (typeof PlayerColour)[keyof typeof PlayerColour] =
-    PlayerColour.purple;
+    PlayerColour.brown;
   let prisoners = 0;
   let playerInfo = undefined;
   if (props.playerID) {
@@ -36,7 +36,7 @@ export const PlayerBoard = (props: MyGameProps) => {
   }
 
   return (
-    <ThemeProvider theme={generalTheme}>
+    <ThemeProvider theme={influencePrelatesTheme}>
       <div style={{ display: "flex", flexDirection: "row" }}>
         <div
           style={{

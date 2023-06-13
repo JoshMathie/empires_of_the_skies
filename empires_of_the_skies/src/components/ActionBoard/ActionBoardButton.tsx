@@ -19,7 +19,7 @@ export const ActionBoardButton = (props: ActionBoardButtonProps) => {
   return (
     <Button
       style={{
-        width: props.width ? props.width : "98px",
+        minWidth: props.width ? props.width : "98px",
         height: "50px",
         textAlign: "left",
         backgroundImage: `url(${props.backgroundImage})`,
@@ -27,11 +27,8 @@ export const ActionBoardButton = (props: ActionBoardButtonProps) => {
         backgroundSize: "contain",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        fontFamily: "dauphinn",
         fontSize: "18px",
-        cursor: "pointer",
         color: "black",
-        justifyContent: "flex-start",
         textTransform: "none",
       }}
       sx={{
@@ -53,7 +50,7 @@ export const ActionBoardButton = (props: ActionBoardButtonProps) => {
           viewBox="0 0 35 33"
           fill={"transparent"}
           xmlns="http://www.w3.org/2000/svg"
-          style={{ marginLeft: "20px" }}
+          // style={{ marginLeft: "20px" }}
         >
           <path
             d="M444.447 -33.4065V244.156H-287.589V-33.4065H444.447Z"

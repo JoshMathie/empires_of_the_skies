@@ -51,7 +51,7 @@ import convertMonarch6 from "../../boards_and_assets/convert_monarch6.svg";
 import issueHolyDecree from "../../boards_and_assets/issue_holy_decree.svg";
 import { MyGameProps } from "../../types";
 import { ThemeProvider } from "@emotion/react";
-import { generalTheme } from "../themes";
+import { generalTheme, influencePrelatesTheme } from "../themes";
 
 //method which returns the complete action board
 
@@ -80,7 +80,7 @@ export const ActionBoard = (props: MyGameProps) => {
             undefined,
             ["#9EE8FF", "#9EE8FF", "#9EE8FF", "#9EE8FF", "#9EE8FF", "#9EE8FF"],
             false,
-            ["1st", "2nd", "3rd", "4th", "5th", "6th"]
+            ["1st\t", "2nd\t", "3rd\t", "4th\t", "5th\t", "6th\t"]
           )}
         </ButtonRow>
         {/* button row with the recruit counsellor buttons */}
@@ -143,7 +143,7 @@ export const ActionBoard = (props: MyGameProps) => {
             props,
             props.G.boardState.purchaseSkyships,
             undefined,
-            ["#EF7C00", "#EF7C00", "#EF7C00", "#FF9AD1", "#FF9AD1", "#FF9AD1"]
+            ["#FE9F10", "#FE9F10", "#FE9F10", "#FE9ACC", "#FE9ACC", "#FE9ACC"]
           )}
         </ButtonRow>
         {/* button row with the found buildings buttons   */}
@@ -164,36 +164,49 @@ export const ActionBoard = (props: MyGameProps) => {
         </ButtonRow>
         {/* button row with the influence prelates buttons */}
         <ButtonRow key={"influence prelates buttons"}>
-          <InfluencePrelatesExplination />
-          {generateButtonsList(
-            8,
-            props.moves.influencePrelates,
+          <ThemeProvider theme={influencePrelatesTheme}>
+            <InfluencePrelatesExplination />
+            {generateButtonsList(
+              8,
+              props.moves.influencePrelates,
 
-            [
-              influencePrelates1,
-              influencePrelates2,
-              influencePrelates3,
-              influencePrelates4,
-              influencePrelates5,
-              influencePrelates6,
-              influencePrelates7,
-              influencePrelates8,
-            ],
-            "52px",
-            props,
-            props.G.boardState.influencePrelates,
-            undefined,
-            [
-              "#E3000F",
-              "#51658D",
-              "#FFCC00",
-              "#EF7C00",
-              "#FF9AD1",
-              "#1A1A18",
-              "#FFFFFF",
-              "#478779",
-            ]
-          )}
+              [
+                "influencePrelates1",
+                "influencePrelates2",
+                "influencePrelates3",
+                "influencePrelates4",
+                "influencePrelates5",
+                "influencePrelates6",
+                "influencePrelates7",
+                "influencePrelates8",
+              ],
+              "95px",
+              props,
+              props.G.boardState.influencePrelates,
+              undefined,
+              [
+                "#DC5454",
+                "#51658D",
+                "#F5DE48",
+                "#FE9F10",
+                "#FE9ACC",
+                "#A0522D",
+                "#FFFFFF",
+                "#35CC67",
+              ],
+              false,
+              [
+                "Angland",
+                "Gallois",
+                "Castillia",
+                "Zeeland",
+                "Venoa",
+                "Nordmark",
+                "Ostreich",
+                "Constantium",
+              ]
+            )}
+          </ThemeProvider>
         </ButtonRow>
         {/* button row with the punish dissenters buttons  */}
         <ButtonRow key={"punish dissenters buttons"}>

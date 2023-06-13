@@ -25,7 +25,7 @@ export const influencePrelates: MoveFn<MyGameState> = (
     3: PlayerColour.yellow,
     4: null,
     5: null,
-    6: PlayerColour.purple,
+    6: PlayerColour.brown,
     7: PlayerColour.white,
     8: PlayerColour.green,
   };

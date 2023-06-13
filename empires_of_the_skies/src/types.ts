@@ -93,6 +93,7 @@ export type Resources = {
   counsellors: number;
   skyships: number;
   regiments: number;
+  levies: number;
   fortuneCards: PlayerFortuneOfWarCardInfo[];
   advantageCard: string;
   eventCards: string[];
@@ -100,11 +101,11 @@ export type Resources = {
 };
 
 export const PlayerColour = {
-  red: "#E3000F",
+  red: "#DC5454",
   green: "#478779",
-  yellow: "#FFCC00",
+  yellow: "#F5DE48",
   blue: "#51658D",
-  purple: "#bc73c9",
+  brown: "#A0522D",
   white: "#FFFFFF",
 } as const;
 

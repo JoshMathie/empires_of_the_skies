@@ -6,11 +6,13 @@ export const generalTheme = createTheme({
     fontSize: 20,
     button: {
       textTransform: "none",
-      textAlign: "left",
+
       border: "1px solid black",
       color: "#000000",
       textOverflow: "ellipsis",
-      // width: "100%",
+      width: "fit-content",
+      whiteSpace: "pre",
+      justifyContent: "flex-start",
       overflow: "auto",
     },
   },
@@ -34,6 +36,21 @@ export const generalTheme = createTheme({
       styleOverrides: {
         textPrimary: "#000000",
       },
+    },
+  },
+});
+
+export const influencePrelatesTheme = createTheme({
+  typography: {
+    fontSize: 18,
+    fontFamily: "dauphinn",
+
+    button: {
+      textTransform: "none",
+
+      border: "1px solid black",
+      width: "fit-content",
+      justifyContent: "center",
     },
   },
 });
