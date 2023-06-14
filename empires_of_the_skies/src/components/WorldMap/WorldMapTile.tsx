@@ -76,10 +76,10 @@ Loot:
   const [flip, setFlip] = useState(
     props.G.mapState.discoveredTiles[yLocation][xLocation]
   );
-  const [selected, setSelected] = useState(false);
+  // const [selected, setSelected] = useState(false);
 
   const altOnClick = () => {
-    setSelected(!selected);
+    // setSelected(!selected);
     if (props.alternateOnClick) {
       props.alternateOnClick([xLocation, yLocation]);
     }
@@ -108,8 +108,8 @@ Loot:
                   Math.abs(event.clientY - yPosition.current) < 10
                 ) {
                   clearMoves(props);
-                  // setFlip(true);
-                  setSelected(true);
+                  setFlip(true);
+                  // setSelected(true);
                   props.moves.discoverTile({ ...props }, [
                     xLocation,
                     yLocation,
@@ -142,7 +142,7 @@ Loot:
               maxWidth: "100%",
               minHeight: "150px",
               minWidth: "150px",
-              border: selected ? "5px solid yellow" : "0px ",
+              border: props.selectable ? "5px solid yellow" : "0px ",
             }}
             onClick={altOnClick}
           >
@@ -159,4 +159,5 @@ Loot:
 interface worldMapTileProps extends MyGameProps {
   location: number[];
   alternateOnClick?: (coords: number[]) => void;
+  selectable?: boolean;
 }

@@ -41,3 +41,44 @@ export const resetFortuneOfWarCardDeck = (props: MyGameState) => {
   );
   props.cardDecks.discardedFortuneOfWarCards = [];
 };
+
+export const findPossibleDestinations = (
+  G: MyGameState,
+  startingCoords: number[],
+  unlaiden: boolean
+): number[][] => {
+  let availableGridLocations: number[][] = [];
+  let coordinatesToSearch: number[][] = [startingCoords];
+  let coordinatesToSearchNext: number[][] = [];
+  for (let i = 0; i < 3; i++) {
+    coordinatesToSearch.forEach((coords) => {
+      const [x, y] = coords;
+      const coordinatesMap = {
+        N: [x, y - 1],
+        NE: [(((x + 1) % 8) + 8) % 8, y - 1],
+        E: [(((x + 1) % 8) + 8) % 8, y],
+        SE: [(((x + 1) % 8) + 8) % 8, y + 1],
+        S: [x, y + 1],
+        SW: [(((x - 1) % 8) + 8) % 8, y + 1],
+        W: [(((x - 1) % 8) + 8) % 8, y],
+        NW: [(((x - 1) % 8) + 8) % 8, y - 1],
+      };
+      const currentTile = G.mapState.currentTileArray[y][x];
+      Object.entries(coordinatesMap).forEach(([key, value]) => {
+        if (
+          (!currentTile.blocked.includes(key) || unlaiden) &&
+          value[1] >= 0 &&
+          value[1] <= 3 &&
+          G.mapState.discoveredTiles[value[1]][value[0]] === true
+        ) {
+          availableGridLocations.push(value);
+          coordinatesToSearchNext.push(value);
+        }
+      });
+    });
+    coordinatesToSearch = [...coordinatesToSearchNext];
+    coordinatesToSearchNext = [];
+  }
+
+  return availableGridLocations;
+};

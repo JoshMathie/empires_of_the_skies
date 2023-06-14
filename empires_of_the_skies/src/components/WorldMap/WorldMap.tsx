@@ -15,6 +15,12 @@ export const WorldMap = (props: WorldMapProps) => {
           location: [x, y],
           ...props,
         };
+        let selectable = false;
+        props.selectableTiles?.forEach((coord) => {
+          if (coord[0] === x && coord[1] === y) {
+            selectable = true;
+          }
+        });
         tiles[y].push(
           <Grid item lg={1} maxWidth={150} minWidth={150}>
             <WorldMapTile
@@ -22,12 +28,12 @@ export const WorldMap = (props: WorldMapProps) => {
               alternateOnClick={
                 props.alternateOnClick ? props.alternateOnClick : undefined
               }
+              selectable={selectable}
             />
           </Grid>
         );
       }
     }
-
     return <>{tiles}</>;
   };
 
@@ -52,4 +58,5 @@ export const WorldMap = (props: WorldMapProps) => {
 
 interface WorldMapProps extends MyGameProps {
   alternateOnClick?: (coords: number[]) => void;
+  selectableTiles?: number[][];
 }

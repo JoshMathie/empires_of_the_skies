@@ -1,15 +1,25 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import buildSkyships from "../../boards_and_assets/player_boards/buttons/build_skyships.svg";
 import conscriptLevies from "../../boards_and_assets/player_boards/buttons/conscript_levies.svg";
 import dispatchSkyshipFleet from "../../boards_and_assets/player_boards/buttons/dispatch_skyship_fleet.svg";
 import { ButtonRow } from "../ActionBoard/ActionBoardButtonRow";
-import { MyGameProps, PlayerColour } from "../../types";
+import { FleetInfo, MyGameProps, PlayerColour } from "../../types";
 import { PlayerBoardButton } from "./PlayerBoardButton";
-import { Button, ThemeProvider } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  ThemeProvider,
+} from "@mui/material";
 import { influencePrelatesTheme } from "../themes";
 import FortuneOfWarCardDisplay from "./FortuneOfWarCardDisplay";
 import ShipYardDisplay from "./ShipYardDisplay";
+import FleetDisplay from "./FleetDisplay";
+import { WorldMap } from "../WorldMap/WorldMap";
+import { clearMoves, findPossibleDestinations } from "../../helpers/helpers";
 
 // displays buttons which can build cathedrals, palaces and skyships
 // also displays the button to imprison dissentors and to dispatch skyship fleets
@@ -18,14 +28,43 @@ export const PlayerBoard = (props: MyGameProps) => {
   const [skyshipCount, setSkyshipCount] = useState(0);
   const [regimentCount, setRegimentCount] = useState(0);
   const [levyCount, setLevyCount] = useState(0);
+  const [levyCountForDispatch, setLevyCountForDispatch] = useState(0);
+  const [selectedFleet, setSelectedFleet] = useState(1);
+  const [dispatchFleetMapVisible, setDispatchFleetMapVisible] = useState(false);
   let colour: (typeof PlayerColour)[keyof typeof PlayerColour] =
     PlayerColour.brown;
   let prisoners = 0;
   let playerInfo = undefined;
+  let playerRegiments = 0;
+  let playerSkyships = 0;
+  let playerLevies = 0;
+  let fleets: JSX.Element[] = [];
+  let currentFleet: FleetInfo = {
+    fleetId: 1,
+    location: [4, 0],
+    skyships: 0,
+    regiments: 0,
+    levies: 0,
+  };
   if (props.playerID) {
-    colour = props.G.playerInfo[props.playerID].colour;
-    prisoners = props.G.playerInfo[props.playerID].prisoners;
     playerInfo = props.G.playerInfo[props.playerID];
+    colour = playerInfo.colour;
+    prisoners = playerInfo.prisoners;
+    playerRegiments = playerInfo.resources.regiments;
+    playerSkyships = playerInfo.resources.skyships;
+    playerLevies = playerInfo.resources.levies;
+    playerInfo.fleetInfo.forEach((fleet) => {
+      fleets.push(
+        <FleetDisplay
+          {...fleet}
+          onClickFunction={(fleetId: number) => {
+            setSelectedFleet(fleetId);
+          }}
+          selected={selectedFleet}
+        ></FleetDisplay>
+      );
+    });
+    currentFleet = playerInfo.fleetInfo[selectedFleet - 1];
   }
 
   const fortuneOfWarCards = [];
@@ -35,7 +74,6 @@ export const PlayerBoard = (props: MyGameProps) => {
       <FortuneOfWarCardDisplay {...props} value={i}></FortuneOfWarCardDisplay>
     );
   }
-
   return (
     <ThemeProvider theme={influencePrelatesTheme}>
       <div style={{ display: "flex", flexDirection: "row" }}>
@@ -179,7 +217,11 @@ export const PlayerBoard = (props: MyGameProps) => {
                 cursor: dispatchDisabled ? "not-allowed" : "pointer",
                 color: dispatchDisabled ? "grey" : "#000000",
               }}
-              disabled={dispatchDisabled || skyshipCount >= 5}
+              disabled={
+                dispatchDisabled ||
+                skyshipCount >= 5 ||
+                skyshipCount >= playerSkyships
+              }
             >
               +
             </Button>
@@ -273,7 +315,11 @@ export const PlayerBoard = (props: MyGameProps) => {
                 cursor: dispatchDisabled ? "not-allowed" : "pointer",
                 color: dispatchDisabled ? "grey" : "#000000",
               }}
-              disabled={dispatchDisabled || regimentCount >= skyshipCount}
+              disabled={
+                dispatchDisabled ||
+                regimentCount + levyCountForDispatch >= skyshipCount ||
+                regimentCount > playerRegiments
+              }
             >
               +
             </Button>
@@ -334,6 +380,92 @@ export const PlayerBoard = (props: MyGameProps) => {
               -
             </Button>
             <Button
+              onClick={() => {
+                setLevyCountForDispatch(levyCountForDispatch + 1);
+              }}
+              style={{
+                backgroundColor: "transparent",
+                border: "none",
+                width: "30px",
+                height: "100%",
+                fontSize: "30px",
+                cursor: dispatchDisabled ? "not-allowed" : "pointer",
+                color: dispatchDisabled ? "grey" : "#000000",
+              }}
+              disabled={
+                dispatchDisabled ||
+                regimentCount + levyCountForDispatch >= skyshipCount ||
+                levyCountForDispatch >= playerLevies
+              }
+            >
+              +
+            </Button>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                color: dispatchDisabled ? "grey" : "#000000",
+              }}
+            >
+              {levyCountForDispatch}
+              <svg
+                width="28"
+                height="100%"
+                viewBox="0 0 28 31"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M14.1211 1L20.6815 4.57861L27.2424 8.1569L20.6814 12.2358L14.1814 15.7358L7.56055 11.7358L1 8.00002L7.56055 4.57861L14.1211 1Z"
+                  fill="#B1B2B2"
+                  stroke="#1A1A18"
+                  strokeWidth="0.288"
+                  strokeMiterlimit="22.9256"
+                />
+                <path
+                  d="M1.54036 22.6996L1.36064 15.468L1.1814 8.23584L7.6814 11.7358L14.1812 15.7358V22.7358V30.2358L7.86088 26.4677L1.54036 22.6996Z"
+                  fill="#B1B2B2"
+                  stroke="#1A1A18"
+                  strokeWidth="0.288"
+                  strokeMiterlimit="22.9256"
+                />
+                <path
+                  d="M14.1814 15.7358L20.8609 12.0039L27.1814 8.23584L27.0018 15.4681L26.8224 22.7001L20.5019 26.4677L14.1814 30.2358V23.2358V15.7358Z"
+                  fill="#B1B2B2"
+                  stroke="#1A1A18"
+                  strokeWidth="0.288"
+                  strokeMiterlimit="22.9256"
+                />
+              </svg>
+            </div>
+            <Button
+              onClick={() => {
+                setLevyCountForDispatch(levyCountForDispatch - 1);
+              }}
+              style={{
+                backgroundColor: "transparent",
+                border: "none",
+                width: "30px",
+                height: "100%",
+                fontSize: "30px",
+                cursor: dispatchDisabled ? "not-allowed" : "pointer",
+                color: dispatchDisabled ? "grey" : "#000000",
+              }}
+              disabled={dispatchDisabled || levyCountForDispatch <= 0}
+            >
+              -
+            </Button>
+            <Button
+              onClick={() => {
+                setDispatchFleetMapVisible(true);
+                props.moves.passFleetInfoToPlayerInfo([
+                  selectedFleet,
+                  skyshipCount,
+                  regimentCount,
+                  levyCountForDispatch,
+                ]);
+              }}
               style={{
                 backgroundColor: colour,
                 width: "80px",
@@ -349,6 +481,32 @@ export const PlayerBoard = (props: MyGameProps) => {
               Deploy
             </Button>
           </ButtonRow>
+          <Dialog open={dispatchFleetMapVisible} maxWidth={false}>
+            <DialogTitle>Select a tile to deploy your fleet to.</DialogTitle>
+            <DialogContent>
+              <WorldMap
+                {...props}
+                selectableTiles={findPossibleDestinations(
+                  props.G,
+                  currentFleet.location,
+                  currentFleet.regiments === 0 && currentFleet.levies === 0
+                )}
+              ></WorldMap>
+            </DialogContent>
+            <DialogActions>
+              <Button
+                variant="contained"
+                color="error"
+                onClick={() => {
+                  clearMoves(props);
+                  setDispatchFleetMapVisible(false);
+                }}
+              >
+                Cancel
+              </Button>
+            </DialogActions>
+          </Dialog>
+          <ButtonRow>{fleets}</ButtonRow>
           <div style={{ display: "flex", flexDirection: "row" }}>
             {fortuneOfWarCards}
           </div>

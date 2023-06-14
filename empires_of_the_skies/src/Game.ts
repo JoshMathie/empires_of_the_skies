@@ -34,6 +34,7 @@ import { fullResetFortuneOfWarCardDeck } from "./helpers/helpers";
 import trainTroops from "./moves/trainTroops";
 import buildSkyships from "./moves/buildSkyships";
 import conscriptLevies from "./moves/conscriptLevies";
+import passFleetInfoToPlayerInfo from "./moves/passFleetInfoToPlayerInfo";
 
 export const MyGame: Game<MyGameState> = {
   name: "empires-of-the-skies",
@@ -82,9 +83,27 @@ export const MyGame: Game<MyGameState> = {
           },
           hereticOrOthodox: "orthodox",
           fleetInfo: [
-            { fleetId: 1, location: [0, 4], skyships: 0, regiments: 0 },
-            { fleetId: 2, location: [0, 4], skyships: 0, regiments: 0 },
-            { fleetId: 3, location: [0, 4], skyships: 0, regiments: 0 },
+            {
+              fleetId: 1,
+              location: [4, 0],
+              skyships: 0,
+              regiments: 0,
+              levies: 0,
+            },
+            {
+              fleetId: 2,
+              location: [4, 0],
+              skyships: 0,
+              regiments: 0,
+              levies: 0,
+            },
+            {
+              fleetId: 3,
+              location: [4, 0],
+              skyships: 0,
+              regiments: 0,
+              levies: 0,
+            },
           ],
           cathedrals: 1,
           palaces: 1,
@@ -252,6 +271,10 @@ export const MyGame: Game<MyGameState> = {
     flipCards: { move: flipCards, undoable: false },
     buildSkyships: { move: buildSkyships, undoable: true },
     conscriptLevies: { move: conscriptLevies, undoable: true },
+    passFleetInfoToPlayerInfo: {
+      move: passFleetInfoToPlayerInfo,
+      undoable: true,
+    },
   },
   maxPlayers: 6,
   minPlayers: 1,

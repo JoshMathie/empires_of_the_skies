@@ -76,6 +76,7 @@ export type FleetInfo = {
   location: number[];
   skyships: number;
   regiments: number;
+  levies: number;
 };
 
 export type PlayerBoardInfo = {
