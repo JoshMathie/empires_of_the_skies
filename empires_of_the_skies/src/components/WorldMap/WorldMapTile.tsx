@@ -8,6 +8,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import { generalTheme } from "../themes";
 import FortIcon from "../Icons/FortIcon";
 import { clearMoves } from "../../helpers/helpers";
+import FleetIcon from "../Icons/FleetIcon";
 //TODO: enable displaying shyship fleets on world map tiles
 //TODO: build a tooltip for displaying fleet information
 //Method for displaying a flippable tile which contains a world map tile image
@@ -24,7 +25,16 @@ export const WorldMapTile = (props: worldMapTileProps) => {
   if (fort) {
     console.log(fortColour);
   }
+  //NOTE fleet icons are not always displayed when they should be
+  let fleets: JSX.Element[] = [];
 
+  Object.entries(props.G.playerInfo).forEach(([playerId, playerInfo]) => {
+    playerInfo.fleetInfo.forEach((fleet) => {
+      if (fleet.location[0] === xLocation && fleet.location[1] === yLocation) {
+        fleets.push(<FleetIcon colour={playerInfo.colour} />);
+      }
+    });
+  });
   const currentTile = props.G.mapState.currentTileArray[yLocation][xLocation];
   const lootNameMap: Record<string, string> = {
     gold: "Gold",
@@ -107,7 +117,7 @@ Loot:
                   Math.abs(event.clientX - xPosition.current) < 10 &&
                   Math.abs(event.clientY - yPosition.current) < 10
                 ) {
-                  clearMoves(props);
+                  clearMoves(props, props.setTurnComplete);
                   setFlip(true);
                   // setSelected(true);
                   props.moves.discoverTile({ ...props }, [
@@ -131,6 +141,7 @@ Loot:
           style={{ whiteSpace: "pre", fontSize: "20px" }}
           sx={{ whiteSpace: "pre-line", fontSize: "20px" }}
         >
+          {/* <span> */}
           <button
             className="front"
             style={{
@@ -144,12 +155,14 @@ Loot:
               minWidth: "150px",
               border: props.selectable ? "5px solid yellow" : "0px ",
             }}
-            onClick={altOnClick}
+            onClick={props.selectable ? altOnClick : undefined}
           >
             {fort ? (
               <FortIcon colour={fortColour ? fortColour : "white"}></FortIcon>
             ) : null}
+            {xLocation !== 4 && yLocation !== 0 ? fleets : null}
           </button>
+          {/* </span> */}
         </Tooltip>
       </ThemeProvider>
     </ReactCardFlip>
@@ -160,4 +173,5 @@ interface worldMapTileProps extends MyGameProps {
   location: number[];
   alternateOnClick?: (coords: number[]) => void;
   selectable?: boolean;
+  setTurnComplete: React.Dispatch<React.SetStateAction<boolean>>;
 }

@@ -6,6 +6,7 @@ const FleetDisplay = (props: FleetDisplayProps) => {
   return (
     <Button
       variant="contained"
+      style={{ marginRight: "10px" }}
       color={props.selected === props.fleetId ? "success" : "primary"}
       onClick={() => props.onClickFunction(props.fleetId)}
     >

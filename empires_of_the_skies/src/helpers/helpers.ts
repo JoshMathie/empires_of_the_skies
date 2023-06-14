@@ -6,13 +6,17 @@ import {
 } from "../types";
 import { fortuneOfWarCards } from "../codifiedGameInfo";
 
-export const clearMoves = (props: MyGameProps) => {
+export const clearMoves = (
+  props: MyGameProps,
+  setTurnComplete: React.Dispatch<React.SetStateAction<boolean>>
+) => {
   if (props.ctx.numMoves) {
     console.log(`undoing ${props.ctx.numMoves} move(s)`);
 
     for (let i = 0; i < props.ctx.numMoves; i++) {
       props.undo();
     }
+    setTurnComplete(false);
   }
 };
 
@@ -46,10 +50,11 @@ export const findPossibleDestinations = (
   G: MyGameState,
   startingCoords: number[],
   unlaiden: boolean
-): number[][] => {
+): number[][][] => {
   let availableGridLocations: number[][] = [];
   let coordinatesToSearch: number[][] = [startingCoords];
   let coordinatesToSearchNext: number[][] = [];
+  let coordsGroupedByCost: number[][][] = [];
   for (let i = 0; i < 3; i++) {
     coordinatesToSearch.forEach((coords) => {
       const [x, y] = coords;
@@ -76,9 +81,10 @@ export const findPossibleDestinations = (
         }
       });
     });
+    coordsGroupedByCost.push([...coordinatesToSearchNext]);
     coordinatesToSearch = [...coordinatesToSearchNext];
     coordinatesToSearchNext = [];
   }
 
-  return availableGridLocations;
+  return [availableGridLocations, ...coordsGroupedByCost];
 };

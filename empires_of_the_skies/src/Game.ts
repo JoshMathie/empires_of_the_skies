@@ -35,6 +35,8 @@ import trainTroops from "./moves/trainTroops";
 import buildSkyships from "./moves/buildSkyships";
 import conscriptLevies from "./moves/conscriptLevies";
 import passFleetInfoToPlayerInfo from "./moves/passFleetInfoToPlayerInfo";
+import deployFleet from "./moves/deployFleet";
+import enableDispatchButtons from "./moves/enableDispatchButtons";
 
 export const MyGame: Game<MyGameState> = {
   name: "empires-of-the-skies",
@@ -275,6 +277,8 @@ export const MyGame: Game<MyGameState> = {
       move: passFleetInfoToPlayerInfo,
       undoable: true,
     },
+    deployFleet: { move: deployFleet, undoable: true },
+    enableDispatchButtons: { move: enableDispatchButtons, undoable: true },
   },
   maxPlayers: 6,
   minPlayers: 1,

@@ -6,7 +6,6 @@ const passFleetInfoToPlayerInfo: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random },
   ...args
 ) => {
-  console.log(args[0]);
   const fleetId = args[0][0];
   const skyshipCount = args[0][1];
   const regimentCount = args[0][2];
@@ -37,6 +36,7 @@ const passFleetInfoToPlayerInfo: MoveFn<MyGameState> = (
     currentPlayer.resources.skyships -= skyshipCount;
     currentPlayer.resources.regiments -= regimentCount;
     currentPlayer.resources.levies -= levyCount;
+    args[0][4](false);
   }
 };
 
