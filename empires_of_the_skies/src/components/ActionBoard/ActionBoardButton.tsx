@@ -202,7 +202,9 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
         <DialogTitle style={{ fontFamily: "dauphinn" }}>
           {props.value === 1
             ? "Select direction to move heresy tracker"
-            : `Select location for your fort. Current selection:${selectedTile}`}
+            : `Select location for your fort. Current selection: [${
+                selectedTile[0] + 1
+              }, ${4 - selectedTile[1]}]`}
         </DialogTitle>
         <DialogContent>
           {props.value === 1 ? (
@@ -221,34 +223,34 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
           )}
         </DialogContent>
         <DialogActions>
-          {props.value === 1 ? (
-            <>
-              <Button
-                variant="contained"
-                style={{
-                  backgroundColor: "#cd0ffc",
-                  fontFamily: "dauphinn",
-                }}
-                onClick={() => {
-                  props.moves.increaseHeresy({ ...props });
-                  setHeresyOrOrthodoxyDialogOpen(false);
-                }}
-              >
-                Heresy
-              </Button>
-              <Button
-                variant="contained"
-                style={{ backgroundColor: "#fa921b", fontFamily: "dauphinn" }}
-                onClick={() => {
-                  props.moves.increaseOrthodoxy({ ...props });
-                  setHeresyOrOrthodoxyDialogOpen(false);
-                }}
-              >
-                Orthodoxy
-              </Button>
-            </>
-          ) : (
-            <>
+          <>
+            {props.value === 1 ? (
+              <>
+                <Button
+                  variant="contained"
+                  style={{
+                    backgroundColor: "#cd0ffc",
+                    fontFamily: "dauphinn",
+                  }}
+                  onClick={() => {
+                    props.moves.increaseHeresy({ ...props });
+                    setHeresyOrOrthodoxyDialogOpen(false);
+                  }}
+                >
+                  Heresy
+                </Button>
+                <Button
+                  variant="contained"
+                  style={{ backgroundColor: "#fa921b", fontFamily: "dauphinn" }}
+                  onClick={() => {
+                    props.moves.increaseOrthodoxy({ ...props });
+                    setHeresyOrOrthodoxyDialogOpen(false);
+                  }}
+                >
+                  Orthodoxy
+                </Button>
+              </>
+            ) : (
               <Button
                 variant="contained"
                 color="success"
@@ -266,19 +268,19 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
               >
                 Confirm
               </Button>
-              <Button
-                variant="contained"
-                color="error"
-                onClick={() => {
-                  console.log("fort placement aborted");
-                  clearMoves(props);
-                  setWorldMapDialogOpen(false);
-                }}
-              >
-                Cancel
-              </Button>
-            </>
-          )}
+            )}
+            <Button
+              variant="contained"
+              color="error"
+              onClick={() => {
+                clearMoves(props);
+                setWorldMapDialogOpen(false);
+                setHeresyOrOrthodoxyDialogOpen(false);
+              }}
+            >
+              Cancel
+            </Button>
+          </>
         </DialogActions>
       </Dialog>
     </>

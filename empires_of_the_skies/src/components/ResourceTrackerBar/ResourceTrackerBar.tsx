@@ -229,7 +229,7 @@ export const ResourceTrackerBar = (props: MyGameProps) => {
             color="success"
             sx={{ marginLeft: "10px" }}
             onClick={() => {
-              if (props.ctx.numMoves != undefined) {
+              if (props.ctx.numMoves !== undefined) {
                 console.log(props.ctx.numMoves);
                 if (props.ctx.numMoves > 0) {
                   props.moves.flipCards();
