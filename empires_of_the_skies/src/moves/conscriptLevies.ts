@@ -29,6 +29,7 @@ const conscriptLevies: MoveFn<MyGameState> = (
   removeVPAmount(G, playerID, cost);
   addLevyAmount(G, playerID, levyAmount);
   G.playerInfo[playerID].playerBoardCounsellorLocations.conscriptLevies = true;
+  args[1][1](true);
 };
 
 export default conscriptLevies;

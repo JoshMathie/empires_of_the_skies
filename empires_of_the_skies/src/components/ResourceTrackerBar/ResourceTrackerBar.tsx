@@ -3,10 +3,14 @@ import { MyGameProps } from "../../types";
 import { AppBar, Button, ThemeProvider, Toolbar, Tooltip } from "@mui/material";
 import { ReactComponent as GoldIcon } from "../../boards_and_assets/gold_icon.svg";
 import { generalTheme } from "../themes";
-import { checkPlayerIDAndReturnPlayerInfo } from "../../helpers/helpers";
+import {
+  checkPlayerIDAndReturnPlayerInfo,
+  clearMoves,
+} from "../../helpers/helpers";
 import { Person4Sharp } from "@mui/icons-material";
+import { TurnOrder } from "boardgame.io/dist/types/packages/core";
 
-export const ResourceTrackerBar = (props: MyGameProps) => {
+const ResourceTrackerBar = (props: ResourceTrackerBarProps) => {
   const currentPlayer = checkPlayerIDAndReturnPlayerInfo(props);
   const counsellors = currentPlayer.resources.counsellors;
   const gold = currentPlayer.resources.gold;
@@ -220,11 +224,12 @@ export const ResourceTrackerBar = (props: MyGameProps) => {
           <Button
             variant="contained"
             color="error"
-            onClick={() => props.undo()}
+            onClick={() => clearMoves(props, props.setTurnComplete)}
           >
             Clear Move
           </Button>
           <Button
+            disabled={!props.turnComplete}
             variant="contained"
             color="success"
             sx={{ marginLeft: "10px" }}
@@ -245,3 +250,9 @@ export const ResourceTrackerBar = (props: MyGameProps) => {
     </ThemeProvider>
   );
 };
+
+interface ResourceTrackerBarProps extends MyGameProps {
+  turnComplete: boolean;
+  setTurnComplete: React.Dispatch<React.SetStateAction<boolean>>;
+}
+export default ResourceTrackerBar;

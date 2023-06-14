@@ -20,6 +20,7 @@ export const recruitCounsellors: MoveFn<MyGameState> = (
   const costs: { [key: number]: number } = { 1: 0, 2: 1, 3: 3 };
   G.boardState.recruitCounsellors[value] = playerID;
   removeGoldAmount(G, playerID, costs[value]);
+  args[1][1](true);
 };
 
 export default recruitCounsellors;

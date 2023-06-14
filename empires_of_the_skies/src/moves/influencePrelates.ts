@@ -43,6 +43,7 @@ export const influencePrelates: MoveFn<MyGameState> = (
   removeGoldAmount(G, playerID, cost);
 
   G.boardState.influencePrelates[value] = playerID;
+  args[1][1](true);
 };
 
 export default influencePrelates;

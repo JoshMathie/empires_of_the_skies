@@ -79,6 +79,7 @@ const convertMonarch: MoveFn<MyGameState> = (
   removeOneCounsellor(G, playerID);
 
   G.boardState.convertMonarch[value] = playerID;
+  args[1][1](true);
 };
 
 export default convertMonarch;

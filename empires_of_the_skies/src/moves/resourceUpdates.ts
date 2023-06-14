@@ -130,6 +130,7 @@ export const checkAndPlaceFort: MoveFn<MyGameState> = (
   tileInfo.player = G.playerInfo[playerID];
   G.playerInfo[playerID].forts.push(coords[0]);
   tileInfo.fort = true;
+  args[1][2](true);
 };
 
 export const flipCards: MoveFn<MyGameState> = (

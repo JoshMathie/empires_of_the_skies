@@ -42,6 +42,7 @@ const trainTroops: MoveFn<MyGameState> = (
     removeGoldAmount(G, playerID, 1);
   }
   G.boardState.trainTroops[value] = playerID;
+  args[1][1](true);
 };
 
 export default trainTroops;

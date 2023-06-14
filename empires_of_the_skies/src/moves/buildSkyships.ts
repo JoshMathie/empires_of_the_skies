@@ -36,6 +36,7 @@ const buildSkyships: MoveFn<MyGameState> = (
     addSkyship(G, playerID);
   }
   G.playerInfo[playerID].playerBoardCounsellorLocations.buildSkyships = true;
+  args[0][0](true);
 };
 
 export default buildSkyships;

@@ -68,6 +68,7 @@ const punishDissenters: MoveFn<MyGameState> = (
   }
 
   G.boardState.punishDissenters[value] = playerID;
+  args[1][1](true);
 };
 
 export default punishDissenters;

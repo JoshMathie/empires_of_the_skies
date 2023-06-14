@@ -47,7 +47,7 @@ import { generalTheme, influencePrelatesTheme } from "../themes";
 
 //method which returns the complete action board
 
-export const ActionBoard = (props: MyGameProps) => {
+export const ActionBoard = (props: ActionBoardProps) => {
   return (
     <ThemeProvider theme={generalTheme}>
       {/* establishing a column for the different classes of moves to be displayed in */}
@@ -263,7 +263,7 @@ export const generateButtonsList = (
   listOfBackgroundImages: string[],
   buttonWidth: string,
   // flag to opt for large buttons instead of regular sized buttons
-  props: MyGameProps,
+  props: ActionBoardProps,
   counsellor?: { [key: string]: string | undefined },
   counsellors?: { [key: string]: string[] | undefined },
   backgroundColor?: string[],
@@ -302,3 +302,7 @@ export const generateButtonsList = (
   }
   return buttonList;
 };
+
+interface ActionBoardProps extends MyGameProps {
+  setTurnComplete: React.Dispatch<React.SetStateAction<boolean>>;
+}

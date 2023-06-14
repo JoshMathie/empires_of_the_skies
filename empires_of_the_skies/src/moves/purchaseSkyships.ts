@@ -46,6 +46,7 @@ const purchaseSkyships: MoveFn<MyGameState> = (
     addSkyship(G, playerID);
   }
   G.boardState.purchaseSkyships[value] = playerID;
+  args[1][1](true);
 };
 
 export default purchaseSkyships;

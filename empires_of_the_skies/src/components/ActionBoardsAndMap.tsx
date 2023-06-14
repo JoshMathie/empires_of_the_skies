@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { MyGameProps } from "../types";
 import { ActionBoard } from "./ActionBoard/ActionBoard";
@@ -7,18 +7,22 @@ import { PlayerBoard } from "./PlayerBoard/PlayerBoard";
 
 import { Box, Tab, Tabs } from "@mui/material";
 import { TabPanel, TabContext } from "@mui/lab";
-import { ResourceTrackerBar } from "./ResourceTrackerBar/ResourceTrackerBar";
+import ResourceTrackerBar from "./ResourceTrackerBar/ResourceTrackerBar";
 
 export const ActionBoardsAndMap = (props: MyGameProps) => {
-  const [value, setValue] = React.useState("0");
-
+  const [value, setValue] = useState("0");
+  const [turnComplete, setTurnComplete] = useState(false);
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
 
   return (
     <>
-      <ResourceTrackerBar {...props} />
+      <ResourceTrackerBar
+        {...props}
+        turnComplete={turnComplete}
+        setTurnComplete={setTurnComplete}
+      />
       <Box
         sx={{
           flexGrow: 1,
@@ -45,13 +49,13 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
           </Tabs>
 
           <TabPanel value={"0"} tabIndex={0}>
-            <ActionBoard {...props} />
+            <ActionBoard {...props} setTurnComplete={setTurnComplete} />
           </TabPanel>
           <TabPanel value={"1"} tabIndex={1}>
-            <PlayerBoard {...props} />
+            <PlayerBoard {...props} setTurnComplete={setTurnComplete} />
           </TabPanel>
           <TabPanel value={"2"} tabIndex={2}>
-            <WorldMap {...props} />
+            <WorldMap {...props} setTurnComplete={setTurnComplete} />
           </TabPanel>
         </TabContext>
       </Box>
