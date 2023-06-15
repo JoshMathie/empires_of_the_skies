@@ -192,7 +192,7 @@ export const ActionBoard = (props: ActionBoardProps) => {
                 8,
                 props.moves.influencePrelates,
                 [],
-                "95px",
+                "10px",
                 props,
                 props.G.boardState.influencePrelates,
                 undefined,
