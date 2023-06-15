@@ -1,7 +1,7 @@
 import { INVALID_MOVE } from "boardgame.io/core/";
 import { MyGameState } from "../types";
 import { MoveFn } from "boardgame.io";
-import { advanceAllHereseyTrackers } from "./resourceUpdates";
+import { advanceAllHeresyTrackers } from "./resourceUpdates";
 
 export const discoverTile: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random },
@@ -41,7 +41,7 @@ export const discoverTile: MoveFn<MyGameState> = (
   const tileRace = currentTile.name.split(/(\d+)/)[0].toLowerCase();
 
   if (tileRace !== "ocean" && !G.mapState.discoveredRaces.includes(tileRace)) {
-    advanceAllHereseyTrackers(G);
+    advanceAllHeresyTrackers(G);
     G.mapState.discoveredRaces.push(tileRace);
   }
   G.mapState.discoveredTiles[y][x] = true;

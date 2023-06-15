@@ -17,7 +17,7 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
   };
 
   return (
-    <>
+    <div>
       <ResourceTrackerBar
         {...props}
         turnComplete={turnComplete}
@@ -26,11 +26,10 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
       <Box
         sx={{
           flexGrow: 1,
-          // bgcolor: "#e6f7ff",
         }}
       >
         <TabContext value={value}>
-          <Tabs value={value} onChange={handleChange} variant="scrollable">
+          <Tabs value={value} onChange={handleChange} centered>
             <Tab
               label="Action Board"
               value={"0"}
@@ -59,6 +58,6 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
           </TabPanel>
         </TabContext>
       </Box>
-    </>
+    </div>
   );
 };

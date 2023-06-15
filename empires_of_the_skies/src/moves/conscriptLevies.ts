@@ -2,7 +2,11 @@ import { MoveFn } from "boardgame.io";
 import { MyGameState } from "../types";
 import { INVALID_MOVE } from "boardgame.io/core";
 import { checkCounsellorsNotZero } from "./moveValidation";
-import { addLevyAmount, removeVPAmount } from "./resourceUpdates";
+import {
+  addLevyAmount,
+  removeOneCounsellor,
+  removeVPAmount,
+} from "./resourceUpdates";
 
 const conscriptLevies: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random },
@@ -24,8 +28,7 @@ const conscriptLevies: MoveFn<MyGameState> = (
     return INVALID_MOVE;
   }
   const cost = levyAmount / 3;
-  console.log(levyAmount);
-
+  removeOneCounsellor(G, playerID);
   removeVPAmount(G, playerID, cost);
   addLevyAmount(G, playerID, levyAmount);
   G.playerInfo[playerID].playerBoardCounsellorLocations.conscriptLevies = true;

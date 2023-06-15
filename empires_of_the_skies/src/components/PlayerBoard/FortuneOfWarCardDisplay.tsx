@@ -28,6 +28,7 @@ const FortuneOfWarCardDisplay = (props: FortuneOfWarCardDisplayProps) => {
         opacity: opacity,
         width: "15%",
         height: "250px",
+        margin: "5px",
       }}
     ></svg>
   );

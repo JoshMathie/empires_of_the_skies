@@ -109,7 +109,7 @@ export const PlayerColour = {
   yellow: "#F5DE48",
   blue: "#51658D",
   brown: "#A0522D",
-  white: "#FFFFFF",
+  white: "#E6EFE9",
 } as const;
 
 export type TileInfoProps = {
@@ -252,4 +252,5 @@ export type ActionBoardInfo = {
     // oneVP: string | undefined;
     // oneGold: string | undefined;
   };
+  issueHolyDecree: boolean;
 };

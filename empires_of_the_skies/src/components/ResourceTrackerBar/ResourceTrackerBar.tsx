@@ -37,7 +37,7 @@ const ResourceTrackerBar = (props: ResourceTrackerBarProps) => {
           <Person4Sharp
             sx={{
               color: props.G.playerInfo[props.ctx.currentPlayer].colour,
-              marginRight: "20%",
+              marginRight: "5%",
             }}
           ></Person4Sharp>
           {"   \t"}
@@ -235,10 +235,10 @@ const ResourceTrackerBar = (props: ResourceTrackerBarProps) => {
             sx={{ marginLeft: "10px" }}
             onClick={() => {
               if (props.ctx.numMoves !== undefined) {
-                console.log(props.ctx.numMoves);
                 if (props.ctx.numMoves > 0) {
                   props.moves.flipCards();
                   endTurn();
+                  props.setTurnComplete(false);
                 }
               }
             }}

@@ -1,6 +1,7 @@
 import { MoveFn } from "boardgame.io";
 import { MyGameState } from "../types";
 import { INVALID_MOVE } from "boardgame.io/core";
+import { removeOneCounsellor } from "./resourceUpdates";
 
 const enableDispatchButtons: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random },
@@ -16,6 +17,8 @@ const enableDispatchButtons: MoveFn<MyGameState> = (
   }
   G.playerInfo[playerID].playerBoardCounsellorLocations.dispatchSkyshipFleet =
     true;
+
+  removeOneCounsellor(G, playerID);
   args[0](false);
 };
 

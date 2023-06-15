@@ -179,7 +179,6 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
                     fortPlacementFailed,
                   ]);
                   if (fortPlacementFailed.current) {
-                    console.log("fort placement failed");
                     clearMoves(props, props.setTurnComplete);
                   }
                   setWorldMapDialogOpen(false);

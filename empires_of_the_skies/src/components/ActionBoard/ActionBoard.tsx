@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../App.css";
 // import { ReactComponent as ActionBoardSvg } from "../boards_and_assets/action_board.svg";
 import { ActionBoardButton, ActionBoardButtonLarge } from "./ActionBoardButton";
@@ -41,216 +41,266 @@ import convertMonarch4 from "../../boards_and_assets/convert_monarch4.svg";
 import convertMonarch5 from "../../boards_and_assets/convert_monarch5.svg";
 import convertMonarch6 from "../../boards_and_assets/convert_monarch6.svg";
 import issueHolyDecree from "../../boards_and_assets/issue_holy_decree.svg";
-import { MyGameProps } from "../../types";
+import { MyGameProps, PlayerColour } from "../../types";
 import { ThemeProvider } from "@emotion/react";
 import { generalTheme, influencePrelatesTheme } from "../themes";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
+import HolyDecreeDialog from "./HolyDecreeDialog";
+import CounsellorIcon from "../Icons/CounsellorIcon";
 
 //method which returns the complete action board
 
 export const ActionBoard = (props: ActionBoardProps) => {
+  const [holyDegreeOpen, setHolyDegreeOpen] = useState(false);
+  let isArchPrelate = false;
+  if (props.playerID) {
+    isArchPrelate = props.G.playerInfo[props.playerID].isArchprelate;
+  }
   return (
     <ThemeProvider theme={generalTheme}>
-      {/* establishing a column for the different classes of moves to be displayed in */}
       <div
         style={{
           width: "100%",
           display: "flex",
-          flexDirection: "column",
-          // flexWrap: "wrap",
+          justifyContent: "center",
+          marginLeft: "20px",
+          marginRight: "20px",
         }}
       >
-        {/* button row with the player order buttons */}
-        <ButtonRow key={"player order buttons"}>
-          {"Alter Player \n Order"}
-          {generateButtonsList(
-            6,
-            props.moves.alterPlayerOrder,
-            Array(6).fill(playerOrderTile),
-            "98px",
-            props,
-            props.G.boardState.alterPlayerOrder,
-            undefined,
-            ["#9EE8FF", "#9EE8FF", "#9EE8FF", "#9EE8FF", "#9EE8FF", "#9EE8FF"],
-            false,
-            ["1st\t", "2nd\t", "3rd\t", "4th\t", "5th\t", "6th\t"]
-          )}
-        </ButtonRow>
-        {/* button row with the recruit counsellor buttons */}
-        <ButtonRow key={"recruit counsellor buttons"}>
-          Recruit Counsellors
-          {generateButtonsList(
-            3,
-            props.moves.recruitCounsellors,
-            [recuitCounsillor1, recuitCounsillor2, recuitCounsillor3],
-            "98px",
-            props,
-            props.G.boardState.recruitCounsellors
-          )}
-          Train Troops
-          {generateButtonsList(
-            2,
-            props.moves.trainTroops,
-            [trainTroops1, trainTroops2],
-            "98px",
-            props,
-            props.G.boardState.trainTroops
-          )}
-        </ButtonRow>
-        {/* button row with the recruit regiments buttons  */}
-        <ButtonRow key={"recruit regiments buttons"}>
-          Recruit Regiments
-          {generateButtonsList(
-            6,
-            props.moves.recruitRegiments,
-
-            [
-              recruitRegiments1,
-              recruitRegiments2,
-              recruitRegiments3,
-              recruitRegiments4,
-              recruitRegiments5,
-              recruitRegiments6,
-            ],
-            "98px",
-            props,
-            props.G.boardState.recruitRegiments
-          )}
-        </ButtonRow>
-        {/* button row with the purchase skyships buttons   */}
-        <ButtonRow key={"purchase skyships buttons"}>
-          Purchase Skyships
-          {generateButtonsList(
-            6,
-            props.moves.purchaseSkyships,
-
-            [
-              purchaseSkyships1,
-              purchaseSkyships2,
-              purchaseSkyships3,
-              purchaseSkyships4,
-              purchaseSkyships5,
-              purchaseSkyships6,
-            ],
-            "98px",
-            props,
-            props.G.boardState.purchaseSkyships,
-            undefined,
-            ["#FE9F10", "#FE9F10", "#FE9F10", "#FE9ACC", "#FE9ACC", "#FE9ACC"]
-          )}
-        </ButtonRow>
-        {/* button row with the found buildings buttons   */}
-        <ButtonRow key={"found buildings buttons"}>
-          Found Buildings
-          {generateButtonsList(
-            4,
-            props.moves.foundBuildings,
-
-            [buildCathedral, buildPalace, buildShipyard, buildForts],
-            "180px",
-            props,
-            undefined,
-            props.G.boardState.foundBuildings,
-            [],
-            true
-          )}
-        </ButtonRow>
-        {/* button row with the influence prelates buttons */}
-        <ButtonRow key={"influence prelates buttons"}>
-          <ThemeProvider theme={influencePrelatesTheme}>
-            <InfluencePrelatesExplination />
+        {/* establishing a column for the different classes of moves to be displayed in */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            maxWidth: 1225,
+            // minWidth: 1220,
+          }}
+        >
+          {/* button row with the player order buttons */}
+          <ButtonRow key={"player order buttons"}>
+            {"Alter Player \n Order"}
             {generateButtonsList(
-              8,
-              props.moves.influencePrelates,
-              [],
-              "95px",
+              6,
+              props.moves.alterPlayerOrder,
+              Array(6).fill(playerOrderTile),
+              "98px",
               props,
-              props.G.boardState.influencePrelates,
+              props.G.boardState.alterPlayerOrder,
               undefined,
               [
-                "#DC5454",
-                "#51658D",
-                "#F5DE48",
-                "#FE9F10",
-                "#FE9ACC",
-                "#A0522D",
-                "#FFFFFF",
-                "#35CC67",
+                "#9EE8FF",
+                "#9EE8FF",
+                "#9EE8FF",
+                "#9EE8FF",
+                "#9EE8FF",
+                "#9EE8FF",
               ],
               false,
-              [
-                "Angland",
-                "Gallois",
-                "Castillia",
-                "Zeeland",
-                "Venoa",
-                "Nordmark",
-                "Ostreich",
-                "Constantium",
-              ]
+              ["1st\t", "2nd\t", "3rd\t", "4th\t", "5th\t", "6th\t"]
             )}
-          </ThemeProvider>
-        </ButtonRow>
-        {/* button row with the punish dissenters buttons  */}
-        <ButtonRow key={"punish dissenters buttons"}>
-          <PunishDissenters />
-          {generateButtonsList(
-            6,
-            props.moves.punishDissenters,
+          </ButtonRow>
+          {/* button row with the recruit counsellor buttons */}
+          <ButtonRow key={"recruit counsellor buttons"}>
+            Recruit Counsellors
+            {generateButtonsList(
+              3,
+              props.moves.recruitCounsellors,
+              [recuitCounsillor1, recuitCounsillor2, recuitCounsillor3],
+              "98px",
+              props,
+              props.G.boardState.recruitCounsellors
+            )}
+            Train Troops
+            {generateButtonsList(
+              2,
+              props.moves.trainTroops,
+              [trainTroops1, trainTroops2],
+              "98px",
+              props,
+              props.G.boardState.trainTroops
+            )}
+          </ButtonRow>
+          {/* button row with the recruit regiments buttons  */}
+          <ButtonRow key={"recruit regiments buttons"}>
+            Recruit Regiments
+            {generateButtonsList(
+              6,
+              props.moves.recruitRegiments,
 
-            [
-              punishDissenters1,
-              punishDissenters2,
-              punishDissenters3,
-              punishDissenters4,
-              punishDissenters5,
-              punishDissenters6,
-            ],
-            "52px",
-            props,
-            props.G.boardState.punishDissenters,
-            undefined,
-            ["#9EE8FF", "#9EE8FF", "#9EE8FF", "#9EE8FF", "#9EE8FF", "#9EE8FF"]
-          )}
-        </ButtonRow>
-        {/* button row with the convert monarch buttons   */}
-        <ButtonRow key={"convert monarch buttons"}>
-          <ConvertMonarchExplination />
-          {generateButtonsList(
-            6,
-            props.moves.convertMonarch,
+              [
+                recruitRegiments1,
+                recruitRegiments2,
+                recruitRegiments3,
+                recruitRegiments4,
+                recruitRegiments5,
+                recruitRegiments6,
+              ],
+              "98px",
+              props,
+              props.G.boardState.recruitRegiments
+            )}
+          </ButtonRow>
+          {/* button row with the purchase skyships buttons   */}
+          <ButtonRow key={"purchase skyships buttons"}>
+            Purchase Skyships
+            {generateButtonsList(
+              6,
+              props.moves.purchaseSkyships,
 
-            [
-              convertMonarch1,
-              convertMonarch2,
-              convertMonarch3,
-              convertMonarch4,
-              convertMonarch5,
-              convertMonarch6,
-            ],
-            "52px",
-            props,
-            props.G.boardState.convertMonarch,
-            undefined,
-            ["#9EE8FF", "#9EE8FF", "#9EE8FF", "#9EE8FF", "#9EE8FF", "#9EE8FF"]
-          )}
-        </ButtonRow>
-        {/* button row with the issue holy decree button    */}
-        <ButtonRow key={"issue holy decree button"}>
-          <button
-            onClick={() => {}}
-            style={{
-              width: "200px",
-              height: "70px",
-              textAlign: "left",
-              backgroundImage: `url(${issueHolyDecree})`,
-              backgroundSize: "contain",
-              backgroundRepeat: "no-repeat",
-              fontFamily: "dauphinn",
-              fontSize: "18px",
-              cursor: "pointer",
-            }}
+              [
+                purchaseSkyships1,
+                purchaseSkyships2,
+                purchaseSkyships3,
+                purchaseSkyships4,
+                purchaseSkyships5,
+                purchaseSkyships6,
+              ],
+              "98px",
+              props,
+              props.G.boardState.purchaseSkyships,
+              undefined,
+              ["#FE9F10", "#FE9F10", "#FE9F10", "#FE9ACC", "#FE9ACC", "#FE9ACC"]
+            )}
+          </ButtonRow>
+          {/* button row with the found buildings buttons   */}
+          <ButtonRow key={"found buildings buttons"}>
+            Found Buildings
+            {generateButtonsList(
+              4,
+              props.moves.foundBuildings,
+
+              [buildCathedral, buildPalace, buildShipyard, buildForts],
+              "180px",
+              props,
+              undefined,
+              props.G.boardState.foundBuildings,
+              [],
+              true
+            )}
+          </ButtonRow>
+          {/* button row with the influence prelates buttons */}
+          <ButtonRow key={"influence prelates buttons"}>
+            <ThemeProvider theme={influencePrelatesTheme}>
+              <InfluencePrelatesExplination />
+              {generateButtonsList(
+                8,
+                props.moves.influencePrelates,
+                [],
+                "95px",
+                props,
+                props.G.boardState.influencePrelates,
+                undefined,
+                [
+                  PlayerColour.red,
+                  PlayerColour.blue,
+                  PlayerColour.yellow,
+                  "#FE9F10",
+                  "#FE9ACC",
+                  PlayerColour.brown,
+                  PlayerColour.white,
+                  PlayerColour.green,
+                ],
+                false,
+                [
+                  "Angland",
+                  "Gallois",
+                  "Castillia",
+                  "Zeeland",
+                  "Venoa",
+                  "Nordmark",
+                  "Ostreich",
+                  "Constantium",
+                ]
+              )}
+            </ThemeProvider>
+          </ButtonRow>
+          {/* button row with the punish dissenters buttons  */}
+          <ButtonRow key={"punish dissenters buttons"}>
+            <PunishDissenters />
+            {generateButtonsList(
+              6,
+              props.moves.punishDissenters,
+
+              [
+                punishDissenters1,
+                punishDissenters2,
+                punishDissenters3,
+                punishDissenters4,
+                punishDissenters5,
+                punishDissenters6,
+              ],
+              "52px",
+              props,
+              props.G.boardState.punishDissenters,
+              undefined,
+              ["#9EE8FF", "#9EE8FF", "#9EE8FF", "#9EE8FF", "#9EE8FF", "#9EE8FF"]
+            )}
+          </ButtonRow>
+          {/* button row with the convert monarch buttons   */}
+          <ButtonRow key={"convert monarch buttons"}>
+            <ConvertMonarchExplination />
+            {generateButtonsList(
+              6,
+              props.moves.convertMonarch,
+
+              [
+                convertMonarch1,
+                convertMonarch2,
+                convertMonarch3,
+                convertMonarch4,
+                convertMonarch5,
+                convertMonarch6,
+              ],
+              "52px",
+              props,
+              props.G.boardState.convertMonarch,
+              undefined,
+              ["#9EE8FF", "#9EE8FF", "#9EE8FF", "#9EE8FF", "#9EE8FF", "#9EE8FF"]
+            )}
+          </ButtonRow>
+          {/* button row with the issue holy decree button    */}
+          <ButtonRow key={"issue holy decree button"}>
+            <Button
+              disabled={
+                !isArchPrelate ||
+                props.G.boardState.issueHolyDecree ||
+                props.playerID !== props.ctx.currentPlayer
+              }
+              onClick={() => {
+                if (isArchPrelate) {
+                  setHolyDegreeOpen(true);
+                }
+              }}
+              style={{
+                width: "200px",
+                height: "70px",
+                textAlign: "left",
+                backgroundImage: `url(${issueHolyDecree})`,
+                backgroundSize: "contain",
+                backgroundRepeat: "no-repeat",
+                fontFamily: "dauphinn",
+                fontSize: "18px",
+                cursor: "pointer",
+                justifyContent: "right",
+              }}
+            >
+              {props.G.boardState.issueHolyDecree ? (
+                <CounsellorIcon colour="#AD4482" />
+              ) : null}
+            </Button>
+          </ButtonRow>
+          <HolyDecreeDialog
+            open={holyDegreeOpen}
+            {...props}
+            setOpen={setHolyDegreeOpen}
           />
-        </ButtonRow>
+        </div>
       </div>
     </ThemeProvider>
   );
@@ -272,7 +322,6 @@ export const generateButtonsList = (
 ) => {
   let buttonList = [];
   for (let i = 0; i < numberOfButtons; i++) {
-    // console.log(counsellor ? counsellor[i + 1] : undefined);
     buttonList.push(
       large ? (
         <ActionBoardButtonLarge

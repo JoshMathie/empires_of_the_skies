@@ -7,7 +7,7 @@ export const generalTheme = createTheme({
     button: {
       textTransform: "none",
 
-      border: "1px solid black",
+      // border: "1px solid black",
       color: "#000000",
       textOverflow: "ellipsis",
       width: "fit-content",

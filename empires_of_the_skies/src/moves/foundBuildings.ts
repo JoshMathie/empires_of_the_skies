@@ -97,7 +97,7 @@ const foundShipyard = (
   G.playerInfo[playerID].shipyards += 1;
   G.boardState.foundBuildings[3].push(playerID);
   removeOneCounsellor(G, playerID);
-  console.log(args[1][3]);
+
   args[1][3](true);
 };
 //TODO: add capability for the user to select the map tile to build the fort on

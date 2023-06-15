@@ -28,13 +28,18 @@ export const WorldMapTile = (props: worldMapTileProps) => {
   Object.entries(props.G.playerInfo).forEach(([playerId, playerInfo]) => {
     playerInfo.fleetInfo.forEach((fleet) => {
       if (fleet.location[0] === xLocation && fleet.location[1] === yLocation) {
-        fleets.push(<FleetIcon colour={playerInfo.colour} />);
+        fleets.push(
+          <FleetIcon
+            colour={playerInfo.colour}
+            skyships={fleet.skyships}
+            regiments={fleet.regiments}
+            levies={fleet.levies}
+          />
+        );
       }
     });
   });
-  if (fleets.length > 0) {
-    console.log(fleets[0]);
-  }
+
   const currentTile = props.G.mapState.currentTileArray[yLocation][xLocation];
   const lootNameMap: Record<string, string> = {
     gold: "Gold",

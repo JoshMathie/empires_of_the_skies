@@ -38,7 +38,16 @@ export const WorldMap = (props: WorldMapProps) => {
   };
 
   return (
-    <div style={{ overflow: "scroll", overflowY: "hidden", overflowX: "auto" }}>
+    <div
+      style={{
+        overflow: "scroll",
+        overflowY: "hidden",
+        overflowX: "auto",
+        display: "flex",
+        justifyContent: "center",
+        width: "100%",
+      }}
+    >
       <TransformWrapper>
         <TransformComponent>
           <Grid
