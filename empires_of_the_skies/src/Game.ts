@@ -37,6 +37,7 @@ import conscriptLevies from "./moves/conscriptLevies";
 import passFleetInfoToPlayerInfo from "./moves/passFleetInfoToPlayerInfo";
 import deployFleet from "./moves/deployFleet";
 import enableDispatchButtons from "./moves/enableDispatchButtons";
+import issueHolyDecree from "./moves/issueHolyDecree";
 
 export const MyGame: Game<MyGameState> = {
   name: "empires-of-the-skies",
@@ -225,6 +226,7 @@ export const MyGame: Game<MyGameState> = {
         // twoVP: undefined,
         // counsellor: undefined,
       },
+      issueHolyDecree: false,
     };
 
     return {
@@ -279,6 +281,7 @@ export const MyGame: Game<MyGameState> = {
     },
     deployFleet: { move: deployFleet, undoable: true },
     enableDispatchButtons: { move: enableDispatchButtons, undoable: true },
+    issueHolyDecree: { move: issueHolyDecree, undoable: true },
   },
   maxPlayers: 6,
   minPlayers: 1,

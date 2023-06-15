@@ -88,3 +88,61 @@ export const findPossibleDestinations = (
 
   return [availableGridLocations, ...coordsGroupedByCost];
 };
+
+export const findMostOrthodoxKingdoms = (G: MyGameState): string[] => {
+  let currentLowestHeresyTracker: number = 12;
+  let currentLowestKingdoms: string[] = [];
+
+  Object.entries(G.playerInfo).forEach(([id, info]) => {
+    if (info.hereticOrOthodox === "orthodox") {
+      if (info.heresyTracker < currentLowestHeresyTracker) {
+        currentLowestHeresyTracker = info.heresyTracker;
+        currentLowestKingdoms = [id];
+      } else if (info.heresyTracker === currentLowestHeresyTracker) {
+        currentLowestKingdoms.push(id);
+      }
+    }
+  });
+
+  return currentLowestKingdoms;
+};
+
+export const findMostHereticalKingdoms = (G: MyGameState): string[] => {
+  let currentHighestHeresyTracker: number = -12;
+  let currentHighestKingdoms: string[] = [];
+
+  Object.entries(G.playerInfo).forEach(([id, info]) => {
+    if (info.hereticOrOthodox === "heretic") {
+      if (info.heresyTracker > currentHighestHeresyTracker) {
+        currentHighestHeresyTracker = info.heresyTracker;
+        currentHighestKingdoms = [id];
+      } else if (info.heresyTracker === currentHighestHeresyTracker) {
+        currentHighestKingdoms.push(id);
+      }
+    }
+  });
+
+  if (currentHighestKingdoms.length === 0) {
+    Object.entries(G.playerInfo).forEach(([id, info]) => {
+      if (info.heresyTracker > currentHighestHeresyTracker) {
+        currentHighestHeresyTracker = info.heresyTracker;
+        currentHighestKingdoms = [id];
+      } else if (info.heresyTracker === currentHighestHeresyTracker) {
+        currentHighestKingdoms.push(id);
+      }
+    });
+  }
+
+  return currentHighestKingdoms;
+};
+
+export const blessingOrCurseVPAmount = (G: MyGameState): number => {
+  let total = 0;
+  Object.values(G.playerInfo).forEach((info) => {
+    if (info.hereticOrOthodox === "orthodox") {
+      total += 1;
+    }
+  });
+
+  return Math.floor(total / 3);
+};

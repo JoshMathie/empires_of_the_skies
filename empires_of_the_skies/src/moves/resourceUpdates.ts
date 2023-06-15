@@ -158,8 +158,13 @@ export const addLevyAmount = (
   G.playerInfo[playerID].resources.levies += levyAmount;
 };
 
-export const advanceAllHereseyTrackers = (G: MyGameState) => {
+export const advanceAllHeresyTrackers = (G: MyGameState) => {
   Object.values(G.playerInfo).forEach((player) => {
     increaseHeresyWithinMove(G, player.id);
+  });
+};
+export const retreatAllHeresyTrackers = (G: MyGameState) => {
+  Object.values(G.playerInfo).forEach((player) => {
+    increaseOrthodoxyWithinMove(G, player.id);
   });
 };
