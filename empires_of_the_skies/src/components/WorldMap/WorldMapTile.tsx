@@ -22,9 +22,6 @@ export const WorldMapTile = (props: worldMapTileProps) => {
   const fortColour =
     props.G.mapState.buildings[yLocation][xLocation].player?.colour;
 
-  if (fort) {
-    console.log(fortColour);
-  }
   //NOTE fleet icons are not always displayed when they should be
   let fleets: JSX.Element[] = [];
 
@@ -35,6 +32,9 @@ export const WorldMapTile = (props: worldMapTileProps) => {
       }
     });
   });
+  if (fleets.length > 0) {
+    console.log(fleets[0]);
+  }
   const currentTile = props.G.mapState.currentTileArray[yLocation][xLocation];
   const lootNameMap: Record<string, string> = {
     gold: "Gold",
@@ -160,7 +160,7 @@ Loot:
             {fort ? (
               <FortIcon colour={fortColour ? fortColour : "white"}></FortIcon>
             ) : null}
-            {xLocation !== 4 && yLocation !== 0 ? fleets : null}
+            {xLocation !== 4 || yLocation !== 0 ? fleets : null}
           </button>
           {/* </span> */}
         </Tooltip>
