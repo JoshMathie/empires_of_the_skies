@@ -28,8 +28,6 @@ const issueHolyDecree: MoveFn<MyGameState> = (
     return INVALID_MOVE;
   }
 
-  const playerInfo = G.playerInfo[id];
-
   switch (value) {
     case "reform dogma":
       retreatAllHeresyTrackers(G);

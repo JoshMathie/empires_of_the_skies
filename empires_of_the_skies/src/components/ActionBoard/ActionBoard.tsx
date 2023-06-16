@@ -44,13 +44,7 @@ import issueHolyDecree from "../../boards_and_assets/issue_holy_decree.svg";
 import { MyGameProps, PlayerColour } from "../../types";
 import { ThemeProvider } from "@emotion/react";
 import { generalTheme, influencePrelatesTheme } from "../themes";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from "@mui/material";
+import { Button } from "@mui/material";
 import HolyDecreeDialog from "./HolyDecreeDialog";
 import CounsellorIcon from "../Icons/CounsellorIcon";
 
