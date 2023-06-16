@@ -47,7 +47,11 @@ export const discoverTile: MoveFn<MyGameState> = (
   G.mapState.discoveredTiles[y][x] = true;
   G.mapState.mostRecentlyDiscoveredTile = [x, y];
   if (currentTile.shield !== 0 || currentTile.sword !== 0) {
-    events.endTurn();
+    if (ctx.turn === ctx.numPlayers) {
+      events.endPhase();
+    } else {
+      events.endTurn();
+    }
   }
 };
 

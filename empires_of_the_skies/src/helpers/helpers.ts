@@ -146,3 +146,37 @@ export const blessingOrCurseVPAmount = (G: MyGameState): number => {
 
   return Math.floor(total / 3);
 };
+
+export const whichBattlePhase = (G: MyGameState): string => {
+  let numberOfFleetsPerTileMap: Record<string, Set<string>> = {};
+  let nextPhase = "";
+
+  Object.values(G.playerInfo).forEach((info) => {
+    info.fleetInfo.forEach((fleetInfo) => {
+      const [x, y] = fleetInfo.location;
+      if (G.mapState.currentTileArray[y][x].type === "legend") {
+        nextPhase = "plunder_legends";
+      }
+    });
+  });
+
+  Object.entries(G.playerInfo).forEach(([id, info]) => {
+    info.fleetInfo.forEach((fleetInfo) => {
+      if (
+        numberOfFleetsPerTileMap[fleetInfo.location.toString()] !== undefined
+      ) {
+        numberOfFleetsPerTileMap[fleetInfo.location.toString()].add(id);
+      } else {
+        numberOfFleetsPerTileMap[fleetInfo.location.toString()] = new Set(id);
+      }
+    });
+  });
+
+  Object.values(numberOfFleetsPerTileMap).forEach((setOfIds) => {
+    if (setOfIds.size > 1) {
+      nextPhase = "aerial_battle";
+    }
+  });
+
+  return nextPhase;
+};
