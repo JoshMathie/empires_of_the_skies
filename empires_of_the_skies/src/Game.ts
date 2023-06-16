@@ -38,12 +38,13 @@ import passFleetInfoToPlayerInfo from "./moves/passFleetInfoToPlayerInfo";
 import deployFleet from "./moves/deployFleet";
 import enableDispatchButtons from "./moves/enableDispatchButtons";
 import issueHolyDecree from "./moves/issueHolyDecree";
+import pass from "./moves/pass";
 
 export const MyGame: Game<MyGameState> = {
+  turn: { minMoves: 1 },
+
   name: "empires-of-the-skies",
   setup: ({ ctx }): MyGameState => {
-    const turn = 0;
-    const phase = "not sure yet";
     const mapState: MapState = {
       currentTileArray: getRandomisedMapTileArray(),
       discoveredTiles: getInitialDiscoveredTiles(),
@@ -60,6 +61,7 @@ export const MyGame: Game<MyGameState> = {
           id: playerID,
           colour: playerColour ? playerColour : PlayerColour.green,
           ready: true, //look into what this should be
+          passed: false,
           resources: {
             //update this to reflect starting resources
             gold: 6,
@@ -230,8 +232,6 @@ export const MyGame: Game<MyGameState> = {
     };
 
     return {
-      phase: phase,
-      turn: turn,
       playerInfo: playerInfos(ctx),
       mapState: mapState,
       boardState: initialBoardState,
@@ -282,6 +282,61 @@ export const MyGame: Game<MyGameState> = {
     deployFleet: { move: deployFleet, undoable: true },
     enableDispatchButtons: { move: enableDispatchButtons, undoable: true },
     issueHolyDecree: { move: issueHolyDecree, undoable: true },
+    pass: { move: pass, undoable: false },
+  },
+  phases: {
+    discovery: {
+      start: true,
+      moves: {
+        discoverTile: { move: discoverTile, undoable: false },
+        pass: { move: pass, undoable: false },
+      },
+      next: "actions",
+      onEnd: (context) => {
+        Object.entries(context.G.playerInfo).forEach(([id, playerInfo]) => {
+          playerInfo.passed = false;
+        });
+      },
+    },
+    actions: {
+      moves: {
+        alterPlayerOrder,
+        recruitCounsellors,
+        recruitRegiments,
+        purchaseSkyships,
+        foundBuildings,
+        increaseHeresy,
+        increaseOrthodoxy,
+        checkAndPlaceFort,
+        punishDissenters,
+        convertMonarch,
+        influencePrelates,
+        trainTroops,
+        flipCards: { move: flipCards, undoable: false },
+        buildSkyships,
+        conscriptLevies,
+        passFleetInfoToPlayerInfo,
+        deployFleet,
+        enableDispatchButtons,
+        issueHolyDecree,
+        pass: { move: pass, undoable: false },
+      },
+      next: "resolution",
+      // endIf: (G) => {
+      //   let readyToEndPhase = true;
+      //   Object.values(G.G.playerInfo).forEach((info) => {
+      //     if (info.passed === false) {
+      //       readyToEndPhase = false;
+      //     }
+      //   });
+      //   return readyToEndPhase;
+      // },
+      onEnd: (context) => {
+        Object.entries(context.G.playerInfo).forEach(([id, playerInfo]) => {
+          playerInfo.passed = false;
+        });
+      },
+    },
   },
   maxPlayers: 6,
   minPlayers: 1,

@@ -51,6 +51,7 @@ export const unknownWorldTiles: TileInfoProps[] = [
     blocked: ["N", "NE", "NW"],
     sword: 10,
     shield: 11,
+    type: "land",
     loot: {
       outpost: {
         gold: 2,
@@ -80,6 +81,7 @@ export const unknownWorldTiles: TileInfoProps[] = [
     blocked: ["E", "SE"],
     sword: 8,
     shield: 9,
+    type: "land",
     loot: {
       outpost: {
         gold: 1,
@@ -109,6 +111,7 @@ export const unknownWorldTiles: TileInfoProps[] = [
     blocked: ["E"],
     sword: 10,
     shield: 11,
+    type: "land",
     loot: {
       outpost: {
         gold: 1,
@@ -138,6 +141,7 @@ export const unknownWorldTiles: TileInfoProps[] = [
     blocked: ["NW"],
     sword: 17,
     shield: 8,
+    type: "land",
     loot: {
       outpost: {
         gold: 2,
@@ -167,6 +171,7 @@ export const unknownWorldTiles: TileInfoProps[] = [
     blocked: [],
     sword: 14,
     shield: 7,
+    type: "land",
     loot: {
       outpost: {
         gold: 1,
@@ -196,6 +201,7 @@ export const unknownWorldTiles: TileInfoProps[] = [
     blocked: [],
     sword: 11,
     shield: 6,
+    type: "land",
     loot: {
       outpost: {
         gold: 1,
@@ -225,6 +231,7 @@ export const unknownWorldTiles: TileInfoProps[] = [
     blocked: [],
     sword: 10,
     shield: 7,
+    type: "land",
     loot: {
       outpost: {
         gold: 0,
@@ -254,6 +261,7 @@ export const unknownWorldTiles: TileInfoProps[] = [
     blocked: ["NE"],
     sword: 8,
     shield: 5,
+    type: "land",
     loot: {
       outpost: {
         gold: 0,
@@ -283,6 +291,7 @@ export const unknownWorldTiles: TileInfoProps[] = [
     blocked: ["W"],
     sword: 6,
     shield: 3,
+    type: "land",
     loot: {
       outpost: {
         gold: 0,
@@ -312,6 +321,7 @@ export const unknownWorldTiles: TileInfoProps[] = [
     blocked: [],
     sword: 7,
     shield: 10,
+    type: "land",
     loot: {
       outpost: {
         gold: 0,
@@ -341,6 +351,7 @@ export const unknownWorldTiles: TileInfoProps[] = [
     blocked: [],
     sword: 5,
     shield: 8,
+    type: "land",
     loot: {
       outpost: {
         gold: 0,
@@ -370,6 +381,7 @@ export const unknownWorldTiles: TileInfoProps[] = [
     blocked: [],
     sword: 3,
     shield: 6,
+    type: "land",
     loot: {
       outpost: {
         gold: 0,
@@ -400,6 +412,7 @@ export const unknownWorldTiles: TileInfoProps[] = [
     blocked: ["NE"],
     sword: 16,
     shield: 5,
+    type: "land",
     loot: {
       outpost: {
         gold: 1,
@@ -429,6 +442,7 @@ export const unknownWorldTiles: TileInfoProps[] = [
     blocked: ["NW"],
     sword: 10,
     shield: 3,
+    type: "land",
     loot: {
       outpost: {
         gold: 0,
@@ -458,6 +472,7 @@ export const unknownWorldTiles: TileInfoProps[] = [
     blocked: [],
     sword: 13,
     shield: 4,
+    type: "land",
     loot: {
       outpost: {
         gold: 1,
@@ -488,6 +503,7 @@ export const unknownWorldTiles: TileInfoProps[] = [
     blocked: ["W"],
     sword: 11,
     shield: 10,
+    type: "land",
     loot: {
       outpost: {
         gold: 1,
@@ -517,6 +533,7 @@ export const unknownWorldTiles: TileInfoProps[] = [
     blocked: ["SW"],
     sword: 9,
     shield: 8,
+    type: "land",
     loot: {
       outpost: {
         gold: 1,
@@ -545,6 +562,7 @@ export const unknownWorldTiles: TileInfoProps[] = [
     image: Trolls3,
     blocked: ["NE"],
     sword: 6,
+    type: "land",
     shield: 3,
     loot: {
       outpost: {
@@ -577,6 +595,7 @@ export const oceanTiles: TileInfoProps[] = [
     blocked: [],
     sword: 0,
     shield: 0,
+    type: "ocean",
     loot: {
       outpost: {
         gold: 0,
@@ -606,6 +625,7 @@ export const oceanTiles: TileInfoProps[] = [
     blocked: [],
     sword: 0,
     shield: 0,
+    type: "ocean",
     loot: {
       outpost: {
         gold: 0,
@@ -635,6 +655,7 @@ export const oceanTiles: TileInfoProps[] = [
     blocked: [],
     sword: 0,
     shield: 0,
+    type: "ocean",
     loot: {
       outpost: {
         gold: 0,
@@ -664,6 +685,7 @@ export const oceanTiles: TileInfoProps[] = [
     blocked: [],
     sword: 0,
     shield: 0,
+    type: "ocean",
     loot: {
       outpost: {
         gold: 0,
@@ -695,6 +717,7 @@ export const legendTiles: TileInfoProps[] = [
     blocked: ["S", "SE"],
     sword: 0,
     shield: 0,
+    type: "legend",
     loot: {
       outpost: {
         gold: 1,
@@ -724,6 +747,7 @@ export const legendTiles: TileInfoProps[] = [
     blocked: [],
     sword: 0,
     shield: 0,
+    type: "legend",
     loot: {
       outpost: {
         gold: 1,
@@ -753,6 +777,7 @@ export const legendTiles: TileInfoProps[] = [
     blocked: [],
     sword: 0,
     shield: 0,
+    type: "legend",
     loot: {
       outpost: {
         gold: 0,
@@ -782,6 +807,7 @@ export const legendTiles: TileInfoProps[] = [
     blocked: [],
     sword: 0,
     shield: 0,
+    type: "legend",
     loot: {
       outpost: {
         gold: 1,
@@ -811,6 +837,7 @@ export const legendTiles: TileInfoProps[] = [
     blocked: [],
     sword: 0,
     shield: 0,
+    type: "legend",
     loot: {
       outpost: {
         gold: 0,
@@ -840,6 +867,7 @@ export const legendTiles: TileInfoProps[] = [
     blocked: [],
     sword: 0,
     shield: 0,
+    type: "legend",
     loot: {
       outpost: {
         gold: 1,
@@ -872,6 +900,7 @@ export const knownWorldTiles: TileInfoProps[] = [
     blocked: [],
     sword: 0,
     shield: 0,
+    type: "ocean",
     loot: {
       outpost: {
         gold: 0,
@@ -901,6 +930,7 @@ export const knownWorldTiles: TileInfoProps[] = [
     blocked: ["E", "SE"],
     sword: 0,
     shield: 0,
+    type: "home",
     loot: {
       outpost: {
         gold: 0,
@@ -930,6 +960,7 @@ export const knownWorldTiles: TileInfoProps[] = [
     blocked: [],
     sword: 0,
     shield: 0,
+    type: "ocean",
     loot: {
       outpost: {
         gold: 0,
@@ -959,6 +990,7 @@ export const knownWorldTiles: TileInfoProps[] = [
     blocked: [],
     sword: 0,
     shield: 0,
+    type: "infidel_empire",
     loot: {
       outpost: {
         gold: 0,

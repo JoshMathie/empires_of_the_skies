@@ -3,8 +3,6 @@ import { BoardProps } from "boardgame.io/dist/types/packages/react";
 export interface MyGameProps extends BoardProps<MyGameState> {}
 
 export interface MyGameState {
-  turn: number;
-  phase: string;
   playerInfo: { [details: string]: PlayerInfo };
   mapState: MapState;
   boardState: ActionBoardInfo;
@@ -52,6 +50,7 @@ export type PlayerInfo = {
   id: string;
   colour: (typeof PlayerColour)[keyof typeof PlayerColour];
   ready: boolean;
+  passed: boolean;
   resources: Resources;
   isArchprelate: boolean;
   playerBoardCounsellorLocations: PlayerBoardInfo;
@@ -119,6 +118,7 @@ export type TileInfoProps = {
   sword: number;
   shield: number;
   loot: LootInfo;
+  type: "land" | "ocean" | "legend" | "home" | "infidel_empire";
 };
 
 type LootInfo = {
