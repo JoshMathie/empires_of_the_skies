@@ -5,7 +5,6 @@ const evadeAttackingFleet: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random },
   ...args
 ) => {
-  //   let attackerID: string = "";
   if (G.battleState !== undefined) {
     G.battleState.defender = { decision: "evade", ...G.playerInfo[playerID] };
     let attackerID = G.battleState.attacker.id;

@@ -7,6 +7,7 @@ import {
 import { fortuneOfWarCards } from "../codifiedGameInfo";
 import { EventsAPI } from "boardgame.io/dist/types/src/plugins/plugin-events";
 import { Ctx } from "boardgame.io";
+import { RandomAPI } from "boardgame.io/dist/types/src/plugins/random/random";
 
 export const clearMoves = (
   props: MyGameProps,
@@ -157,6 +158,9 @@ export const findNextBattle = (G: MyGameState, events: EventsAPI, ctx: Ctx) => {
         G.mapState.battleMap[y][x].forEach((id) => {
           playerIDs.push(id);
         });
+        if (playerIDs.length === 0) {
+          events.endPhase();
+        }
         events.setActivePlayers({
           value: {
             [sortPlayersInPlayerOrder(playerIDs, ctx)[0]]: {
@@ -179,4 +183,25 @@ export const sortPlayersInPlayerOrder = (playerIDs: string[], ctx: Ctx) => {
   });
 
   return sortedPlayerIDs;
+};
+
+export const drawFortuneOfWarCard = (
+  G: MyGameState,
+  random: RandomAPI
+): FortuneOfWarCardInfo => {
+  const cardDeck = G.cardDecks.fortuneOfWarCards;
+  let randomIndex = random.Die(cardDeck.length);
+
+  //checking if the card is a no effect card
+  while (
+    cardDeck[randomIndex].shield === 0 &&
+    cardDeck[randomIndex].sword === 0
+  ) {
+    resetFortuneOfWarCardDeck(G);
+    randomIndex = random.Die(cardDeck.length);
+  }
+  const card = cardDeck[randomIndex];
+  G.cardDecks.discardedFortuneOfWarCards.push(cardDeck[randomIndex]);
+  G.cardDecks.fortuneOfWarCards.splice(randomIndex, 1);
+  return card;
 };
