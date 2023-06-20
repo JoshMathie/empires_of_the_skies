@@ -1,12 +1,12 @@
 import { MoveFn } from "boardgame.io";
-import { MyGameState } from "../types";
+import { MyGameState } from "../../types";
 import {
   removeGoldAmount,
   removeOneCounsellor,
   removeVPAmount,
-} from "./resourceUpdates";
+} from "../resourceUpdates";
 import { INVALID_MOVE } from "boardgame.io/core";
-import { checkCounsellorsNotZero } from "./moveValidation";
+import { checkCounsellorsNotZero } from "../moveValidation";
 
 const convertMonarch: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random },

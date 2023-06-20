@@ -1,9 +1,9 @@
 import { MoveFn } from "boardgame.io";
-import { MyGameState } from "../types";
-import { findPossibleDestinations } from "../helpers/helpers";
+import { MyGameState } from "../../types";
+import { findPossibleDestinations } from "../../helpers/helpers";
 import { INVALID_MOVE } from "boardgame.io/core";
-import { removeGoldAmount } from "./resourceUpdates";
-import { checkCounsellorsNotZero } from "./moveValidation";
+import { removeGoldAmount } from "../resourceUpdates";
+import { checkCounsellorsNotZero } from "../moveValidation";
 
 const deployFleet: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random },

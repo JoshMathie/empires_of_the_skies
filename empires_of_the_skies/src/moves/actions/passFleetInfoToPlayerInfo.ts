@@ -1,5 +1,5 @@
 import { MoveFn } from "boardgame.io";
-import { MyGameState } from "../types";
+import { MyGameState } from "../../types";
 import { INVALID_MOVE } from "boardgame.io/core";
 
 const passFleetInfoToPlayerInfo: MoveFn<MyGameState> = (

@@ -1,12 +1,12 @@
 import { MoveFn } from "boardgame.io";
-import { MyGameState } from "../types";
-import { checkCounsellorsNotZero } from "./moveValidation";
+import { MyGameState } from "../../types";
+import { checkCounsellorsNotZero } from "../moveValidation";
 import { INVALID_MOVE } from "boardgame.io/core";
 import {
   addSkyship,
   removeGoldAmount,
   removeOneCounsellor,
-} from "./resourceUpdates";
+} from "../resourceUpdates";
 
 const buildSkyships: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random },

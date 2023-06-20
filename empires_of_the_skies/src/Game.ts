@@ -16,31 +16,31 @@ import {
   knownWorldTiles,
 } from "./codifiedGameInfo";
 import discoverTile from "./moves/discoverTile";
-import alterPlayerOrder from "./moves/alterPlayerOrder";
-import recruitCounsellors from "./moves/recruitCounsellors";
-import recruitRegiments from "./moves/recruitRegiments";
-import purchaseSkyships from "./moves/purchaseSkyships";
-import foundBuildings from "./moves/foundBuildings";
+import alterPlayerOrder from "./moves/actions/alterPlayerOrder";
+import recruitCounsellors from "./moves/actions/recruitCounsellors";
+import recruitRegiments from "./moves/actions/recruitRegiments";
+import purchaseSkyships from "./moves/actions/purchaseSkyships";
+import foundBuildings from "./moves/actions/foundBuildings";
 import {
   checkAndPlaceFort,
   flipCards,
   increaseHeresy,
   increaseOrthodoxy,
 } from "./moves/resourceUpdates";
-import punishDissenters from "./moves/punishDissenters";
-import convertMonarch from "./moves/convertMonarch";
-import influencePrelates from "./moves/influencePrelates";
+import punishDissenters from "./moves/actions/punishDissenters";
+import convertMonarch from "./moves/actions/convertMonarch";
+import influencePrelates from "./moves/actions/influencePrelates";
 import {
   findNextBattle,
   fullResetFortuneOfWarCardDeck,
 } from "./helpers/helpers";
-import trainTroops from "./moves/trainTroops";
-import buildSkyships from "./moves/buildSkyships";
-import conscriptLevies from "./moves/conscriptLevies";
-import passFleetInfoToPlayerInfo from "./moves/passFleetInfoToPlayerInfo";
-import deployFleet from "./moves/deployFleet";
-import enableDispatchButtons from "./moves/enableDispatchButtons";
-import issueHolyDecree from "./moves/issueHolyDecree";
+import trainTroops from "./moves/actions/trainTroops";
+import buildSkyships from "./moves/actions/buildSkyships";
+import conscriptLevies from "./moves/actions/conscriptLevies";
+import passFleetInfoToPlayerInfo from "./moves/actions/passFleetInfoToPlayerInfo";
+import deployFleet from "./moves/actions/deployFleet";
+import enableDispatchButtons from "./moves/actions/enableDispatchButtons";
+import issueHolyDecree from "./moves/actions/issueHolyDecree";
 import pass from "./moves/pass";
 import attackOtherPlayersFleet from "./moves/attackOtherPlayersFleet";
 import evadeAttackingFleet from "./moves/evadeAttackingFleet";

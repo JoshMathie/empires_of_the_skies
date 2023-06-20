@@ -1,12 +1,12 @@
 import { MoveFn } from "boardgame.io";
-import { MyGameState } from "../types";
+import { MyGameState } from "../../types";
 import { INVALID_MOVE } from "boardgame.io/core";
-import { checkCounsellorsNotZero } from "./moveValidation";
+import { checkCounsellorsNotZero } from "../moveValidation";
 import {
   addLevyAmount,
   removeOneCounsellor,
   removeVPAmount,
-} from "./resourceUpdates";
+} from "../resourceUpdates";
 
 const conscriptLevies: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random },

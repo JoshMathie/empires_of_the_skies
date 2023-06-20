@@ -1,9 +1,9 @@
 import { MoveFn } from "boardgame.io";
-import { MyGameState } from "../types";
-import { checkCounsellorsNotZero } from "./moveValidation";
+import { MyGameState } from "../../types";
+import { checkCounsellorsNotZero } from "../moveValidation";
 import { INVALID_MOVE } from "boardgame.io/core";
-import { resetFortuneOfWarCardDeck } from "../helpers/helpers";
-import { removeGoldAmount, removeOneCounsellor } from "./resourceUpdates";
+import { resetFortuneOfWarCardDeck } from "../../helpers/helpers";
+import { removeGoldAmount, removeOneCounsellor } from "../resourceUpdates";
 
 const trainTroops: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random },

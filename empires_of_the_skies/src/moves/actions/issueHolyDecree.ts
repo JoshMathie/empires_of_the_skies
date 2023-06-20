@@ -1,13 +1,13 @@
 import { MoveFn } from "boardgame.io";
-import { MyGameState } from "../types";
+import { MyGameState } from "../../types";
 import {
   addVPAmount,
   advanceAllHeresyTrackers,
   removeVPAmount,
   retreatAllHeresyTrackers,
-} from "./resourceUpdates";
+} from "../resourceUpdates";
 import { INVALID_MOVE } from "boardgame.io/core";
-import { blessingOrCurseVPAmount } from "../helpers/helpers";
+import { blessingOrCurseVPAmount } from "../../helpers/helpers";
 
 const issueHolyDecree: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random },

@@ -1,8 +1,8 @@
 import { MoveFn } from "boardgame.io";
-import { MyGameState, PlayerColour } from "../types";
-import { checkCounsellorsNotZero } from "./moveValidation";
+import { MyGameState, PlayerColour } from "../../types";
+import { checkCounsellorsNotZero } from "../moveValidation";
 import { INVALID_MOVE } from "boardgame.io/core";
-import { addGoldAmount, removeGoldAmount } from "./resourceUpdates";
+import { addGoldAmount, removeGoldAmount } from "../resourceUpdates";
 
 export const influencePrelates: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random },

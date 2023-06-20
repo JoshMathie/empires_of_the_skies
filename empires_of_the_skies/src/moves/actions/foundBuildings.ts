@@ -1,8 +1,8 @@
 import { MoveFn } from "boardgame.io";
-import { MyGameState } from "../types";
+import { MyGameState } from "../../types";
 import { INVALID_MOVE } from "boardgame.io/core";
-import { checkCounsellorsNotZero } from "./moveValidation";
-import { removeOneCounsellor } from "./resourceUpdates";
+import { checkCounsellorsNotZero } from "../moveValidation";
+import { removeOneCounsellor } from "../resourceUpdates";
 import { EventsAPI } from "boardgame.io/dist/types/src/plugins/plugin-events";
 
 // needs a stage where the player selects a map tile to place the fort onto and that tile is verified to ensure they can build on it

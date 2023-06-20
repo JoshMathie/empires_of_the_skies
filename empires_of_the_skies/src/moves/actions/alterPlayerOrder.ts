@@ -1,8 +1,8 @@
 import { MoveFn } from "boardgame.io";
-import { PlayerOrder, MyGameState } from "../types";
-import { checkCounsellorsNotZero } from "./moveValidation";
+import { PlayerOrder, MyGameState } from "../../types";
+import { checkCounsellorsNotZero } from "../moveValidation";
 import { INVALID_MOVE } from "boardgame.io/core";
-import { removeOneCounsellor } from "./resourceUpdates";
+import { removeOneCounsellor } from "../resourceUpdates";
 
 export const alterPlayerOrder: MoveFn<MyGameState> = (
   { G, ctx, events, random },

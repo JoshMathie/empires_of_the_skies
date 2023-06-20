@@ -1,14 +1,14 @@
 import { MoveFn } from "boardgame.io";
-import { MyGameState } from "../types";
+import { MyGameState } from "../../types";
 import { INVALID_MOVE } from "boardgame.io/core";
-import { checkCounsellorsNotZero } from "./moveValidation";
+import { checkCounsellorsNotZero } from "../moveValidation";
 import {
   increaseHeresyWithinMove,
   increaseOrthodoxyWithinMove,
   removeGoldAmount,
   removeOneCounsellor,
   removeVPAmount,
-} from "./resourceUpdates";
+} from "../resourceUpdates";
 //TODO: add functionality for executing prisoners
 const punishDissenters: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random },

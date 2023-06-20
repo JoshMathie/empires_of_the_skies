@@ -1,7 +1,7 @@
-import { MyGameState } from "../types";
+import { MyGameState } from "../../types";
 import { MoveFn } from "boardgame.io";
-import { checkCounsellorsNotZero } from "./moveValidation";
-import { removeGoldAmount } from "./resourceUpdates";
+import { checkCounsellorsNotZero } from "../moveValidation";
+import { removeGoldAmount } from "../resourceUpdates";
 import { INVALID_MOVE } from "boardgame.io/core";
 
 export const recruitCounsellors: MoveFn<MyGameState> = (
