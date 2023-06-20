@@ -8,6 +8,16 @@ export interface MyGameState {
   boardState: ActionBoardInfo;
   playerOrder: PlayerOrder;
   cardDecks: CardDeckInfo;
+  battleState?: BattleState;
+}
+
+export type BattleState = {
+  attacker: BattlePlayerInfo;
+  defender: BattlePlayerInfo;
+};
+
+interface BattlePlayerInfo extends PlayerInfo {
+  decision: "fight" | "evade" | "undecided";
 }
 
 export type CardDeckInfo = {
@@ -38,6 +48,8 @@ export type MapState = {
   buildings: MapBuildingInfo[][];
   mostRecentlyDiscoveredTile: number[];
   discoveredRaces: string[];
+  battleMap: string[][][];
+  currentBattle: number[];
 };
 export type MapBuildingInfo = {
   player?: PlayerInfo;

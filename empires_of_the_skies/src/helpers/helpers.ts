@@ -5,6 +5,8 @@ import {
   PlayerInfo,
 } from "../types";
 import { fortuneOfWarCards } from "../codifiedGameInfo";
+import { EventsAPI } from "boardgame.io/dist/types/src/plugins/plugin-events";
+import { Ctx } from "boardgame.io";
 
 export const clearMoves = (
   props: MyGameProps,
@@ -147,36 +149,34 @@ export const blessingOrCurseVPAmount = (G: MyGameState): number => {
   return Math.floor(total / 3);
 };
 
-export const whichBattlePhase = (G: MyGameState): string => {
-  let numberOfFleetsPerTileMap: Record<string, Set<string>> = {};
-  let nextPhase = "";
-
-  Object.values(G.playerInfo).forEach((info) => {
-    info.fleetInfo.forEach((fleetInfo) => {
-      const [x, y] = fleetInfo.location;
-      if (G.mapState.currentTileArray[y][x].type === "legend") {
-        nextPhase = "plunder_legends";
+export const findNextBattle = (G: MyGameState, events: EventsAPI, ctx: Ctx) => {
+  for (let y = G.mapState.currentBattle[1]; y < 4; y++) {
+    for (let x = G.mapState.currentBattle[0]; x < 8; x++) {
+      if (G.mapState.battleMap[y][x].length > 1) {
+        const playerIDs: string[] = [];
+        G.mapState.battleMap[y][x].forEach((id) => {
+          playerIDs.push(id);
+        });
+        events.setActivePlayers({
+          value: {
+            [sortPlayersInPlayerOrder(playerIDs, ctx)[0]]: {
+              stage: "attack_or_pass",
+            },
+          },
+        });
+        G.mapState.currentBattle = [x, y];
       }
-    });
-  });
+    }
+  }
+};
 
-  Object.entries(G.playerInfo).forEach(([id, info]) => {
-    info.fleetInfo.forEach((fleetInfo) => {
-      if (
-        numberOfFleetsPerTileMap[fleetInfo.location.toString()] !== undefined
-      ) {
-        numberOfFleetsPerTileMap[fleetInfo.location.toString()].add(id);
-      } else {
-        numberOfFleetsPerTileMap[fleetInfo.location.toString()] = new Set(id);
-      }
-    });
-  });
-
-  Object.values(numberOfFleetsPerTileMap).forEach((setOfIds) => {
-    if (setOfIds.size > 1) {
-      nextPhase = "aerial_battle";
+export const sortPlayersInPlayerOrder = (playerIDs: string[], ctx: Ctx) => {
+  const sortedPlayerIDs: string[] = [];
+  ctx.playOrder.forEach((id) => {
+    if (playerIDs.includes(id)) {
+      sortedPlayerIDs.push(id);
     }
   });
 
-  return nextPhase;
+  return sortedPlayerIDs;
 };

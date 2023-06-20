@@ -30,7 +30,10 @@ import {
 import punishDissenters from "./moves/punishDissenters";
 import convertMonarch from "./moves/convertMonarch";
 import influencePrelates from "./moves/influencePrelates";
-import { fullResetFortuneOfWarCardDeck } from "./helpers/helpers";
+import {
+  findNextBattle,
+  fullResetFortuneOfWarCardDeck,
+} from "./helpers/helpers";
 import trainTroops from "./moves/trainTroops";
 import buildSkyships from "./moves/buildSkyships";
 import conscriptLevies from "./moves/conscriptLevies";
@@ -39,8 +42,10 @@ import deployFleet from "./moves/deployFleet";
 import enableDispatchButtons from "./moves/enableDispatchButtons";
 import issueHolyDecree from "./moves/issueHolyDecree";
 import pass from "./moves/pass";
+import attackOtherPlayersFleet from "./moves/attackOtherPlayersFleet";
+import evadeAttackingFleet from "./moves/evadeAttackingFleet";
 
-export const MyGame: Game<MyGameState> = {
+const MyGame: Game<MyGameState> = {
   turn: { minMoves: 1 },
 
   name: "empires-of-the-skies",
@@ -51,6 +56,8 @@ export const MyGame: Game<MyGameState> = {
       buildings: getInitialOutpostsAndColonysInfo(),
       mostRecentlyDiscoveredTile: [4, 0],
       discoveredRaces: [],
+      battleMap: initialBattleMapState(),
+      currentBattle: [0, 0],
     };
     const playerInfos = (ctx: Ctx): { [details: string]: PlayerInfo } => {
       const colours = getPlayerColours(ctx);
@@ -283,6 +290,14 @@ export const MyGame: Game<MyGameState> = {
     enableDispatchButtons: { move: enableDispatchButtons, undoable: true },
     issueHolyDecree: { move: issueHolyDecree, undoable: true },
     pass: { move: pass, undoable: false },
+    attackOtherPlayersFleet: {
+      move: attackOtherPlayersFleet,
+      undoable: true,
+    },
+    evadeAttackingFleet: {
+      move: evadeAttackingFleet,
+      undoable: true,
+    },
   },
   phases: {
     discovery: {
@@ -293,7 +308,7 @@ export const MyGame: Game<MyGameState> = {
       },
       next: "actions",
       onEnd: (context) => {
-        Object.entries(context.G.playerInfo).forEach(([id, playerInfo]) => {
+        Object.values(context.G.playerInfo).forEach((playerInfo) => {
           playerInfo.passed = false;
         });
       },
@@ -321,21 +336,60 @@ export const MyGame: Game<MyGameState> = {
         issueHolyDecree,
         pass: { move: pass, undoable: false },
       },
-      next: "resolution",
-      // endIf: (G) => {
-      //   let readyToEndPhase = true;
-      //   Object.values(G.G.playerInfo).forEach((info) => {
-      //     if (info.passed === false) {
-      //       readyToEndPhase = false;
-      //     }
-      //   });
-      //   return readyToEndPhase;
-      // },
+      next: "aerial_battle",
       onEnd: (context) => {
-        Object.entries(context.G.playerInfo).forEach(([id, playerInfo]) => {
+        Object.values(context.G.playerInfo).forEach((playerInfo) => {
           playerInfo.passed = false;
         });
       },
+    },
+    aerial_battle: {
+      onBegin: (context) => {
+        Object.entries(context.G.playerInfo).forEach(([id, info]) => {
+          info.fleetInfo.forEach((fleetInfo) => {
+            const [x, y] = fleetInfo.location;
+            if (!context.G.mapState.battleMap[y][x].includes(id)) {
+              context.G.mapState.battleMap[y][x].push(id);
+            }
+          });
+        });
+        findNextBattle(context.G, context.events, context.ctx);
+      },
+      turn: {
+        stages: {
+          attack_or_pass: {
+            moves: {
+              attackOtherPlayersFleet: {
+                move: attackOtherPlayersFleet,
+                undoable: true,
+              },
+            },
+          },
+          attack_or_evade: {
+            moves: {
+              evadeAttackingFleet: {
+                move: evadeAttackingFleet,
+                undoable: true,
+              },
+            },
+          },
+        },
+      },
+      moves: {
+        attackOtherPlayersFleet: {
+          move: attackOtherPlayersFleet,
+          undoable: true,
+        },
+        evadeAttackingFleet: {
+          move: evadeAttackingFleet,
+          undoable: true,
+        },
+      },
+      //   // check which players are eligable for an aerial battle using the code started in get next phase helper method
+      //   // create moves which allow the first player in player order to attack or pass and so on through all the players per tile where more than one player has a fleet
+      //   // create moves which allow responding players to evade or engage in battle
+      //   // at the end of the battle, update the gamestate to reflect that this encounter has finished, and then use the setActivePlayers to move onto the next players eligable for aerial battle
+      //   // if there are none, then move onto the plunder legends phase
     },
   },
   maxPlayers: 6,
@@ -397,10 +451,21 @@ const getInitialOutpostsAndColonysInfo = () => {
     buildingInfo,
   ];
   return [
-    eightBuildingInfo,
-    eightBuildingInfo,
-    eightBuildingInfo,
-    eightBuildingInfo,
+    [...eightBuildingInfo],
+    [...eightBuildingInfo],
+    [...eightBuildingInfo],
+    [...eightBuildingInfo],
+  ];
+};
+
+const initialBattleMapState = () => {
+  const eightEmptySets: string[][] = [[], [], [], [], [], [], [], []];
+
+  return [
+    [...eightEmptySets],
+    [...eightEmptySets],
+    [...eightEmptySets],
+    [...eightEmptySets],
   ];
 };
 
@@ -415,3 +480,5 @@ const getPlayerColours = (ctx: Ctx) => {
   ];
   return colours.slice(0, ctx.numPlayers);
 };
+
+export { MyGame };
