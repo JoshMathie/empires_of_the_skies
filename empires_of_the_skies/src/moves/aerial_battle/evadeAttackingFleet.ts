@@ -1,5 +1,5 @@
 import { MoveFn, StageArg } from "boardgame.io";
-import { MyGameState } from "../types";
+import { MyGameState } from "../../types";
 
 const evadeAttackingFleet: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random },

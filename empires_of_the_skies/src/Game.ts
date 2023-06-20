@@ -15,7 +15,7 @@ import {
   legendTiles,
   knownWorldTiles,
 } from "./codifiedGameInfo";
-import discoverTile from "./moves/discoverTile";
+import discoverTile from "./moves/discovery/discoverTile";
 import alterPlayerOrder from "./moves/actions/alterPlayerOrder";
 import recruitCounsellors from "./moves/actions/recruitCounsellors";
 import recruitRegiments from "./moves/actions/recruitRegiments";
@@ -42,8 +42,8 @@ import deployFleet from "./moves/actions/deployFleet";
 import enableDispatchButtons from "./moves/actions/enableDispatchButtons";
 import issueHolyDecree from "./moves/actions/issueHolyDecree";
 import pass from "./moves/pass";
-import attackOtherPlayersFleet from "./moves/attackOtherPlayersFleet";
-import evadeAttackingFleet from "./moves/evadeAttackingFleet";
+import attackOtherPlayersFleet from "./moves/aerial_battle/attackOtherPlayersFleet";
+import evadeAttackingFleet from "./moves/aerial_battle/evadeAttackingFleet";
 
 const MyGame: Game<MyGameState> = {
   turn: { minMoves: 1 },

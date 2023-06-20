@@ -1,7 +1,7 @@
 import { INVALID_MOVE } from "boardgame.io/core/";
-import { MyGameState } from "../types";
+import { MyGameState } from "../../types";
 import { MoveFn } from "boardgame.io";
-import { advanceAllHeresyTrackers } from "./resourceUpdates";
+import { advanceAllHeresyTrackers } from "../resourceUpdates";
 
 export const discoverTile: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random },

@@ -1,5 +1,5 @@
 import { ActivePlayersArg, MoveFn, StageArg } from "boardgame.io";
-import { MyGameState } from "../types";
+import { MyGameState } from "../../types";
 import { act } from "react-dom/test-utils";
 
 const attackOtherPlayersFleet: MoveFn<MyGameState> = (
