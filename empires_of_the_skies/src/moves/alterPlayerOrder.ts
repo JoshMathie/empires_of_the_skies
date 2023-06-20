@@ -10,7 +10,9 @@ export const alterPlayerOrder: MoveFn<MyGameState> = (
 ) => {
   const newPosition: keyof PlayerOrder = args[1][0] + 1;
   const playerID = ctx.currentPlayer;
-  checkCounsellorsNotZero(playerID, G);
+  if (checkCounsellorsNotZero(playerID, G) !== undefined) {
+    return INVALID_MOVE;
+  }
   if (ctx.numPlayers < newPosition) {
     console.log("Player has chosen a position that is out of bounds");
     return INVALID_MOVE;

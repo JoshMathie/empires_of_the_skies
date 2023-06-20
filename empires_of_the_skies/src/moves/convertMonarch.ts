@@ -6,6 +6,7 @@ import {
   removeVPAmount,
 } from "./resourceUpdates";
 import { INVALID_MOVE } from "boardgame.io/core";
+import { checkCounsellorsNotZero } from "./moveValidation";
 
 const convertMonarch: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random },
@@ -13,6 +14,9 @@ const convertMonarch: MoveFn<MyGameState> = (
 ) => {
   const value: keyof typeof G.boardState.convertMonarch = args[1][0] + 1;
   const playerInfo = G.playerInfo[playerID];
+  if (checkCounsellorsNotZero(playerID, G) !== undefined) {
+    return INVALID_MOVE;
+  }
 
   if (G.boardState.convertMonarch[value] !== undefined) {
     console.log("Player has chosen a move which is already taken");

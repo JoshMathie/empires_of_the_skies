@@ -10,7 +10,9 @@ export const influencePrelates: MoveFn<MyGameState> = (
 ) => {
   const value: keyof typeof G.boardState.influencePrelates = args[1][0] + 1;
 
-  checkCounsellorsNotZero(playerID, G);
+  if (checkCounsellorsNotZero(playerID, G) !== undefined) {
+    return INVALID_MOVE;
+  }
 
   if (G.boardState.influencePrelates[value] !== undefined) {
     console.log("Player has selected a move which has already been taken");

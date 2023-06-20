@@ -3,11 +3,15 @@ import { MyGameState } from "../types";
 import { findPossibleDestinations } from "../helpers/helpers";
 import { INVALID_MOVE } from "boardgame.io/core";
 import { removeGoldAmount } from "./resourceUpdates";
+import { checkCounsellorsNotZero } from "./moveValidation";
 
 const deployFleet: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random },
   ...args
 ) => {
+  if (checkCounsellorsNotZero(playerID, G) !== undefined) {
+    return INVALID_MOVE;
+  }
   const fleet = args[0][0];
   const startingCoords = fleet.location;
   const destinationCoords = args[0][1];

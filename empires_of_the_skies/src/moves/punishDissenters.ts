@@ -15,7 +15,9 @@ const punishDissenters: MoveFn<MyGameState> = (
   ...args
 ) => {
   const value: keyof typeof G.boardState.punishDissenters = args[1][0] + 1;
-  checkCounsellorsNotZero(playerID, G);
+  if (checkCounsellorsNotZero(playerID, G) !== undefined) {
+    return INVALID_MOVE;
+  }
   if (value > ctx.numPlayers) {
     console.log(
       "Player has selected a move which is only available in games with more players"

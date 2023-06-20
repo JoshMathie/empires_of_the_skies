@@ -12,7 +12,9 @@ const buildSkyships: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random },
   ...args
 ) => {
-  checkCounsellorsNotZero(playerID, G);
+  if (checkCounsellorsNotZero(playerID, G) !== undefined) {
+    return INVALID_MOVE;
+  }
 
   if (G.playerInfo[playerID].shipyards === 0) {
     console.log("Player tried to build skyships without having any shipyards");
@@ -36,7 +38,8 @@ const buildSkyships: MoveFn<MyGameState> = (
     addSkyship(G, playerID);
   }
   G.playerInfo[playerID].playerBoardCounsellorLocations.buildSkyships = true;
-  args[0][0](true);
+
+  args[0](true);
 };
 
 export default buildSkyships;

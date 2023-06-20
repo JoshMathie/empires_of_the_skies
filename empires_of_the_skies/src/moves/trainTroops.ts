@@ -9,7 +9,9 @@ const trainTroops: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random },
   ...args
 ) => {
-  checkCounsellorsNotZero(playerID, G);
+  if (checkCounsellorsNotZero(playerID, G) !== undefined) {
+    return INVALID_MOVE;
+  }
   const value: keyof typeof G.boardState.trainTroops = args[1][0] + 1;
 
   const cardDeck = G.cardDecks.fortuneOfWarCards;

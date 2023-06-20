@@ -19,7 +19,9 @@ const conscriptLevies: MoveFn<MyGameState> = (
     return INVALID_MOVE;
   }
 
-  checkCounsellorsNotZero(playerID, G);
+  if (checkCounsellorsNotZero(playerID, G) !== undefined) {
+    return INVALID_MOVE;
+  }
 
   const levyAmount: number = args[1][0];
 
