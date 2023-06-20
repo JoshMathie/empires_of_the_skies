@@ -70,7 +70,6 @@ const MyGame: Game<MyGameState> = {
           ready: true, //look into what this should be
           passed: false,
           resources: {
-            //update this to reflect starting resources
             gold: 6,
             mithril: 0,
             dragonScales: 0,
