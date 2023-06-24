@@ -36,7 +36,7 @@ const foundCathedral = (
   playerID: string,
   events: EventsAPI,
   args: any[]
-) => {
+): void | typeof INVALID_MOVE => {
   if (G.playerInfo[playerID].cathedrals === 6) {
     return INVALID_MOVE;
   }
@@ -60,7 +60,7 @@ const foundPalace = (
   playerID: string,
   events: EventsAPI,
   args: any[]
-) => {
+): void | typeof INVALID_MOVE => {
   if (G.playerInfo[playerID].palaces === 6) {
     return INVALID_MOVE;
   }
@@ -87,7 +87,7 @@ const foundShipyard = (
   playerID: string,
   events: EventsAPI,
   args: any[]
-) => {
+): void | typeof INVALID_MOVE => {
   if (G.playerInfo[playerID].shipyards === 3) {
     return INVALID_MOVE;
   }
@@ -107,7 +107,7 @@ const foundFort = (
   playerID: string,
   events: EventsAPI,
   args: any[]
-) => {
+): void | typeof INVALID_MOVE => {
   const cost = 3;
 
   G.playerInfo[playerID].resources.gold -= cost;

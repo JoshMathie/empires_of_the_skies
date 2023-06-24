@@ -10,9 +10,8 @@ const attackOtherPlayersFleet: MoveFn<MyGameState> = (
     attacker: { decision: "fight", ...G.playerInfo[playerID] },
     defender: { decision: "undecided", ...G.playerInfo[defenderID] },
   };
-  const activePlayersConfig: Record<string, StageArg> = {};
-  activePlayersConfig[defenderID] = "attack_or_evade";
-  events.setActivePlayers({ value: { activePlayersConfig } });
+  events.endTurn({ next: defenderID });
+  events.setStage("attack or evade");
 };
 
 export default attackOtherPlayersFleet;

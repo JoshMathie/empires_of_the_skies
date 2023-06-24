@@ -8,6 +8,7 @@ import { PlayerBoard } from "./PlayerBoard/PlayerBoard";
 import { Box, Tab, Tabs } from "@mui/material";
 import { TabPanel, TabContext } from "@mui/lab";
 import ResourceTrackerBar from "./ResourceTrackerBar/ResourceTrackerBar";
+import AttackOrPassDiaLog from "./AerialBattle/AttackOrPassDialog";
 
 export const ActionBoardsAndMap = (props: MyGameProps) => {
   const [value, setValue] = useState("0");
@@ -57,6 +58,7 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
             <WorldMap {...props} setTurnComplete={setTurnComplete} />
           </TabPanel>
         </TabContext>
+        {props.G.mapState.battleMap[0][0] && <AttackOrPassDiaLog {...props} />}
       </Box>
     </div>
   );

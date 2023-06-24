@@ -21,7 +21,7 @@ export const influencePrelates: MoveFn<MyGameState> = (
   let recipientOfPayment;
   let cost = 1;
 
-  const kingdomToIDMap = {
+  const kingdomToIDMap: { [key: number]: string | null } = {
     1: PlayerColour.red,
     2: PlayerColour.blue,
     3: PlayerColour.yellow,

@@ -495,6 +495,10 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
                     levyCountForDispatch,
                     props.setTurnComplete,
                   ]);
+                  setRegimentCount(0);
+                  setLevyCountForDispatch(0);
+                  setSkyshipCount(0);
+                  setDispatchDisabled(true);
                 }}
                 style={{
                   backgroundColor: colour,

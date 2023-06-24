@@ -1,5 +1,6 @@
 import { MoveFn } from "boardgame.io";
 import { MyGameState } from "../types";
+import { findNextBattle } from "../helpers/helpers";
 
 const pass: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random },
@@ -19,8 +20,11 @@ const pass: MoveFn<MyGameState> = (
         readyToEndPhase = false;
       }
     });
-    if (readyToEndPhase) {
-      events.endPhase();
+    if (readyToEndPhase && ctx.phase === "actions") {
+      // events.endPhase();
+      // findInitialBattleMap(G);
+      console.log("is this ever being called??");
+      findNextBattle(G, events, ctx);
     } else {
       events.endTurn();
     }

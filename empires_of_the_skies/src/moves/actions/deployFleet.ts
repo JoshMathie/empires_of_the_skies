@@ -14,7 +14,7 @@ const deployFleet: MoveFn<MyGameState> = (
   }
   const fleet = args[0][0];
   const startingCoords = fleet.location;
-  const destinationCoords = args[0][1];
+  const [x, y] = args[0][1];
   const unlaiden = fleet.regiments === 0 && fleet.levies === 0;
 
   let destinationValid = false;
@@ -27,10 +27,7 @@ const deployFleet: MoveFn<MyGameState> = (
   ] = findPossibleDestinations(G, startingCoords, unlaiden);
 
   validDestinations.forEach((coords) => {
-    if (
-      coords[0] === destinationCoords[0] &&
-      coords[1] === destinationCoords[1]
-    ) {
+    if (coords[0] === x && coords[1] === y) {
       destinationValid = true;
     }
   });
@@ -45,22 +42,26 @@ const deployFleet: MoveFn<MyGameState> = (
   let cost = 0;
 
   coordsCostingThreeGold.forEach((coords) => {
-    if (doCoordsMatch(coords, destinationCoords)) {
+    if (doCoordsMatch(coords, [x, y])) {
       cost = 3;
     }
   });
   coordsCostingTwoGold.forEach((coords) => {
-    if (doCoordsMatch(coords, destinationCoords)) {
+    if (doCoordsMatch(coords, [x, y])) {
       cost = 2;
     }
   });
   coordsCostingOneGold.forEach((coords) => {
-    if (doCoordsMatch(coords, destinationCoords)) {
+    if (doCoordsMatch(coords, [x, y])) {
       cost = 1;
     }
   });
-  G.playerInfo[playerID].fleetInfo[fleet.fleetId - 1].location =
-    destinationCoords;
+  G.playerInfo[playerID].fleetInfo[fleet.fleetId - 1].location = [x, y];
+
+  if (!G.mapState.battleMap[y][x].includes(playerID)) {
+    G.mapState.battleMap[y][x].push(playerID);
+  }
+  console.log(G.mapState.battleMap[y][x]);
 
   removeGoldAmount(G, playerID, cost);
 

@@ -1,6 +1,9 @@
 import { MoveFn, StageArg } from "boardgame.io";
 import { MyGameState } from "../../types";
-import { findNextBattle } from "../../helpers/helpers";
+import {
+  findNextBattle,
+  findNextPlayerInBattleSequence,
+} from "../../helpers/helpers";
 
 const doNotAttack: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random },
@@ -18,10 +21,7 @@ const doNotAttack: MoveFn<MyGameState> = (
   if (currentPlayerIndex === possibleBattlers.length - 1) {
     findNextBattle(G, events, ctx);
   } else {
-    const nextPlayerID = possibleBattlers[currentPlayerIndex + 1];
-    const activePlayersConfig: Record<string, StageArg> = {};
-    activePlayersConfig[nextPlayerID] = "attack_or_pass";
-    events.setActivePlayers({ value: { activePlayersConfig } });
+    findNextPlayerInBattleSequence(playerID, ctx, G, events);
   }
 };
 

@@ -12,6 +12,7 @@ import {
 } from "../../helpers/helpers";
 import React, { useState } from "react";
 import { ButtonRow } from "./ActionBoardButtonRow";
+import { KingdomButton } from "../shared/KingdomButton";
 //Consider using a dropdown menu for selecting the kingdom to curse or bless, could make the experience clearer
 const HolyDecreeDialog = (props: HolyDecreeDialogProps) => {
   const colourToKingdomMap = {
@@ -32,18 +33,12 @@ const HolyDecreeDialog = (props: HolyDecreeDialogProps) => {
 
   mostHereticalKingdoms.forEach((id) => {
     hereticButtons.push(
-      <Button
-        style={{
-          backgroundColor: props.G.playerInfo[id].colour,
-          border: id === hereticKingdom ? "2px solid black" : "none",
-          color: "#000000",
-        }}
-        onClick={() => {
-          setHereticKingdom(id);
-        }}
-      >
-        {colourToKingdomMap[props.G.playerInfo[id].colour]}
-      </Button>
+      <KingdomButton
+        selectedKingdom={hereticKingdom}
+        setSelectedKingdom={setHereticKingdom}
+        id={id}
+        {...props}
+      ></KingdomButton>
     );
   });
   const mostOrthodoxKingdoms = findMostOrthodoxKingdoms(props.G);
@@ -53,18 +48,12 @@ const HolyDecreeDialog = (props: HolyDecreeDialogProps) => {
   );
   mostOrthodoxKingdoms.forEach((id) => {
     orthodoxButtons.push(
-      <Button
-        style={{
-          backgroundColor: props.G.playerInfo[id].colour,
-          border: id === orthodoxKingdom ? "2px solid black" : "none",
-          color: "#000000",
-        }}
-        onClick={() => {
-          setOrthodoxKingdom(id);
-        }}
-      >
-        {colourToKingdomMap[props.G.playerInfo[id].colour]}
-      </Button>
+      <KingdomButton
+        selectedKingdom={orthodoxKingdom}
+        setSelectedKingdom={setOrthodoxKingdom}
+        id={id}
+        {...props}
+      ></KingdomButton>
     );
   });
   return (

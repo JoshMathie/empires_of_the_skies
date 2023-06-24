@@ -77,7 +77,8 @@ export const findPossibleDestinations = (
           (!currentTile.blocked.includes(key) || unlaiden) &&
           value[1] >= 0 &&
           value[1] <= 3 &&
-          G.mapState.discoveredTiles[value[1]][value[0]] === true
+          G.mapState.discoveredTiles[value[1]][value[0]] === true &&
+          (value[1] !== 0 || value[0] !== 4)
         ) {
           availableGridLocations.push(value);
           coordinatesToSearchNext.push(value);
@@ -154,25 +155,59 @@ export const findNextBattle = (G: MyGameState, events: EventsAPI, ctx: Ctx) => {
   for (let y = G.mapState.currentBattle[1]; y < 4; y++) {
     for (let x = G.mapState.currentBattle[0]; x < 8; x++) {
       if (G.mapState.battleMap[y][x].length > 1) {
-        const playerIDs: string[] = [];
-        G.mapState.battleMap[y][x].forEach((id) => {
-          playerIDs.push(id);
-        });
-        if (playerIDs.length === 0) {
-          events.endPhase();
-        }
-        events.setActivePlayers({
-          value: {
-            [sortPlayersInPlayerOrder(playerIDs, ctx)[0]]: {
-              stage: "attack_or_pass",
-            },
-          },
-        });
+        const playerIDs: string[] = [...G.mapState.battleMap[y][x]];
+        const nextPlayer = sortPlayersInPlayerOrder(playerIDs, ctx)[0];
+        events.endTurn({ next: nextPlayer });
+        events.setStage("attack or pass");
         G.mapState.currentBattle = [x, y];
+        G.battleState = undefined;
+        return;
       }
     }
   }
+  events.endPhase();
 };
+
+export const findNextPlayerInBattleSequence = (
+  playerID: string,
+  ctx: Ctx,
+  G: MyGameState,
+  events: EventsAPI
+): void => {
+  const playerIDs: string[] = [
+    ...G.mapState.battleMap[G.mapState.currentBattle[1]][
+      G.mapState.currentBattle[0]
+    ],
+  ];
+  const sortedPlayerIDs = sortPlayersInPlayerOrder(playerIDs, ctx);
+  const currentPlayerIndex = sortPlayersInPlayerOrder(playerIDs, ctx).indexOf(
+    playerID
+  );
+
+  const nextPlayer = sortedPlayerIDs[currentPlayerIndex + 1];
+
+  if (!nextPlayer) {
+    findNextBattle(G, events, ctx);
+  } else {
+    events.endTurn({ next: nextPlayer });
+    events.setStage("attack or evade");
+  }
+};
+
+// export const findInitialBattleMap = (G: MyGameState) => {
+//   Object.entries(G.playerInfo).forEach(([id, info]) => {
+//     info.fleetInfo.forEach((fleetInfo) => {
+//       const [x, y] = fleetInfo.location;
+//       if (y !== 0 || x !== 4) {
+//         console.log(`[${x}, ${y}]`);
+//         if (!G.mapState.battleMap[y][x].includes(id)) {
+//           G.mapState.battleMap[y][x].push(id);
+//           console.log(G.mapState.battleMap[y]);
+//         }
+//       }
+//     });
+//   });
+// };
 
 export const sortPlayersInPlayerOrder = (playerIDs: string[], ctx: Ctx) => {
   const sortedPlayerIDs: string[] = [];
@@ -181,7 +216,7 @@ export const sortPlayersInPlayerOrder = (playerIDs: string[], ctx: Ctx) => {
       sortedPlayerIDs.push(id);
     }
   });
-
+  console.log(sortedPlayerIDs);
   return sortedPlayerIDs;
 };
 
