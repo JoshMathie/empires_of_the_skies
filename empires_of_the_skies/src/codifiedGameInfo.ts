@@ -1,3 +1,76 @@
+// const KnownWorldTile1 = require("./map_tiles/known_world1.svg") as string;
+// const KnownWorldTile2 = require("./map_tiles/known_world2.svg") as string;
+// const KnownWorldTile3 = require("./map_tiles/known_world3.svg") as string;
+// const KnownWorldTile4 = require("./map_tiles/known_world4.svg") as string;
+// const Dwarves1 =
+//   require("./map_tiles/unknown_world_tiles/dwarves1.svg") as string;
+// const Dwarves2 =
+//   require("./map_tiles/unknown_world_tiles/dwarves2.svg") as string;
+// const Dwarves3 =
+//   require("./map_tiles/unknown_world_tiles/dwarves3.svg") as string;
+// const Elves1 = require("./map_tiles/unknown_world_tiles/elves1.svg") as string;
+// const Elves2 = require("./map_tiles/unknown_world_tiles/elves2.svg") as string;
+// const Elves3 = require("./map_tiles/unknown_world_tiles/elves3.svg") as string;
+// const Goblins1 =
+//   require("./map_tiles/unknown_world_tiles/goblins1.svg") as string;
+// const Goblins2 =
+//   require("./map_tiles/unknown_world_tiles/goblins2.svg") as string;
+// const Goblins3 =
+//   require("./map_tiles/unknown_world_tiles/goblins3.svg") as string;
+// const Halflings1 =
+//   require("./map_tiles/unknown_world_tiles/halflings1.svg") as string;
+// const Halflings2 =
+//   require("./map_tiles/unknown_world_tiles/halflings2.svg") as string;
+// const Halflings3 =
+//   require("./map_tiles/unknown_world_tiles/halflings3.svg") as string;
+// const HereBeDragons =
+//   require("./map_tiles/unknown_world_tiles/here_be_dragons.svg") as string;
+// const Ocean1 = require("./map_tiles/unknown_world_tiles/ocean.svg") as string;
+// const Ocean2 = require("./map_tiles/unknown_world_tiles/ocean.svg") as string;
+// const Ocean3 = require("./map_tiles/unknown_world_tiles/ocean.svg") as string;
+// const Ocean4 = require("./map_tiles/unknown_world_tiles/ocean.svg") as string;
+// const Orcs1 = require("./map_tiles/unknown_world_tiles/orcs1.svg") as string;
+// const Orcs2 = require("./map_tiles/unknown_world_tiles/orcs2.svg") as string;
+// const Orcs3 = require("./map_tiles/unknown_world_tiles/orcs3.svg") as string;
+// const SeaElves =
+//   require("./map_tiles/unknown_world_tiles/sea_elves.svg") as string;
+// const TheFountainOfYouth =
+//   require("./map_tiles/unknown_world_tiles/the_fountain_of_youth.svg") as string;
+// const TheKingdomOfTheMerfolk =
+//   require("./map_tiles/unknown_world_tiles/the_kingdom_of_the_merfolk.svg") as string;
+// const TheKraken =
+//   require("./map_tiles/unknown_world_tiles/the_kraken.svg") as string;
+// const TheLostCityOfGold =
+//   require("./map_tiles/unknown_world_tiles/the_lost_city_of_gold.svg") as string;
+// const Trolls1 =
+//   require("./map_tiles/unknown_world_tiles/trolls1.svg") as string;
+// const Trolls2 =
+//   require("./map_tiles/unknown_world_tiles/trolls2.svg") as string;
+// const Trolls3 =
+//   require("./map_tiles/unknown_world_tiles/trolls3.svg") as string;
+// const swordOne =
+//   require("./boards_and_assets/fortunes_of_war_cards/1_sword.svg") as string;
+// const swordtwo =
+//   require("./boards_and_assets/fortunes_of_war_cards/2_sword.svg") as string;
+// const swordThree =
+//   require("./boards_and_assets/fortunes_of_war_cards/3_sword.svg") as string;
+// const swordFour =
+//   require("./boards_and_assets/fortunes_of_war_cards/4_sword.svg") as string;
+// const swordFive =
+//   require("./boards_and_assets/fortunes_of_war_cards/5_sword.svg") as string;
+// const shieldFour =
+//   require("./boards_and_assets/fortunes_of_war_cards/4_shield.svg") as string;
+// const shieldFive =
+//   require("./boards_and_assets/fortunes_of_war_cards/5_shield.svg") as string;
+// const shieldSix =
+//   require("./boards_and_assets/fortunes_of_war_cards/6_shield.svg") as string;
+// const shieldSeven =
+//   require("./boards_and_assets/fortunes_of_war_cards/7_shield.svg") as string;
+// const shieldEight =
+//   require("./boards_and_assets/fortunes_of_war_cards/8_shield.svg") as string;
+// const noEffect =
+//   require("./boards_and_assets/fortunes_of_war_cards/no_effect.svg") as string;
+
 import KnownWorldTile1 from "./map_tiles/known_world1.svg";
 import KnownWorldTile2 from "./map_tiles/known_world2.svg";
 import KnownWorldTile3 from "./map_tiles/known_world3.svg";
@@ -43,6 +116,17 @@ import shieldEight from "./boards_and_assets/fortunes_of_war_cards/8_shield.svg"
 import noEffect from "./boards_and_assets/fortunes_of_war_cards/no_effect.svg";
 
 import { FortuneOfWarCardInfo, TileInfoProps } from "./types";
+
+export const colourToKingdomMap = {
+  "#DC5454": "Angland",
+  "#51658D": "Gallois",
+  "#F5DE48": "Castillia",
+  // "#FE9F10":"Zeeland",
+  // "#FE9ACC":"Venoa",
+  "#A0522D": "Nordmark",
+  "#E6EFE9": "Ostreich",
+  "#478779": "Constantium",
+};
 
 export const unknownWorldTiles: TileInfoProps[] = [
   {

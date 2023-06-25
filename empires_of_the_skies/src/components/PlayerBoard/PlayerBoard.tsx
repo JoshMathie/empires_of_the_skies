@@ -32,13 +32,7 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
   const [selectedFleet, setSelectedFleet] = useState(1);
   const [dispatchFleetMapVisible, setDispatchFleetMapVisible] = useState(false);
   const [fleetDestination, setFleetDestination] = useState([4, 0]);
-  let colour: (typeof PlayerColour)[keyof typeof PlayerColour] =
-    PlayerColour.brown;
-  let prisoners = 0;
-  let playerInfo = undefined;
-  let playerRegiments = 0;
-  let playerSkyships = 0;
-  let playerLevies = 0;
+
   let fleets: JSX.Element[] = [];
   let currentFleet: FleetInfo = {
     fleetId: 1,
@@ -47,28 +41,28 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
     regiments: 0,
     levies: 0,
   };
-  if (props.playerID) {
-    playerInfo = props.G.playerInfo[props.playerID];
-    colour = playerInfo.colour;
-    prisoners = playerInfo.prisoners;
-    playerRegiments = playerInfo.resources.regiments;
-    playerSkyships = playerInfo.resources.skyships;
-    playerLevies = playerInfo.resources.levies;
-    playerInfo.fleetInfo.forEach((fleet) => {
-      fleets.push(
-        <FleetDisplay
-          {...fleet}
-          onClickFunction={(fleetId: number) => {
-            setSelectedFleet(fleetId);
-          }}
-          selected={selectedFleet}
-        ></FleetDisplay>
-      );
-    });
-    currentFleet = playerInfo.fleetInfo[selectedFleet - 1];
-  }
 
-  const fortuneOfWarCards = [];
+  const playerInfo =
+    props.G.playerInfo[props.playerID ?? props.ctx.currentPlayer];
+  const colour = playerInfo.colour;
+  const prisoners = playerInfo.prisoners;
+  const playerRegiments = playerInfo.resources.regiments;
+  const playerSkyships = playerInfo.resources.skyships;
+  const playerLevies = playerInfo.resources.levies;
+  playerInfo.fleetInfo.forEach((fleet) => {
+    fleets.push(
+      <FleetDisplay
+        {...fleet}
+        onClickFunction={(fleetId: number) => {
+          setSelectedFleet(fleetId);
+        }}
+        selected={selectedFleet}
+      ></FleetDisplay>
+    );
+  });
+  currentFleet = playerInfo.fleetInfo[selectedFleet - 1];
+
+  const fortuneOfWarCards: JSX.Element[] = [];
 
   for (let i = 0; i < 4; i++) {
     fortuneOfWarCards.push(

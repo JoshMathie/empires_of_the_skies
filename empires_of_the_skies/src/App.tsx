@@ -9,7 +9,7 @@ import { MyGame } from "./Game";
 const EmpiresOfTheSkiesClient = Client({
   game: MyGame,
   board: ActionBoardsAndMap,
-  // numPlayers: 6,
+  numPlayers: 6,
   multiplayer: Local(),
   // debug: false,
   loading: () => {
@@ -19,22 +19,13 @@ const EmpiresOfTheSkiesClient = Client({
 
 const App = () => {
   return (
-    <div
-    // className="App"
-    // style={{
-    //   display: "flex",
-    //   alignItems: "center",
-    //   flexWrap: "wrap",
-    //   maxWidth: "1300px",
-    //   backgroundColor: "#e0ffff",
-    // }}
-    >
+    <div>
       <EmpiresOfTheSkiesClient playerID="0" matchID="test" />
       <EmpiresOfTheSkiesClient playerID="1" matchID="test" />
-      {/* <EmpiresOfTheSkiesClient playerID="2" matchID="test" />
+      <EmpiresOfTheSkiesClient playerID="2" matchID="test" />
       <EmpiresOfTheSkiesClient playerID="3" matchID="test" />
       <EmpiresOfTheSkiesClient playerID="4" matchID="test" />
-      <EmpiresOfTheSkiesClient playerID="5" matchID="test" /> */}
+      <EmpiresOfTheSkiesClient playerID="5" matchID="test" />
     </div>
   );
 };

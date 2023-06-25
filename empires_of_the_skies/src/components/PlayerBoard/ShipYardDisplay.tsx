@@ -2,7 +2,7 @@ import React from "react";
 import { MyGameProps } from "../../types";
 
 const ShipYardDisplay = (props: MyGameProps) => {
-  let shipyards = [];
+  let shipyards: JSX.Element[] = [];
   let numberOfShipyards = 0;
   let colour = "transparent";
   if (props.playerID) {

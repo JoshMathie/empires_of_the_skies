@@ -43,6 +43,9 @@ import attackOtherPlayersFleet from "./moves/aerial_battle/attackOtherPlayersFle
 import evadeAttackingFleet from "./moves/aerial_battle/evadeAttackingFleet";
 import doNotAttack from "./moves/aerial_battle/doNotAttack";
 import retaliate from "./moves/aerial_battle/retaliate";
+import drawCard from "./moves/aerial_battle/drawCard";
+import pickCard from "./moves/aerial_battle/pickCard";
+import relocateDefeatedFleet from "./moves/aerial_battle/relocateDefeatedFleet";
 
 const MyGame: Game<MyGameState> = {
   turn: { minMoves: 1 },
@@ -56,7 +59,7 @@ const MyGame: Game<MyGameState> = {
       mostRecentlyDiscoveredTile: [4, 0],
       discoveredRaces: [],
       battleMap: initialBattleMapState(),
-      currentBattle: [4, 0],
+      currentBattle: [0, 0],
     };
     const playerInfos = (ctx: Ctx): { [details: string]: PlayerInfo } => {
       const colours = getPlayerColours(ctx);
@@ -296,6 +299,11 @@ const MyGame: Game<MyGameState> = {
       move: evadeAttackingFleet,
       undoable: true,
     },
+    doNotAttack: { move: doNotAttack, undoable: true },
+    retaliate: { move: retaliate, undoable: true },
+    drawCard: { move: drawCard, undoable: false },
+    pickCard: { move: pickCard, undoable: true },
+    relocateDefeatedFleet: { move: relocateDefeatedFleet, undoable: true },
   },
   phases: {
     discovery: {
@@ -314,7 +322,6 @@ const MyGame: Game<MyGameState> = {
     actions: {
       turn: {
         stages: {
-          actions: {},
           "attack or pass": {
             moves: {
               attackOtherPlayersFleet: {
@@ -358,6 +365,11 @@ const MyGame: Game<MyGameState> = {
         pass: { move: pass, undoable: false },
         doNotAttack,
         attackOtherPlayersFleet,
+        retaliate,
+        evadeAttackingFleet,
+        drawCard,
+        pickCard,
+        relocateDefeatedFleet,
       },
       onEnd: (context) => {
         Object.values(context.G.playerInfo).forEach((playerInfo) => {

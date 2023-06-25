@@ -17,7 +17,7 @@ const doNotAttack: MoveFn<MyGameState> = (
       currentPlayerIndex = i;
     }
   }
-
+  console.log(currentPlayerIndex);
   if (currentPlayerIndex === possibleBattlers.length - 1) {
     findNextBattle(G, events, ctx);
   } else {

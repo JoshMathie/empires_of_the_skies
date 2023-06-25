@@ -1,4 +1,5 @@
 import { BoardProps } from "boardgame.io/dist/types/packages/react";
+import { FunctionComponent, SVGAttributes } from "react";
 
 export interface MyGameProps extends BoardProps<MyGameState> {}
 
@@ -27,7 +28,7 @@ export type CardDeckInfo = {
 };
 
 export type FortuneOfWarCardInfo = {
-  image: string;
+  image: FunctionComponent<SVGAttributes<SVGElement>>;
   sword: number;
   shield: number;
 };
@@ -126,7 +127,7 @@ export const PlayerColour = {
 
 export type TileInfoProps = {
   name: string;
-  image: string;
+  image: FunctionComponent<SVGAttributes<SVGElement>>;
   blocked: string[];
   sword: number;
   shield: number;

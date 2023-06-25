@@ -141,12 +141,19 @@ Loot:
         <Tooltip
           title={tooltipText}
           arrow
-          disableFocusListener
+          disableFocusListener={
+            !flip ||
+            currentTile.type === "ocean" ||
+            (xLocation === 4 && yLocation === 0)
+          }
           placement="right-start"
           style={{ whiteSpace: "pre", fontSize: "20px" }}
           sx={{ whiteSpace: "pre-line", fontSize: "20px" }}
+          // hidden={xLocation === 4 && yLocation === 0}
+          disableHoverListener={
+            (xLocation === 4 && yLocation === 0) || currentTile.type === "ocean"
+          }
         >
-          {/* <span> */}
           <button
             className="front"
             style={{
@@ -167,7 +174,6 @@ Loot:
             ) : null}
             {xLocation !== 4 || yLocation !== 0 ? fleets : null}
           </button>
-          {/* </span> */}
         </Tooltip>
       </ThemeProvider>
     </ReactCardFlip>
