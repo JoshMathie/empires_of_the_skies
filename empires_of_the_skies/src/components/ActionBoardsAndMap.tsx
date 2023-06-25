@@ -9,6 +9,8 @@ import { Box, Tab, Tabs } from "@mui/material";
 import { TabPanel, TabContext } from "@mui/lab";
 import ResourceTrackerBar from "./ResourceTrackerBar/ResourceTrackerBar";
 import AttackOrPassDiaLog from "./AerialBattle/AttackOrPassDialog";
+import AttackOrEvadeDialog from "./AerialBattle/AttackOrEvadeDialog";
+import PlayerTable from "./PlayerTable/PlayerTable";
 
 export const ActionBoardsAndMap = (props: MyGameProps) => {
   const [value, setValue] = useState("0");
@@ -34,20 +36,40 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
             <Tab
               label="Action Board"
               value={"0"}
-              style={{ fontFamily: "dauphinn", fontSize: 20 }}
+              style={{
+                fontFamily: "dauphinn",
+                fontSize: 26,
+                textTransform: "none",
+              }}
             />
             <Tab
               label="Player Board"
               value={"1"}
-              style={{ fontFamily: "dauphinn", fontSize: 20 }}
+              style={{
+                fontFamily: "dauphinn",
+                fontSize: 26,
+                textTransform: "none",
+              }}
             />
             <Tab
               label="World Map"
               value={"2"}
-              style={{ fontFamily: "dauphinn", fontSize: 20 }}
+              style={{
+                fontFamily: "dauphinn",
+                fontSize: 26,
+                textTransform: "none",
+              }}
+            />
+            <Tab
+              label="Player Table"
+              value={"3"}
+              style={{
+                fontFamily: "dauphinn",
+                fontSize: 26,
+                textTransform: "none",
+              }}
             />
           </Tabs>
-
           <TabPanel value={"0"} tabIndex={0}>
             <ActionBoard {...props} setTurnComplete={setTurnComplete} />
           </TabPanel>
@@ -56,9 +78,13 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
           </TabPanel>
           <TabPanel value={"2"} tabIndex={2}>
             <WorldMap {...props} setTurnComplete={setTurnComplete} />
+          </TabPanel>{" "}
+          <TabPanel value={"3"} tabIndex={3}>
+            <PlayerTable {...props} />
           </TabPanel>
         </TabContext>
-        {props.G.mapState.battleMap[0][0] && <AttackOrPassDiaLog {...props} />}
+        <AttackOrPassDiaLog {...props} />
+        <AttackOrEvadeDialog {...props} />
       </Box>
     </div>
   );
