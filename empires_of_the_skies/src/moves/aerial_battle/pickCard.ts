@@ -1,5 +1,6 @@
 import { MoveFn } from "boardgame.io";
 import { MyGameState } from "../../types";
+import { resolveBattleAndReturnWinner } from "../../helpers/helpers";
 
 const pickCard: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random },
@@ -15,9 +16,16 @@ const pickCard: MoveFn<MyGameState> = (
         battler.fowCard = card;
       }
     });
-  }
+    G.playerInfo[playerID].resources.fortuneCards.splice(value, 1);
 
-  G.playerInfo[playerID].resources.fortuneCards.splice(value, 1);
+    if (G.battleState.attacker.fowCard && G.battleState.defender.fowCard) {
+      resolveBattleAndReturnWinner(G, events, ctx);
+    } else if (!G.battleState.attacker.fowCard) {
+      events.endTurn({ next: G.battleState.attacker.id });
+    } else if (!G.battleState.defender.fowCard) {
+      events.endTurn({ next: G.battleState.defender.id });
+    }
+  }
 };
 
 export default pickCard;
