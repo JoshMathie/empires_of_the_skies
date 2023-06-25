@@ -1,4 +1,4 @@
-import { MoveFn, StageArg } from "boardgame.io";
+import { MoveFn } from "boardgame.io";
 import { MyGameState } from "../../types";
 
 const attackOtherPlayersFleet: MoveFn<MyGameState> = (

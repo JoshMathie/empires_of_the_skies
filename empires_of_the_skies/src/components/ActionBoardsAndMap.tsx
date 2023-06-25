@@ -10,6 +10,7 @@ import { TabPanel, TabContext } from "@mui/lab";
 import ResourceTrackerBar from "./ResourceTrackerBar/ResourceTrackerBar";
 import AttackOrPassDiaLog from "./AerialBattle/AttackOrPassDialog";
 import AttackOrEvadeDialog from "./AerialBattle/AttackOrEvadeDialog";
+import DrawOrPickCardDialog from "./AerialBattle/DrawOrPickCardDialog";
 import PlayerTable from "./PlayerTable/PlayerTable";
 
 export const ActionBoardsAndMap = (props: MyGameProps) => {
@@ -85,6 +86,7 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
         </TabContext>
         <AttackOrPassDiaLog {...props} />
         <AttackOrEvadeDialog {...props} />
+        <DrawOrPickCardDialog {...props} />
       </Box>
     </div>
   );

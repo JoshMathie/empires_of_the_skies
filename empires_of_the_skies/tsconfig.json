@@ -19,5 +19,5 @@
     "experimentalDecorators": true,
     "outDir": "./dist"
   },
-  "include": ["./src/server/*.ts"]
+  "include": ["src/*/**.ts", "src/*/**.tsx", "src/*/**.js", "src/custom.d.ts"]
 }

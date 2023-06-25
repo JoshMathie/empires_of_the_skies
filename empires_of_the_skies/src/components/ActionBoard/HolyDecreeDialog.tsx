@@ -38,6 +38,7 @@ const HolyDecreeDialog = (props: HolyDecreeDialogProps) => {
         setSelectedKingdom={setHereticKingdom}
         id={id}
         {...props}
+        key={id}
       ></KingdomButton>
     );
   });

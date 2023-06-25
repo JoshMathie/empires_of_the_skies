@@ -11,7 +11,7 @@ import {
   Toolbar,
   Tooltip,
 } from "@mui/material";
-import { ReactComponent as GoldIcon } from "../../boards_and_assets/gold_icon.svg";
+import GoldIcon from "../../boards_and_assets/gold_icon.svg";
 import { generalTheme } from "../themes";
 import {
   checkPlayerIDAndReturnPlayerInfo,
@@ -113,7 +113,7 @@ const ResourceTrackerBar = (props: ResourceTrackerBarProps) => {
             </Tooltip>
             {"   " + counsellors + "\t"}
             <Tooltip title="Gold">
-              <GoldIcon />
+              <img src={GoldIcon}></img>
             </Tooltip>
             {"   " + gold + "\t"}
             <Tooltip title="Skyships">

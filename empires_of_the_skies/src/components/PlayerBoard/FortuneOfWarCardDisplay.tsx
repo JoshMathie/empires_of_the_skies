@@ -26,7 +26,7 @@ const FortuneOfWarCardDisplay = (props: FortuneOfWarCardDisplayProps) => {
         backgroundRepeat: "no-repeat",
         backgroundSize: "contain",
         opacity: opacity,
-        width: "15%",
+        width: "137px",
         height: "250px",
         margin: "5px",
       }}
