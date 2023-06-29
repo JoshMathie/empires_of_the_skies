@@ -8,10 +8,10 @@ const retaliate: MoveFn<MyGameState> = (
   if (G.battleState) {
     G.battleState.defender = { decision: "fight", ...G.playerInfo[playerID] };
 
-    const activePlayersConfig: Record<string, StageArg> = {};
-    activePlayersConfig[G.battleState.attacker.id] = "draw or pick card";
-    activePlayersConfig[G.battleState.defender.id] = "draw or pick card";
-    events.setActivePlayers({ value: { activePlayersConfig } });
+    // const activePlayersConfig: Record<string, StageArg> = {};
+    // activePlayersConfig[G.battleState.attacker.id] = "draw or pick card";
+    // activePlayersConfig[G.battleState.defender.id] = "draw or pick card";
+    // events.setActivePlayers({ value: { activePlayersConfig } });
   }
 };
 

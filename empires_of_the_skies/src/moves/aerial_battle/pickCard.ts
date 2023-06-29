@@ -1,6 +1,6 @@
 import { MoveFn } from "boardgame.io";
 import { MyGameState } from "../../types";
-import { resolveBattleAndReturnWinner } from "../../helpers/helpers";
+import { resolveBattleAndReturnWinner } from "../../helpers/resolveBattle";
 
 const pickCard: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random },

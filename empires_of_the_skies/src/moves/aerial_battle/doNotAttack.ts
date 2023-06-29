@@ -3,7 +3,7 @@ import { MyGameState } from "../../types";
 import {
   findNextBattle,
   findNextPlayerInBattleSequence,
-} from "../../helpers/helpers";
+} from "../../helpers/findNext";
 
 const doNotAttack: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random },

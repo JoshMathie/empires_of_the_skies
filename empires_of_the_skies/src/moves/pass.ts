@@ -1,6 +1,6 @@
 import { MoveFn } from "boardgame.io";
 import { MyGameState } from "../types";
-import { findNextBattle } from "../helpers/helpers";
+import { findNextBattle } from "../helpers/findNext";
 
 const pass: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random },

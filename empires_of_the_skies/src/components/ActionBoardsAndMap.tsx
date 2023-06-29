@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { MyGameProps } from "../types";
 import { ActionBoard } from "./ActionBoard/ActionBoard";
-import { WorldMap } from "./WorldMap/WorldMap";
+import WorldMap from "./WorldMap/WorldMap";
 import { PlayerBoard } from "./PlayerBoard/PlayerBoard";
 
 import { Box, Tab, Tabs } from "@mui/material";
@@ -11,6 +11,7 @@ import ResourceTrackerBar from "./ResourceTrackerBar/ResourceTrackerBar";
 import AttackOrPassDiaLog from "./AerialBattle/AttackOrPassDialog";
 import AttackOrEvadeDialog from "./AerialBattle/AttackOrEvadeDialog";
 import DrawOrPickCardDialog from "./AerialBattle/DrawOrPickCardDialog";
+import RelocateLoserDialog from "./AerialBattle/RelocateLoserDialog";
 import PlayerTable from "./PlayerTable/PlayerTable";
 
 export const ActionBoardsAndMap = (props: MyGameProps) => {
@@ -87,6 +88,7 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
         <AttackOrPassDiaLog {...props} />
         <AttackOrEvadeDialog {...props} />
         <DrawOrPickCardDialog {...props} />
+        <RelocateLoserDialog {...props} setTurnComplete={setTurnComplete} />
       </Box>
     </div>
   );

@@ -18,7 +18,7 @@ import { influencePrelatesTheme } from "../themes";
 import FortuneOfWarCardDisplay from "./FortuneOfWarCardDisplay";
 import ShipYardDisplay from "./ShipYardDisplay";
 import FleetDisplay from "./FleetDisplay";
-import { WorldMap } from "../WorldMap/WorldMap";
+import WorldMap from "../WorldMap/WorldMap";
 import { clearMoves, findPossibleDestinations } from "../../helpers/helpers";
 
 // displays buttons which can build cathedrals, palaces and skyships

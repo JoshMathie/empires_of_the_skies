@@ -8,7 +8,7 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-import { WorldMap } from "../WorldMap/WorldMap";
+import WorldMap from "../WorldMap/WorldMap";
 import { clearMoves } from "../../helpers/helpers";
 import CounsellorIcon from "../Icons/CounsellorIcon";
 export const ActionBoardButton = (props: ActionBoardButtonProps) => {
@@ -81,7 +81,9 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
   return (
     <>
       <Button
-        style={{
+        style={{}}
+        sx={{
+          backgroundColor: "#5ebf85",
           width: props.width ? props.width : "180px",
           height: "150px",
           textAlign: "left",
@@ -91,7 +93,6 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
           backgroundImage: `url(${props.backgroundImage})`,
           backgroundSize: "contain",
           backgroundRepeat: "no-repeat",
-          backgroundColor: "#5ebf85",
           fontFamily: "dauphinn",
           fontSize: "18px",
           cursor: "pointer",

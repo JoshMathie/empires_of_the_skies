@@ -12,6 +12,7 @@ import FortuneOfWarCardDisplay from "../PlayerBoard/FortuneOfWarCardDisplay";
 
 const DrawOrPickCardDialog = (props: DrawOrPickCardDialogProps) => {
   const [x, y] = props.G.mapState.currentBattle;
+  const [currentCard, setCurrentCard] = useState(0);
 
   const inCurrentBattle =
     props.G.mapState.battleMap[y] &&
@@ -41,14 +42,15 @@ const DrawOrPickCardDialog = (props: DrawOrPickCardDialogProps) => {
     );
   });
 
-  const [currentCard, setCurrentCard] = useState(0);
   return (
     <Dialog
       open={
         props.playerID === props.ctx.currentPlayer &&
         inCurrentBattle &&
         props.G.battleState?.attacker.decision === "fight" &&
-        props.G.battleState?.defender.decision === "fight"
+        props.G.battleState?.defender.decision === "fight" &&
+        !props.G.battleState?.attacker.victorious &&
+        !props.G.battleState?.defender.victorious
       }
     >
       <DialogTitle>Draw or Pick a Card</DialogTitle>

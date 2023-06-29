@@ -5,7 +5,7 @@ import { Grid } from "@mui/material";
 import { WorldMapTile } from "./WorldMapTile";
 import { MyGameProps } from "../../types";
 
-export const WorldMap = (props: WorldMapProps) => {
+const WorldMap = (props: WorldMapProps) => {
   const GridItems = (props: WorldMapProps) => {
     const currentMap = props.G.mapState.currentTileArray;
     let tiles: ReactElement[][] = [[], [], [], []];
@@ -70,3 +70,5 @@ interface WorldMapProps extends MyGameProps {
   selectableTiles?: number[][];
   setTurnComplete: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+export default WorldMap;

@@ -1,9 +1,8 @@
 import { MoveFn } from "boardgame.io";
 import { MyGameState } from "../../types";
-import {
-  drawFortuneOfWarCard,
-  resolveBattleAndReturnWinner,
-} from "../../helpers/helpers";
+import { drawFortuneOfWarCard } from "../../helpers/helpers";
+import { resolveBattleAndReturnWinner } from "../../helpers/resolveBattle";
+
 //TODO: add possibility to draw a no effect card from the deck
 const drawCard: MoveFn<MyGameState> = (
   { G, ctx, playerID, events, random },
