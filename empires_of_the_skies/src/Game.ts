@@ -39,13 +39,13 @@ import deployFleet from "./moves/actions/deployFleet";
 import enableDispatchButtons from "./moves/actions/enableDispatchButtons";
 import issueHolyDecree from "./moves/actions/issueHolyDecree";
 import pass from "./moves/pass";
-import attackOtherPlayersFleet from "./moves/aerial_battle/attackOtherPlayersFleet";
-import evadeAttackingFleet from "./moves/aerial_battle/evadeAttackingFleet";
-import doNotAttack from "./moves/aerial_battle/doNotAttack";
-import retaliate from "./moves/aerial_battle/retaliate";
-import drawCard from "./moves/aerial_battle/drawCard";
-import pickCard from "./moves/aerial_battle/pickCard";
-import relocateDefeatedFleet from "./moves/aerial_battle/relocateDefeatedFleet";
+import attackOtherPlayersFleet from "./moves/aerialBattle/attackOtherPlayersFleet";
+import evadeAttackingFleet from "./moves/aerialBattle/evadeAttackingFleet";
+import doNotAttack from "./moves/aerialBattle/doNotAttack";
+import retaliate from "./moves/aerialBattle/retaliate";
+import drawCard from "./moves/aerialBattle/drawCard";
+import pickCard from "./moves/aerialBattle/pickCard";
+import relocateDefeatedFleet from "./moves/aerialBattle/relocateDefeatedFleet";
 
 const MyGame: Game<MyGameState> = {
   turn: { minMoves: 1 },
@@ -255,6 +255,7 @@ const MyGame: Game<MyGameState> = {
         fortuneOfWarCards: fullResetFortuneOfWarCardDeck(),
         discardedFortuneOfWarCards: [],
       },
+      stage: "discovery",
     };
   },
   moves: {
