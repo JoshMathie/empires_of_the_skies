@@ -85,9 +85,9 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
             <PlayerTable {...props} />
           </TabPanel>
         </TabContext>
-        <AttackOrPassDiaLog {...props} />
-        <AttackOrEvadeDialog {...props} />
-        <DrawOrPickCardDialog {...props} />
+        <AttackOrPassDiaLog {...props} setTurnComplete={setTurnComplete} />
+        <AttackOrEvadeDialog {...props} setTurnComplete={setTurnComplete} />
+        <DrawOrPickCardDialog {...props} setTurnComplete={setTurnComplete} />
         <RelocateLoserDialog {...props} setTurnComplete={setTurnComplete} />
       </Box>
     </div>

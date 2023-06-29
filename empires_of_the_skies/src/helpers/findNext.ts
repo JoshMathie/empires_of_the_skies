@@ -18,15 +18,15 @@ export const findNextBattle = (G: MyGameState, events: EventsAPI, ctx: Ctx) => {
         G.mapState.currentBattle = [x, y];
         G.battleState = undefined;
         events.endTurn({ next: nextPlayer });
-        events.setStage("attack or pass");
+        G.stage = "attack or pass";
         console.log(`current battle is now ${G.mapState.currentBattle}`);
         return;
       }
     }
   }
   G.mapState.currentBattle = [0, 0];
+  G.stage = "plunder legends";
   findNextPlunder(G, events);
-  events.endPhase();
 };
 
 export const findNextPlunder = (G: MyGameState, events: EventsAPI): void => {
@@ -55,6 +55,7 @@ export const findNextPlayerInBattleSequence = (
   G: MyGameState,
   events: EventsAPI
 ): void => {
+  G.battleState = undefined;
   const playerIDs: string[] = [
     ...G.mapState.battleMap[G.mapState.currentBattle[1]][
       G.mapState.currentBattle[0]
@@ -71,6 +72,6 @@ export const findNextPlayerInBattleSequence = (
     findNextBattle(G, events, ctx);
   } else {
     events.endTurn({ next: nextPlayer });
-    events.setStage("attack or evade");
+    G.stage = "attack or evade";
   }
 };

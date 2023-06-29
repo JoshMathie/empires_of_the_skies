@@ -8,6 +8,7 @@ import {
   Button,
 } from "@mui/material";
 import { KingdomButton } from "../shared/KingdomButton";
+import WorldMap from "../WorldMap/WorldMap";
 // import { findInitialBattleMap } from "../../helpers/helpers";
 
 const AttackOrPassDiaLog = (props: AerialBattleDialogProps) => {
@@ -43,6 +44,7 @@ const AttackOrPassDiaLog = (props: AerialBattleDialogProps) => {
 
   return (
     <Dialog
+      maxWidth={false}
       open={
         props.ctx.currentPlayer === props.playerID &&
         props.ctx.phase === "actions" &&
@@ -63,6 +65,10 @@ attacking all of their present fleets.
 
 Current battle tile: [${1 + x}, ${4 - y}]`}
         {buttons}
+        <WorldMap
+          {...props}
+          selectableTiles={[props.G.mapState.currentBattle]}
+        ></WorldMap>
       </DialogContent>
       <DialogActions>
         <Button
@@ -87,6 +93,6 @@ Current battle tile: [${1 + x}, ${4 - y}]`}
 };
 
 export interface AerialBattleDialogProps extends MyGameProps {
-  //   open: boolean;
+  setTurnComplete: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export default AttackOrPassDiaLog;

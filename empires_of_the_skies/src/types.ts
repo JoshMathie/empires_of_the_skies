@@ -10,6 +10,13 @@ export interface MyGameState {
   playerOrder: PlayerOrder;
   cardDecks: CardDeckInfo;
   battleState?: BattleState;
+  stage:
+    | "discovery"
+    | "actions"
+    | "attack or pass"
+    | "attack or evade"
+    | "resolve battle"
+    | "plunder legends";
 }
 
 export type BattleState = {

@@ -95,6 +95,7 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
               display: "flex",
               flexDirection: "column",
               maxWidth: "75%",
+              marginRight: 10,
             }}
           >
             <ButtonRow>
@@ -566,6 +567,7 @@ Selected tile: [${fleetDestination[0] + 1}, ${
               display: "flex",
               flexDirection: "column",
               maxWidth: "25%",
+              marginLeft: 10,
             }}
           >
             <ButtonRow>

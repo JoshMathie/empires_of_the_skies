@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { MyGameProps } from "../../types";
 import FortuneOfWarCardDisplay from "../PlayerBoard/FortuneOfWarCardDisplay";
+import WorldMap from "../WorldMap/WorldMap";
 
 const DrawOrPickCardDialog = (props: DrawOrPickCardDialogProps) => {
   const [x, y] = props.G.mapState.currentBattle;
@@ -44,6 +45,7 @@ const DrawOrPickCardDialog = (props: DrawOrPickCardDialogProps) => {
 
   return (
     <Dialog
+      maxWidth={false}
       open={
         props.playerID === props.ctx.currentPlayer &&
         inCurrentBattle &&
@@ -58,6 +60,10 @@ const DrawOrPickCardDialog = (props: DrawOrPickCardDialogProps) => {
         You can either draw a random fortune of war card, or pick one from your
         hand if you have any.
         {cards}
+        <WorldMap
+          {...props}
+          selectableTiles={[props.G.mapState.currentBattle]}
+        ></WorldMap>
       </DialogContent>
       <DialogActions>
         <Button
@@ -81,6 +87,8 @@ const DrawOrPickCardDialog = (props: DrawOrPickCardDialogProps) => {
   );
 };
 
-interface DrawOrPickCardDialogProps extends MyGameProps {}
+interface DrawOrPickCardDialogProps extends MyGameProps {
+  setTurnComplete: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 export default DrawOrPickCardDialog;

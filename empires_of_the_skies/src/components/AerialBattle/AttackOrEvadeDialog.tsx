@@ -9,8 +9,9 @@ import {
 } from "@mui/material";
 
 import { colourToKingdomMap } from "../../codifiedGameInfo";
+import WorldMap from "../WorldMap/WorldMap";
 
-const AttackOrEvadeDialog = (props: MyGameProps) => {
+const AttackOrEvadeDialog = (props: AttackOrEvadeDialogProps) => {
   const [x, y] = props.G.mapState.currentBattle;
   const inCurrentBattle =
     props.G.mapState.battleMap[y] &&
@@ -20,6 +21,7 @@ const AttackOrEvadeDialog = (props: MyGameProps) => {
 
   return (
     <Dialog
+      maxWidth={false}
       open={
         props.ctx.currentPlayer === props.playerID &&
         props.ctx.phase === "actions" &&
@@ -41,6 +43,11 @@ const AttackOrEvadeDialog = (props: MyGameProps) => {
         }. 
         
 You can either evade or fight back. If you evade, the attacking kingdom will get to move your fleet to an ajoining tile of their choosing.`}
+
+        <WorldMap
+          {...props}
+          selectableTiles={[props.G.mapState.currentBattle]}
+        ></WorldMap>
       </DialogContent>
       <DialogActions>
         <Button
@@ -61,5 +68,9 @@ You can either evade or fight back. If you evade, the attacking kingdom will get
     </Dialog>
   );
 };
+
+interface AttackOrEvadeDialogProps extends MyGameProps {
+  setTurnComplete: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 export default AttackOrEvadeDialog;
