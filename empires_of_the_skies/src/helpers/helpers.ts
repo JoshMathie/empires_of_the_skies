@@ -3,10 +3,8 @@ import {
   MyGameState,
   MyGameProps,
   PlayerInfo,
-  FleetInfo,
 } from "../types";
 import { fortuneOfWarCards } from "../codifiedGameInfo";
-import { EventsAPI } from "boardgame.io/dist/types/src/plugins/plugin-events";
 import { Ctx } from "boardgame.io";
 import { RandomAPI } from "boardgame.io/dist/types/src/plugins/random/random";
 
