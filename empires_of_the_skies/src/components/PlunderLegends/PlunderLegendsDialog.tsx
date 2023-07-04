@@ -14,7 +14,7 @@ import {
 const PlunderLegendsDialog = (props: PlunderLegendsDialogProps) => {
   return (
     <Dialog
-      maxWidth={false}
+      maxWidth={"xl"}
       open={
         props.playerID === props.ctx.currentPlayer &&
         props.G.stage === "plunder legends"

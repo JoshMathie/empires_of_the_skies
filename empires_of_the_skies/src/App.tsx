@@ -11,7 +11,7 @@ const EmpiresOfTheSkiesClient = Client({
   board: ActionBoardsAndMap,
   numPlayers: 6,
   multiplayer: Local(),
-  debug: false,
+  // debug: false,
   loading: () => {
     return <img src="./boards_and_assets/box_image.png"></img>;
   },

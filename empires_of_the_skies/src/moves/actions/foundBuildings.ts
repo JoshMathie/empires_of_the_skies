@@ -46,7 +46,7 @@ const foundCathedral = (
   const cost = 5 + G.boardState.foundBuildings[1].length;
   G.playerInfo[playerID].resources.gold -= cost;
   G.playerInfo[playerID].cathedrals += 1;
-  G.playerInfo[playerID].victoryPoints += 2;
+  G.playerInfo[playerID].resources.victoryPoints += 2;
   if (G.playerInfo[playerID].heresyTracker > -11) {
     G.playerInfo[playerID].heresyTracker -= 1;
   }
@@ -70,9 +70,9 @@ const foundPalace = (
   G.playerInfo[playerID].resources.gold -= cost;
   G.playerInfo[playerID].palaces += 1;
   if (G.playerInfo[playerID].hereticOrOthodox === "heretic") {
-    G.playerInfo[playerID].victoryPoints += 2;
+    G.playerInfo[playerID].resources.victoryPoints += 2;
   } else {
-    G.playerInfo[playerID].victoryPoints += 1;
+    G.playerInfo[playerID].resources.victoryPoints += 1;
   }
   G.boardState.foundBuildings[2].push(playerID);
   removeOneCounsellor(G, playerID);

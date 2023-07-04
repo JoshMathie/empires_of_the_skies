@@ -45,7 +45,7 @@ const DrawOrPickCardDialog = (props: DrawOrPickCardDialogProps) => {
 
   return (
     <Dialog
-      maxWidth={false}
+      maxWidth={"xl"}
       open={
         props.playerID === props.ctx.currentPlayer &&
         inCurrentBattle &&

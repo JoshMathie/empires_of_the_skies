@@ -156,6 +156,7 @@ export const resolveBattleAndReturnWinner = (
         events
       );
     } else {
+      G.stage = "relocate loser";
       events.endTurn({ next: winner });
     }
   } else {

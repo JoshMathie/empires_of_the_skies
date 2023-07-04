@@ -9,13 +9,10 @@ import {
 } from "@mui/material";
 import { KingdomButton } from "../shared/KingdomButton";
 import WorldMap from "../WorldMap/WorldMap";
-// import { findInitialBattleMap } from "../../helpers/helpers";
 
 const AttackOrPassDiaLog = (props: AerialBattleDialogProps) => {
   const [x, y] = props.G.mapState.currentBattle;
   const possibleDefenders: string[] = [];
-  // findInitialBattleMap(props.G);
-  // console.log(props.G.mapState.battleMap[y]);
 
   props.G.mapState.battleMap[y] &&
     props.G.mapState.battleMap[y][x].forEach((currentItem) => {
@@ -32,6 +29,7 @@ const AttackOrPassDiaLog = (props: AerialBattleDialogProps) => {
         setSelectedKingdom={setCurrentKingdom}
         selectedKingdom={currentKingdom}
         {...props}
+        key={currentItem}
       ></KingdomButton>
     );
   });
@@ -44,12 +42,13 @@ const AttackOrPassDiaLog = (props: AerialBattleDialogProps) => {
 
   return (
     <Dialog
-      maxWidth={false}
+      maxWidth={"xl"}
       open={
         props.ctx.currentPlayer === props.playerID &&
-        props.ctx.phase === "actions" &&
+        props.ctx.phase === "aerial_battle" &&
         inCurrentBattle &&
-        props.G.battleState === undefined
+        props.G.battleState === undefined &&
+        props.G.stage === "attack or pass"
       }
       style={{
         color:
@@ -84,6 +83,7 @@ Current battle tile: [${1 + x}, ${4 - y}]`}
           onClick={() => {
             props.moves.attackOtherPlayersFleet(currentKingdom);
           }}
+          disabled={!currentKingdom}
         >
           Attack!
         </Button>

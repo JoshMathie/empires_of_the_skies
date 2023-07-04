@@ -11,7 +11,9 @@ const plunder: MoveFn<MyGameState> = (
   const currentTile = G.mapState.currentTileArray[y][x];
 
   Object.entries(currentTile.loot.colony).forEach(([lootName, lootAmount]) => {
-    currentPlayer.resources[lootName] += lootAmount;
+    //typescript requires this line/hack below on what is otherwise an inherently safe call as Resources extends TileLoot so lootName would always be a valid value, but typescript refuses to accept this
+    const lootNameAsResource = lootName as keyof typeof currentTile.loot.colony;
+    currentPlayer.resources[lootNameAsResource] += lootAmount;
   });
 
   findNextPlunder(G, events);

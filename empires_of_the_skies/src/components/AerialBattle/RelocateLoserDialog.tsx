@@ -48,9 +48,12 @@ const RelocateLoserDialog = (props: RelocateLoserDialogProps) => {
   return (
     <Dialog
       open={
-        props.playerID === props.ctx.currentPlayer && props.playerID === victor
+        props.playerID === props.ctx.currentPlayer &&
+        (props.playerID === victor ||
+          (props.playerID === props.G.battleState?.attacker.id &&
+            props.G.battleState?.defender.decision === "evade"))
       }
-      maxWidth={false}
+      maxWidth={"xl"}
     >
       <DialogTitle>{`Choose a tile to send the loser to. Current selection: [${currentTile[0]}, ${currentTile[1]}]`}</DialogTitle>
       <DialogContent>

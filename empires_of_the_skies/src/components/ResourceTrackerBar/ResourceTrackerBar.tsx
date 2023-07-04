@@ -26,7 +26,7 @@ const ResourceTrackerBar = (props: ResourceTrackerBarProps) => {
   const skyships = currentPlayer.resources.skyships;
   const regiments = currentPlayer.resources.regiments;
   const colour = currentPlayer.colour;
-  const victoryPoints = currentPlayer.victoryPoints;
+  const victoryPoints = currentPlayer.resources.victoryPoints;
   const levies = currentPlayer.resources.levies;
 
   const [passDialogOpen, setPassDialogOpen] = useState(false);
@@ -45,7 +45,7 @@ const ResourceTrackerBar = (props: ResourceTrackerBarProps) => {
       <AppBar position={"sticky"}>
         <Toolbar sx={{ justifyContent: "right" }}>
           <div style={{ justifyContent: "left", width: "10%" }}>
-            {`Phase: ${props.ctx.phase} \t`}
+            {`Phase: ${props.G.stage} \t`}
           </div>
           <div
             style={{

@@ -29,6 +29,7 @@ const WorldMap = (props: WorldMapProps) => {
                 props.alternateOnClick ? props.alternateOnClick : undefined
               }
               selectable={selectable}
+              key={x.toString() + y.toString()}
             />
           </Grid>
         );

@@ -21,13 +21,20 @@ const relocateDefeatedFleet: MoveFn<MyGameState> = (
       G.mapState.battleMap[destination[1]][destination[0]].push(defeatedPlayer);
     }
   });
-
-  findNextPlayerInBattleSequence(
-    G.battleState?.attacker.id ?? playerID,
-    ctx,
-    G,
-    events
-  );
+  if (
+    G.battleState?.defender.decision !== "evade" ||
+    G.mapState.battleMap[y][x].length === 1
+  ) {
+    findNextPlayerInBattleSequence(
+      G.battleState?.attacker.id ?? playerID,
+      ctx,
+      G,
+      events
+    );
+  } else {
+    G.battleState = undefined;
+    G.stage = "attack or pass";
+  }
 };
 
 export default relocateDefeatedFleet;

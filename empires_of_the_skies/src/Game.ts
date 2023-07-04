@@ -46,6 +46,9 @@ import retaliate from "./moves/aerialBattle/retaliate";
 import drawCard from "./moves/aerialBattle/drawCard";
 import pickCard from "./moves/aerialBattle/pickCard";
 import relocateDefeatedFleet from "./moves/aerialBattle/relocateDefeatedFleet";
+import plunder from "./moves/plunderLegends/plunder";
+import doNotPlunder from "./moves/plunderLegends/doNotPlunder";
+import { findNextBattle, findNextPlunder } from "./helpers/findNext";
 
 const MyGame: Game<MyGameState> = {
   turn: { minMoves: 1 },
@@ -79,6 +82,7 @@ const MyGame: Game<MyGameState> = {
             magicDust: 0,
             stickyIchor: 0,
             pipeweed: 0,
+            victoryPoints: 10,
             counsellors: 6,
             skyships: 3,
             regiments: 6,
@@ -120,7 +124,6 @@ const MyGame: Game<MyGameState> = {
           ],
           cathedrals: 1,
           palaces: 1,
-          victoryPoints: 10,
           heresyTracker: 0,
           prisoners: 0,
           shipyards: 0,
@@ -305,10 +308,16 @@ const MyGame: Game<MyGameState> = {
     drawCard: { move: drawCard, undoable: false },
     pickCard: { move: pickCard, undoable: true },
     relocateDefeatedFleet: { move: relocateDefeatedFleet, undoable: true },
+    plunder: { move: plunder, undoable: true },
+    doNotPlunder: { move: doNotPlunder, undoable: true },
   },
   phases: {
     discovery: {
       start: true,
+      onBegin: (context) => {
+        context.G.stage = "discovery";
+        console.log("Discovery phase has begun");
+      },
       moves: {
         discoverTile: { move: discoverTile, undoable: false },
         pass: { move: pass, undoable: false },
@@ -321,26 +330,15 @@ const MyGame: Game<MyGameState> = {
       },
     },
     actions: {
+      onBegin: (context) => {
+        context.G.stage = "actions";
+        console.log("Actions phase has begun");
+      },
       turn: {
-        stages: {
-          "attack or pass": {
-            moves: {
-              attackOtherPlayersFleet: {
-                move: attackOtherPlayersFleet,
-                undoable: true,
-              },
-              doNotAttack: { move: doNotAttack, undoable: true },
-            },
-          },
-          "attack or evade": {
-            moves: {
-              evadeAttackingFleet: {
-                move: evadeAttackingFleet,
-                undoable: true,
-              },
-              retaliate: { move: retaliate, undoable: true },
-            },
-          },
+        onBegin: (context) => {
+          if (context.G.playerInfo[context.ctx.currentPlayer].passed === true) {
+            context.events.endTurn();
+          }
         },
       },
       moves: {
@@ -364,6 +362,38 @@ const MyGame: Game<MyGameState> = {
         enableDispatchButtons,
         issueHolyDecree,
         pass: { move: pass, undoable: false },
+      },
+      onEnd: (context) => {
+        Object.values(context.G.playerInfo).forEach((playerInfo) => {
+          playerInfo.passed = false;
+        });
+      },
+      next: "aerial_battle",
+    },
+    aerial_battle: {
+      onBegin: (context) => {
+        findNextBattle(context.G, context.events, context.ctx);
+        console.log("Aerial battle phase has begun");
+      },
+      turn: {
+        onBegin: (context) => {
+          console.log(
+            `It is now player ${context.ctx.currentPlayer}'s turn in the aerial battle phase`
+          );
+          const [x, y] = context.G.mapState.currentBattle;
+          if (
+            !context.G.mapState.battleMap[y][x].includes(
+              context.ctx.currentPlayer
+            )
+          ) {
+            context.events.endTurn({
+              next: context.G.mapState.battleMap[y][x][0],
+            });
+          }
+        },
+      },
+      next: "plunder_legends",
+      moves: {
         doNotAttack,
         attackOtherPlayersFleet,
         retaliate,
@@ -372,13 +402,23 @@ const MyGame: Game<MyGameState> = {
         pickCard,
         relocateDefeatedFleet,
       },
-      onEnd: (context) => {
-        Object.values(context.G.playerInfo).forEach((playerInfo) => {
-          playerInfo.passed = false;
-        });
+    },
+    plunder_legends: {
+      onBegin: (context) => {
+        context.G.stage = "plunder legends";
+        console.log("Plunder legends phase has begun");
+
+        findNextPlunder(context.G, context.events);
+      },
+      moves: { plunder, doNotPlunder },
+      turn: {
+        onBegin: (context) => {
+          console.log(
+            `it is now player ${context.ctx.currentPlayer}'s time to plunder`
+          );
+        },
       },
     },
-
     //   // check which players are eligable for an aerial battle using the code started in get next phase helper method
     //   // create moves which allow the first player in player order to attack or pass and so on through all the players per tile where more than one player has a fleet
     //   // create moves which allow responding players to evade or engage in battle

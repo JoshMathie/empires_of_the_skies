@@ -85,7 +85,9 @@ const PlayerTable = (props: PlayerTableProps) => {
                 <TableCell align="right">{value.palaces}</TableCell>
                 <TableCell align="right">{value.shipyards}</TableCell>
                 <TableCell align="right">{value.hereticOrOthodox}</TableCell>
-                <TableCell align="right">{value.victoryPoints}</TableCell>
+                <TableCell align="right">
+                  {value.resources.victoryPoints}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

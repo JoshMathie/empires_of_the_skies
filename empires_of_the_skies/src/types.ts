@@ -16,7 +16,8 @@ export interface MyGameState {
     | "attack or pass"
     | "attack or evade"
     | "resolve battle"
-    | "plunder legends";
+    | "plunder legends"
+    | "relocate loser";
 }
 
 export type BattleState = {
@@ -80,7 +81,6 @@ export type PlayerInfo = {
   fleetInfo: FleetInfo[];
   cathedrals: number;
   palaces: number;
-  victoryPoints: number;
   heresyTracker: number;
   prisoners: number;
   shipyards: number;
@@ -106,7 +106,7 @@ export type PlayerBoardInfo = {
   dispatchSkyshipFleet: boolean;
 };
 
-export type Resources = {
+export type TileLoot = {
   gold: number;
   mithril: number;
   dragonScales: number;
@@ -114,6 +114,10 @@ export type Resources = {
   magicDust: number;
   stickyIchor: number;
   pipeweed: number;
+  victoryPoints: number;
+};
+
+export interface Resources extends TileLoot {
   counsellors: number;
   skyships: number;
   regiments: number;
@@ -122,7 +126,7 @@ export type Resources = {
   advantageCard: string;
   eventCards: string[];
   legacyCard: string;
-};
+}
 
 export const PlayerColour = {
   red: "#DC5454",
@@ -143,28 +147,10 @@ export type TileInfoProps = {
   type: "land" | "ocean" | "legend" | "home" | "infidel_empire";
 };
 
-type LootInfo = {
-  outpost: {
-    gold: number;
-    mithril: number;
-    dragonScales: number;
-    krakenSkin: number;
-    magicDust: number;
-    stickyIchor: number;
-    pipeweed: number;
-    victoryPoints: number;
-  };
-  colony: {
-    gold: number;
-    mithril: number;
-    dragonScales: number;
-    krakenSkin: number;
-    magicDust: number;
-    stickyIchor: number;
-    pipeweed: number;
-    victoryPoints: number;
-  };
-};
+interface LootInfo {
+  outpost: TileLoot;
+  colony: TileLoot;
+}
 
 export type ActionBoardInfo = {
   alterPlayerOrder: {

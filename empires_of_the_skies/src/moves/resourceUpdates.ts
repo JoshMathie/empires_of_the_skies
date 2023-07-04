@@ -10,7 +10,7 @@ export const removeVPAmount = (
   playerID: string,
   vpAmount: number
 ) => {
-  G.playerInfo[playerID].victoryPoints -= vpAmount;
+  G.playerInfo[playerID].resources.victoryPoints -= vpAmount;
 };
 
 export const addVPAmount = (
@@ -18,7 +18,7 @@ export const addVPAmount = (
   playerID: string,
   vpAmount: number
 ) => {
-  G.playerInfo[playerID].victoryPoints += vpAmount;
+  G.playerInfo[playerID].resources.victoryPoints += vpAmount;
 };
 
 export const removeGoldAmount = (

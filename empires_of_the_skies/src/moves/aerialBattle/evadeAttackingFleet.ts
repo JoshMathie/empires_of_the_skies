@@ -1,4 +1,4 @@
-import { MoveFn, StageArg } from "boardgame.io";
+import { MoveFn } from "boardgame.io";
 import { MyGameState } from "../../types";
 
 const evadeAttackingFleet: MoveFn<MyGameState> = (
@@ -7,11 +7,9 @@ const evadeAttackingFleet: MoveFn<MyGameState> = (
 ) => {
   if (G.battleState !== undefined) {
     G.battleState.defender = { decision: "evade", ...G.playerInfo[playerID] };
-    let attackerID = G.battleState.attacker.id;
-
-    const activePlayersConfig: Record<string, StageArg> = {};
-    activePlayersConfig[attackerID] = "relocate_evader_or_loser";
-    events.setActivePlayers({ value: { activePlayersConfig } });
+    const attackerID = G.battleState.attacker.id;
+    G.stage = "relocate loser";
+    events.endTurn({ next: attackerID });
   }
 };
 

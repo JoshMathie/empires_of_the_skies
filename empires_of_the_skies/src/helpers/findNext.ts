@@ -17,16 +17,19 @@ export const findNextBattle = (G: MyGameState, events: EventsAPI, ctx: Ctx) => {
         const nextPlayer = sortPlayersInPlayerOrder(playerIDs, ctx)[0];
         G.mapState.currentBattle = [x, y];
         G.battleState = undefined;
-        events.endTurn({ next: nextPlayer });
         G.stage = "attack or pass";
-        console.log(`current battle is now ${G.mapState.currentBattle}`);
+        console.log(
+          `current battle is now ${G.mapState.currentBattle} and next possible attacker is player ${nextPlayer}`
+        );
+        events.endTurn({ next: nextPlayer });
         return;
       }
     }
   }
   G.mapState.currentBattle = [0, 0];
   G.stage = "plunder legends";
-  findNextPlunder(G, events);
+  console.log("finding first plunder of the phase");
+  events.endPhase();
 };
 
 export const findNextPlunder = (G: MyGameState, events: EventsAPI): void => {
@@ -43,6 +46,9 @@ export const findNextPlunder = (G: MyGameState, events: EventsAPI): void => {
       ) {
         const nextPlayer = G.mapState.battleMap[y][x][0];
         G.mapState.currentBattle = [x, y];
+        console.log(
+          `current plunder is now ${G.mapState.currentBattle} with player ${nextPlayer} `
+        );
         events.endTurn({ next: nextPlayer });
       }
     }
@@ -67,11 +73,19 @@ export const findNextPlayerInBattleSequence = (
   );
   const nextPlayerIndex = currentPlayerIndex + 1;
   const nextPlayer = sortedPlayerIDs[nextPlayerIndex];
+  console.log(
+    `Next player to attack would be player ID at index ${nextPlayerIndex} of the sorted list if they exist, current number of players in this battle is ${sortedPlayerIDs.length}`
+  );
 
-  if (nextPlayerIndex >= sortedPlayerIDs.length) {
+  if (
+    nextPlayerIndex >= sortedPlayerIDs.length ||
+    sortedPlayerIDs.length === 1
+  ) {
+    console.log("finding next battle...");
     findNextBattle(G, events, ctx);
   } else {
+    console.log(`next player to attack or pass is ${nextPlayer}`);
     events.endTurn({ next: nextPlayer });
-    G.stage = "attack or evade";
+    G.stage = "attack or pass";
   }
 };
