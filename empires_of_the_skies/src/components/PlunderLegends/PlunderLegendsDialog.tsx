@@ -17,7 +17,8 @@ const PlunderLegendsDialog = (props: PlunderLegendsDialogProps) => {
       maxWidth={"xl"}
       open={
         props.playerID === props.ctx.currentPlayer &&
-        props.G.stage === "plunder legends"
+        props.G.stage === "plunder legends" &&
+        props.ctx.phase === "plunder_legends"
       }
     >
       <DialogTitle>Would you like to plunder this legend?</DialogTitle>

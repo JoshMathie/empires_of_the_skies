@@ -11,7 +11,7 @@ const attackOtherPlayersFleet: MoveFn<MyGameState> = (
     defender: { decision: "undecided", ...G.playerInfo[defenderID] },
   };
   events.endTurn({ next: defenderID });
-  events.setStage("attack or evade");
+  G.stage = "attack or evade";
 };
 
 export default attackOtherPlayersFleet;

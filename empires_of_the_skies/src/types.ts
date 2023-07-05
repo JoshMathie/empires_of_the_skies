@@ -17,7 +17,13 @@ export interface MyGameState {
     | "attack or evade"
     | "resolve battle"
     | "plunder legends"
-    | "relocate loser";
+    | "relocate loser"
+    | "ground battle"
+    | "conquests"
+    | "election"
+    | "defend or yield"
+    | "resolve ground battle"
+    | "garrison troops";
 }
 
 export type BattleState = {
@@ -67,6 +73,7 @@ export type MapBuildingInfo = {
   buildings?: "outpost" | "colony";
   fort?: boolean;
   garrisonedRegiments?: number;
+  garrisonedLevies?: number;
 };
 
 export type PlayerInfo = {

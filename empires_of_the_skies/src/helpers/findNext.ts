@@ -28,7 +28,6 @@ export const findNextBattle = (G: MyGameState, events: EventsAPI, ctx: Ctx) => {
   }
   G.mapState.currentBattle = [0, 0];
   G.stage = "plunder legends";
-  console.log("finding first plunder of the phase");
   events.endPhase();
 };
 
@@ -50,9 +49,44 @@ export const findNextPlunder = (G: MyGameState, events: EventsAPI): void => {
           `current plunder is now ${G.mapState.currentBattle} with player ${nextPlayer} `
         );
         events.endTurn({ next: nextPlayer });
+        return;
       }
     }
   }
+  G.mapState.currentBattle = [0, 0];
+  G.stage = "ground battle";
+  events.endPhase();
+};
+export const findNextGroundBattle = (
+  G: MyGameState,
+  events: EventsAPI
+): void => {
+  for (let y = G.mapState.currentBattle[1]; y < 4; y++) {
+    for (let x = 0; x < 8; x++) {
+      if (
+        y === G.mapState.currentBattle[1] &&
+        x <= G.mapState.currentBattle[0]
+      ) {
+        continue;
+      } else if (
+        G.mapState.currentTileArray[y][x].type === "land" &&
+        G.mapState.battleMap[y][x].length === 1 &&
+        G.mapState.buildings[y][x].player &&
+        G.mapState.buildings[y][x].player?.id !== G.mapState.battleMap[y][x][0]
+      ) {
+        const nextPlayer = G.mapState.battleMap[y][x][0];
+        G.mapState.currentBattle = [x, y];
+        console.log(
+          `current ground battle is now ${G.mapState.currentBattle} with player ${nextPlayer} potentially attacking`
+        );
+        events.endTurn({ next: nextPlayer });
+        return;
+      }
+    }
+  }
+  G.mapState.currentBattle = [0, 0];
+  G.stage = "conquests";
+  events.endPhase();
 };
 
 export const findNextPlayerInBattleSequence = (

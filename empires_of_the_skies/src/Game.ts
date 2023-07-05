@@ -411,19 +411,26 @@ const MyGame: Game<MyGameState> = {
         findNextPlunder(context.G, context.events);
       },
       moves: { plunder, doNotPlunder },
+      next: "ground_battle",
       turn: {
         onBegin: (context) => {
           console.log(
             `it is now player ${context.ctx.currentPlayer}'s time to plunder`
           );
+          const [x, y] = context.G.mapState.currentBattle;
+          if (
+            !context.G.mapState.battleMap[y][x].includes(
+              context.ctx.currentPlayer
+            )
+          ) {
+            context.events.endTurn({
+              next: context.G.mapState.battleMap[y][x][0],
+            });
+          }
         },
       },
     },
-    //   // check which players are eligable for an aerial battle using the code started in get next phase helper method
-    //   // create moves which allow the first player in player order to attack or pass and so on through all the players per tile where more than one player has a fleet
-    //   // create moves which allow responding players to evade or engage in battle
-    //   // at the end of the battle, update the gamestate to reflect that this encounter has finished, and then use the setActivePlayers to move onto the next players eligable for aerial battle
-    //   // if there are none, then move onto the plunder legends phase
+    ground_battle: {},
   },
   maxPlayers: 6,
   minPlayers: 1,
