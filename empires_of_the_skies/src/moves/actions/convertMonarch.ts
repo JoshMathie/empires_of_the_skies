@@ -70,12 +70,12 @@ const convertMonarch: MoveFn<MyGameState> = (
   if (cost[value]() === INVALID_MOVE) {
     return INVALID_MOVE;
   }
-  if (playerInfo.hereticOrOthodox === "heretic") {
-    playerInfo.hereticOrOthodox = "orthodox";
+  if (playerInfo.hereticOrOrthodox === "heretic") {
+    playerInfo.hereticOrOrthodox = "orthodox";
     playerInfo.heresyTracker -= playerInfo.prisoners;
     playerInfo.prisoners = 0;
   } else {
-    playerInfo.hereticOrOthodox = "heretic";
+    playerInfo.hereticOrOrthodox = "heretic";
     playerInfo.heresyTracker += playerInfo.prisoners;
     playerInfo.prisoners = 0;
   }

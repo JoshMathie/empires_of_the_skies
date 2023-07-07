@@ -1,7 +1,7 @@
 import { Ctx } from "boardgame.io";
-import { EventsAPI } from "boardgame.io/dist/types/src/plugins/plugin-events";
 import { MyGameState } from "../types";
 import { sortPlayersInPlayerOrder } from "./helpers";
+import { EventsAPI } from "boardgame.io/dist/types/src/plugins/events/events";
 
 export const findNextBattle = (G: MyGameState, events: EventsAPI, ctx: Ctx) => {
   for (let y = G.mapState.currentBattle[1]; y < 4; y++) {
@@ -26,7 +26,7 @@ export const findNextBattle = (G: MyGameState, events: EventsAPI, ctx: Ctx) => {
       }
     }
   }
-  G.mapState.currentBattle = [0, 0];
+  G.mapState.currentBattle = [0, -1];
   G.stage = "plunder legends";
   events.endPhase();
 };
@@ -53,7 +53,7 @@ export const findNextPlunder = (G: MyGameState, events: EventsAPI): void => {
       }
     }
   }
-  G.mapState.currentBattle = [0, 0];
+  G.mapState.currentBattle = [0, -1];
   G.stage = "ground battle";
   events.endPhase();
 };
@@ -84,8 +84,36 @@ export const findNextGroundBattle = (
       }
     }
   }
-  G.mapState.currentBattle = [0, 0];
+  G.mapState.currentBattle = [0, -1];
   G.stage = "conquests";
+  events.endPhase();
+};
+
+export const findNextConquest = (G: MyGameState, events: EventsAPI) => {
+  for (let y = G.mapState.currentBattle[1]; y < 4; y++) {
+    for (let x = 0; x < 8; x++) {
+      if (
+        y === G.mapState.currentBattle[1] &&
+        x <= G.mapState.currentBattle[0]
+      ) {
+        continue;
+      } else if (
+        G.mapState.currentTileArray[y][x].type === "land" &&
+        G.mapState.battleMap[y][x].length === 1 &&
+        !G.mapState.buildings[y][x].player
+      ) {
+        const nextPlayer = G.mapState.battleMap[y][x][0];
+        G.mapState.currentBattle = [x, y];
+        console.log(
+          `current conquest is now ${G.mapState.currentBattle} with player ${nextPlayer} potentially attacking`
+        );
+        events.endTurn({ next: nextPlayer });
+        return;
+      }
+    }
+  }
+  G.mapState.currentBattle = [0, -1];
+  G.stage = "election";
   events.endPhase();
 };
 

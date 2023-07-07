@@ -11,7 +11,7 @@ import {
 import { colourToKingdomMap } from "../../codifiedGameInfo";
 import WorldMap from "../WorldMap/WorldMap";
 
-const AttackOrEvadeDialog = (props: AttackOrEvadeDialogProps) => {
+const DefendOrYieldDialog = (props: DefendOrYieldDialogProps) => {
   const [x, y] = props.G.mapState.currentBattle;
   const inCurrentBattle =
     props.G.mapState.battleMap[y] &&
@@ -24,13 +24,14 @@ const AttackOrEvadeDialog = (props: AttackOrEvadeDialogProps) => {
       maxWidth={"xl"}
       open={
         props.ctx.currentPlayer === props.playerID &&
-        props.ctx.phase === "aerial_battle" &&
+        props.ctx.phase === "ground_battle" &&
+        props.G.stage === "defend or yield" &&
         inCurrentBattle &&
         props.G.battleState?.defender.id === props.playerID &&
         props.G.battleState.defender.decision === "undecided"
       }
     >
-      <DialogTitle>Your fleet is under attack!</DialogTitle>
+      <DialogTitle>Your region is under attack!</DialogTitle>
       <DialogContent>
         {`Your fleet on tile [${1 + x}, ${4 - y}] is under attack by ${
           props.G.battleState
@@ -38,7 +39,7 @@ const AttackOrEvadeDialog = (props: AttackOrEvadeDialogProps) => {
             : "ERROR"
         }. 
         
-You can either evade or fight back. If you evade, the attacking kingdom will get to move your fleet to an adjoining tile of their choosing.`}
+You can either yield the region and all its buildings or fight back. If you yield, the attacking kingdom will get control over any outposts, colonies or forts which are present in the region and your troops will be returned safely to your kingdom.`}
 
         <WorldMap
           {...props}
@@ -49,24 +50,24 @@ You can either evade or fight back. If you evade, the attacking kingdom will get
         <Button
           color="warning"
           variant="contained"
-          onClick={props.moves.evadeAttackingFleet}
+          onClick={props.moves.yieldToAttacker}
         >
-          Evade
+          Yield
         </Button>
         <Button
           color="success"
           variant="contained"
-          onClick={props.moves.retaliate}
+          onClick={props.moves.defendGroundAttack}
         >
-          Attack!
+          Defend
         </Button>
       </DialogActions>
     </Dialog>
   );
 };
 
-interface AttackOrEvadeDialogProps extends MyGameProps {
+interface DefendOrYieldDialogProps extends MyGameProps {
   setTurnComplete: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default AttackOrEvadeDialog;
+export default DefendOrYieldDialog;

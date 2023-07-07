@@ -63,7 +63,7 @@ const punishDissenters: MoveFn<MyGameState> = (
   removeOneCounsellor(G, playerID);
   playerInfo.prisoners += 1;
 
-  if (G.playerInfo[playerID].hereticOrOthodox === "orthodox") {
+  if (G.playerInfo[playerID].hereticOrOrthodox === "orthodox") {
     increaseOrthodoxyWithinMove(G, playerID);
   } else {
     increaseHeresyWithinMove(G, playerID);

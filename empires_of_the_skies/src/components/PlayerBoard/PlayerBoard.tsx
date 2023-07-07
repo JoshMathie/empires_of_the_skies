@@ -22,7 +22,7 @@ import WorldMap from "../WorldMap/WorldMap";
 import { clearMoves, findPossibleDestinations } from "../../helpers/helpers";
 
 // displays buttons which can build cathedrals, palaces and skyships
-// also displays the button to imprison dissentors and to dispatch skyship fleets
+// also displays the button to imprison dissenters and to dispatch skyship fleets
 export const PlayerBoard = (props: PlayerBoardProps) => {
   const [dispatchDisabled, setDispatchDisabled] = useState(true);
   const [skyshipCount, setSkyshipCount] = useState(0);
@@ -213,7 +213,6 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
               <PlayerBoardButton
                 onClick={() => {
                   props.moves.enableDispatchButtons(setDispatchDisabled);
-                  // setDispatchDisabled(false);
                 }}
                 backgroundImage={dispatchSkyshipFleet}
                 colour={colour}
@@ -342,7 +341,7 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
                 disabled={
                   dispatchDisabled ||
                   regimentCount + levyCountForDispatch >= skyshipCount ||
-                  regimentCount > playerRegiments
+                  regimentCount >= playerRegiments
                 }
               >
                 +

@@ -13,6 +13,10 @@ import AttackOrEvadeDialog from "./AerialBattle/AttackOrEvadeDialog";
 import DrawOrPickCardDialog from "./AerialBattle/DrawOrPickCardDialog";
 import RelocateLoserDialog from "./AerialBattle/RelocateLoserDialog";
 import PlunderLegendsDialog from "./PlunderLegends/PlunderLegendsDialog";
+import DefendOrYieldDialog from "./GroundBattle/DefendOrYieldDialog";
+import GroundAttackOrPassDialog from "./GroundBattle/GroundAttackOrPassDialog";
+import GarrisonTroopsDialog from "./GroundBattle/GarrisonTroopsDialog";
+
 import PlayerTable from "./PlayerTable/PlayerTable";
 
 export const ActionBoardsAndMap = (props: MyGameProps) => {
@@ -91,6 +95,12 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
         <DrawOrPickCardDialog {...props} setTurnComplete={setTurnComplete} />
         <RelocateLoserDialog {...props} setTurnComplete={setTurnComplete} />
         <PlunderLegendsDialog {...props} setTurnComplete={setTurnComplete} />
+        <GroundAttackOrPassDialog
+          {...props}
+          setTurnComplete={setTurnComplete}
+        />
+        <DefendOrYieldDialog {...props} setTurnComplete={setTurnComplete} />
+        <GarrisonTroopsDialog {...props} setTurnComplete={setTurnComplete} />
       </Box>
     </div>
   );

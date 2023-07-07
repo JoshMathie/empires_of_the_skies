@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { MyGameProps } from "../../types";
 import {
   Dialog,
@@ -8,11 +8,11 @@ import {
   Button,
 } from "@mui/material";
 
-import { colourToKingdomMap } from "../../codifiedGameInfo";
 import WorldMap from "../WorldMap/WorldMap";
 
-const AttackOrEvadeDialog = (props: AttackOrEvadeDialogProps) => {
+const GroundAttackOrPassDialog = (props: GroundAttackOrPassDialogProps) => {
   const [x, y] = props.G.mapState.currentBattle;
+
   const inCurrentBattle =
     props.G.mapState.battleMap[y] &&
     props.G.mapState.battleMap[y][x].includes(
@@ -24,21 +24,20 @@ const AttackOrEvadeDialog = (props: AttackOrEvadeDialogProps) => {
       maxWidth={"xl"}
       open={
         props.ctx.currentPlayer === props.playerID &&
-        props.ctx.phase === "aerial_battle" &&
+        props.ctx.phase === "ground_battle" &&
         inCurrentBattle &&
-        props.G.battleState?.defender.id === props.playerID &&
-        props.G.battleState.defender.decision === "undecided"
+        props.G.battleState === undefined &&
+        props.G.stage === "attack or pass"
       }
+      style={{
+        color:
+          props.G.playerInfo[props.playerID ?? props.ctx.currentPlayer].colour,
+      }}
     >
-      <DialogTitle>Your fleet is under attack!</DialogTitle>
+      <DialogTitle>Choose your battle action</DialogTitle>
       <DialogContent>
-        {`Your fleet on tile [${1 + x}, ${4 - y}] is under attack by ${
-          props.G.battleState
-            ? colourToKingdomMap[props.G.battleState?.attacker.colour]
-            : "ERROR"
-        }. 
-        
-You can either evade or fight back. If you evade, the attacking kingdom will get to move your fleet to an adjoining tile of their choosing.`}
+        {`Do you want to attack this enemy's region? You must completely wipe them out in order to take control of the region.
+Current battle tile: [${1 + x}, ${4 - y}]`}
 
         <WorldMap
           {...props}
@@ -49,14 +48,14 @@ You can either evade or fight back. If you evade, the attacking kingdom will get
         <Button
           color="warning"
           variant="contained"
-          onClick={props.moves.evadeAttackingFleet}
+          onClick={props.moves.doNotGroundAttack}
         >
-          Evade
+          Pass
         </Button>
         <Button
           color="success"
           variant="contained"
-          onClick={props.moves.retaliate}
+          onClick={props.moves.attackPlayersBuilding}
         >
           Attack!
         </Button>
@@ -65,8 +64,7 @@ You can either evade or fight back. If you evade, the attacking kingdom will get
   );
 };
 
-interface AttackOrEvadeDialogProps extends MyGameProps {
+export interface GroundAttackOrPassDialogProps extends MyGameProps {
   setTurnComplete: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
-export default AttackOrEvadeDialog;
+export default GroundAttackOrPassDialog;

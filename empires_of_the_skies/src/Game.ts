@@ -30,7 +30,10 @@ import {
 import punishDissenters from "./moves/actions/punishDissenters";
 import convertMonarch from "./moves/actions/convertMonarch";
 import influencePrelates from "./moves/actions/influencePrelates";
-import { fullResetFortuneOfWarCardDeck } from "./helpers/helpers";
+import {
+  checkIfCurrentPlayerIsInCurrentBattle,
+  fullResetFortuneOfWarCardDeck,
+} from "./helpers/helpers";
 import trainTroops from "./moves/actions/trainTroops";
 import buildSkyships from "./moves/actions/buildSkyships";
 import conscriptLevies from "./moves/actions/conscriptLevies";
@@ -48,6 +51,12 @@ import pickCard from "./moves/aerialBattle/pickCard";
 import relocateDefeatedFleet from "./moves/aerialBattle/relocateDefeatedFleet";
 import plunder from "./moves/plunderLegends/plunder";
 import doNotPlunder from "./moves/plunderLegends/doNotPlunder";
+import attackPlayersBuilding from "./moves/groundBattle/attackPlayersBuilding";
+import doNotGroundAttack from "./moves/groundBattle/doNotGroundAttack";
+import defendGroundAttack from "./moves/groundBattle/defendGroundAttack";
+import garrisonTroops from "./moves/groundBattle/garrisonTroops";
+import yieldToAttacker from "./moves/groundBattle/yieldToAttacker";
+
 import { findNextBattle, findNextPlunder } from "./helpers/findNext";
 
 const MyGame: Game<MyGameState> = {
@@ -98,7 +107,7 @@ const MyGame: Game<MyGameState> = {
             conscriptLevies: false,
             dispatchSkyshipFleet: false,
           },
-          hereticOrOthodox: "orthodox",
+          hereticOrOrthodox: "orthodox",
           fleetInfo: [
             {
               fleetId: 1,
@@ -145,10 +154,6 @@ const MyGame: Game<MyGameState> = {
         1: undefined,
         2: undefined,
         3: undefined,
-
-        // free: undefined,
-        // oneGold: undefined,
-        // threeGold: undefined,
       },
       recruitRegiments: {
         1: undefined,
@@ -157,17 +162,10 @@ const MyGame: Game<MyGameState> = {
         4: undefined,
         5: undefined,
         6: undefined,
-        // free: undefined,
-        // oneGold: undefined,
-        // twoGold: undefined,
-        // threeGoldToSevenRegiments: undefined,
-        // threeGoldToSixRegiments: undefined,
-        // fourGold: undefined,
       },
       trainTroops: {
         1: undefined,
         2: undefined,
-        // free: undefined, oneGold: undefined
       },
       purchaseSkyships: {
         1: undefined,
@@ -176,22 +174,12 @@ const MyGame: Game<MyGameState> = {
         4: undefined,
         5: undefined,
         6: undefined,
-        // zeelandFourGold: undefined,
-        // zeelandThreeGold: undefined,
-        // zeelandOneGold: undefined,
-        // venoaFourGold: undefined,
-        // venoaThreeGold: undefined,
-        // venoaOneGold: undefined,
       },
       foundBuildings: {
         1: [],
         2: [],
         3: [],
         4: [],
-        // forts: [],
-        // palaces: [],
-        // cathedrals: [],
-        // shipyards: [],
       },
       influencePrelates: {
         1: undefined,
@@ -202,14 +190,6 @@ const MyGame: Game<MyGameState> = {
         6: undefined,
         7: undefined,
         8: undefined,
-        // angland: undefined,
-        // gallois: undefined,
-        // venoa: undefined,
-        // zeeland: undefined,
-        // castilia: undefined,
-        // constantium: undefined,
-        // normark: undefined,
-        // ostreich: undefined,
       },
       punishDissenters: {
         1: undefined,
@@ -218,12 +198,6 @@ const MyGame: Game<MyGameState> = {
         4: undefined,
         5: undefined,
         6: undefined,
-        // threeVP: undefined,
-        // oneGold: undefined,
-        // oneVP: undefined,
-        // counsellor: undefined,
-        // twoVP: undefined,
-        // free: undefined,
       },
       convertMonarch: {
         1: undefined,
@@ -232,12 +206,6 @@ const MyGame: Game<MyGameState> = {
         4: undefined,
         5: undefined,
         6: undefined,
-        // oneGold: undefined,
-        // oneVP: undefined,
-        // threeVP: undefined,
-        // twoCounsellors: undefined,
-        // twoVP: undefined,
-        // counsellor: undefined,
       },
       issueHolyDecree: false,
     };
@@ -310,6 +278,11 @@ const MyGame: Game<MyGameState> = {
     relocateDefeatedFleet: { move: relocateDefeatedFleet, undoable: true },
     plunder: { move: plunder, undoable: true },
     doNotPlunder: { move: doNotPlunder, undoable: true },
+    attackPlayersBuilding: { move: attackPlayersBuilding, undoable: true },
+    doNotGroundAttack: { move: doNotGroundAttack, undoable: true },
+    defendGroundAttack: { move: defendGroundAttack, undoable: true },
+    garrisonTroops: { move: garrisonTroops, undoable: true },
+    yieldToAttacker: { move: yieldToAttacker, undoable: true },
   },
   phases: {
     discovery: {
@@ -380,16 +353,11 @@ const MyGame: Game<MyGameState> = {
           console.log(
             `It is now player ${context.ctx.currentPlayer}'s turn in the aerial battle phase`
           );
-          const [x, y] = context.G.mapState.currentBattle;
-          if (
-            !context.G.mapState.battleMap[y][x].includes(
-              context.ctx.currentPlayer
-            )
-          ) {
-            context.events.endTurn({
-              next: context.G.mapState.battleMap[y][x][0],
-            });
-          }
+          checkIfCurrentPlayerIsInCurrentBattle(
+            context.G,
+            context.ctx,
+            context.events
+          );
         },
       },
       next: "plunder_legends",
@@ -417,20 +385,42 @@ const MyGame: Game<MyGameState> = {
           console.log(
             `it is now player ${context.ctx.currentPlayer}'s time to plunder`
           );
-          const [x, y] = context.G.mapState.currentBattle;
-          if (
-            !context.G.mapState.battleMap[y][x].includes(
-              context.ctx.currentPlayer
-            )
-          ) {
-            context.events.endTurn({
-              next: context.G.mapState.battleMap[y][x][0],
-            });
-          }
+          checkIfCurrentPlayerIsInCurrentBattle(
+            context.G,
+            context.ctx,
+            context.events
+          );
         },
       },
     },
-    ground_battle: {},
+    ground_battle: {
+      onBegin: (context) => {
+        context.G.stage = "attack or pass";
+
+        console.log("Ground battles have begun");
+      },
+      turn: {
+        onBegin: (context) => {
+          console.log(
+            `it is now player ${context.ctx.currentPlayer}'s time to ground attack`
+          );
+          checkIfCurrentPlayerIsInCurrentBattle(
+            context.G,
+            context.ctx,
+            context.events
+          );
+        },
+      },
+      moves: {
+        attackPlayersBuilding: { move: attackPlayersBuilding, undoable: true },
+        doNotGroundAttack: { move: doNotGroundAttack, undoable: true },
+        defendGroundAttack: { move: defendGroundAttack, undoable: true },
+        garrisonTroops: { move: garrisonTroops, undoable: true },
+        yieldToAttacker: { move: yieldToAttacker, undoable: true },
+      },
+      next: "conquest",
+    },
+    conquest: {},
   },
   maxPlayers: 6,
   minPlayers: 1,

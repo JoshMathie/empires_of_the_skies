@@ -40,7 +40,7 @@ const foundCathedral = (
   if (G.playerInfo[playerID].cathedrals === 6) {
     return INVALID_MOVE;
   }
-  if (G.playerInfo[playerID].hereticOrOthodox === "heretic") {
+  if (G.playerInfo[playerID].hereticOrOrthodox === "heretic") {
     return INVALID_MOVE;
   }
   const cost = 5 + G.boardState.foundBuildings[1].length;
@@ -69,7 +69,7 @@ const foundPalace = (
 
   G.playerInfo[playerID].resources.gold -= cost;
   G.playerInfo[playerID].palaces += 1;
-  if (G.playerInfo[playerID].hereticOrOthodox === "heretic") {
+  if (G.playerInfo[playerID].hereticOrOrthodox === "heretic") {
     G.playerInfo[playerID].resources.victoryPoints += 2;
   } else {
     G.playerInfo[playerID].resources.victoryPoints += 1;

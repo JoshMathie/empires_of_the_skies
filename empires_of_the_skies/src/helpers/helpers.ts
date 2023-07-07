@@ -7,6 +7,7 @@ import {
 import { fortuneOfWarCards } from "../codifiedGameInfo";
 import { Ctx } from "boardgame.io";
 import { RandomAPI } from "boardgame.io/dist/types/src/plugins/random/random";
+import { EventsAPI } from "boardgame.io/dist/types/src/plugins/events/events";
 
 export const clearMoves = (
   props: MyGameProps,
@@ -97,7 +98,7 @@ export const findMostOrthodoxKingdoms = (G: MyGameState): string[] => {
   let currentLowestKingdoms: string[] = [];
 
   Object.entries(G.playerInfo).forEach(([id, info]) => {
-    if (info.hereticOrOthodox === "orthodox") {
+    if (info.hereticOrOrthodox === "orthodox") {
       if (info.heresyTracker < currentLowestHeresyTracker) {
         currentLowestHeresyTracker = info.heresyTracker;
         currentLowestKingdoms = [id];
@@ -115,7 +116,7 @@ export const findMostHereticalKingdoms = (G: MyGameState): string[] => {
   let currentHighestKingdoms: string[] = [];
 
   Object.entries(G.playerInfo).forEach(([id, info]) => {
-    if (info.hereticOrOthodox === "heretic") {
+    if (info.hereticOrOrthodox === "heretic") {
       if (info.heresyTracker > currentHighestHeresyTracker) {
         currentHighestHeresyTracker = info.heresyTracker;
         currentHighestKingdoms = [id];
@@ -142,7 +143,7 @@ export const findMostHereticalKingdoms = (G: MyGameState): string[] => {
 export const blessingOrCurseVPAmount = (G: MyGameState): number => {
   let total = 0;
   Object.values(G.playerInfo).forEach((info) => {
-    if (info.hereticOrOthodox === "orthodox") {
+    if (info.hereticOrOrthodox === "orthodox") {
       total += 1;
     }
   });
@@ -194,4 +195,17 @@ export const drawFortuneOfWarCard = (
   G.cardDecks.discardedFortuneOfWarCards.push(cardDeck[randomIndex]);
   G.cardDecks.fortuneOfWarCards.splice(randomIndex, 1);
   return card;
+};
+
+export const checkIfCurrentPlayerIsInCurrentBattle = (
+  G: MyGameState,
+  ctx: Ctx,
+  events: EventsAPI
+) => {
+  const [x, y] = G.mapState.currentBattle;
+  if (!G.mapState.battleMap[y][x].includes(ctx.currentPlayer)) {
+    events.endTurn({
+      next: G.mapState.battleMap[y][x][0],
+    });
+  }
 };

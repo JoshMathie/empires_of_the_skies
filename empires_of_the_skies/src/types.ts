@@ -84,7 +84,7 @@ export type PlayerInfo = {
   resources: Resources;
   isArchprelate: boolean;
   playerBoardCounsellorLocations: PlayerBoardInfo;
-  hereticOrOthodox: string;
+  hereticOrOrthodox: string;
   fleetInfo: FleetInfo[];
   cathedrals: number;
   palaces: number;
