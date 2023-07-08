@@ -151,21 +151,6 @@ export const blessingOrCurseVPAmount = (G: MyGameState): number => {
   return Math.floor(total / 3);
 };
 
-// export const findInitialBattleMap = (G: MyGameState) => {
-//   Object.entries(G.playerInfo).forEach(([id, info]) => {
-//     info.fleetInfo.forEach((fleetInfo) => {
-//       const [x, y] = fleetInfo.location;
-//       if (y !== 0 || x !== 4) {
-//         console.log(`[${x}, ${y}]`);
-//         if (!G.mapState.battleMap[y][x].includes(id)) {
-//           G.mapState.battleMap[y][x].push(id);
-//           console.log(G.mapState.battleMap[y]);
-//         }
-//       }
-//     });
-//   });
-// };
-
 export const sortPlayersInPlayerOrder = (playerIDs: string[], ctx: Ctx) => {
   const sortedPlayerIDs: string[] = [];
   ctx.playOrder.forEach((id) => {

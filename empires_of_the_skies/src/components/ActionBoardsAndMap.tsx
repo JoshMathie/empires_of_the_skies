@@ -18,6 +18,7 @@ import GroundAttackOrPassDialog from "./GroundBattle/GroundAttackOrPassDialog";
 import GarrisonTroopsDialog from "./GroundBattle/GarrisonTroopsDialog";
 
 import PlayerTable from "./PlayerTable/PlayerTable";
+import Chat from "./Chat/Chat";
 
 export const ActionBoardsAndMap = (props: MyGameProps) => {
   const [value, setValue] = useState("0");
@@ -75,6 +76,15 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
                 fontSize: 26,
                 textTransform: "none",
               }}
+            />{" "}
+            <Tab
+              label="Group Chat"
+              value={"4"}
+              style={{
+                fontFamily: "dauphinn",
+                fontSize: 26,
+                textTransform: "none",
+              }}
             />
           </Tabs>
           <TabPanel value={"0"} tabIndex={0}>
@@ -85,9 +95,12 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
           </TabPanel>
           <TabPanel value={"2"} tabIndex={2}>
             <WorldMap {...props} setTurnComplete={setTurnComplete} />
-          </TabPanel>{" "}
+          </TabPanel>
           <TabPanel value={"3"} tabIndex={3}>
             <PlayerTable {...props} />
+          </TabPanel>
+          <TabPanel value={"4"} tabIndex={4}>
+            <Chat {...props} />
           </TabPanel>
         </TabContext>
         <AttackOrPassDiaLog {...props} setTurnComplete={setTurnComplete} />
