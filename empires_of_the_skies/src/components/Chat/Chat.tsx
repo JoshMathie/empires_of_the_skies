@@ -15,7 +15,6 @@ import SendIcon from "@mui/icons-material/Send";
 import { MyGameProps } from "../../types";
 import { ChatMessage } from "boardgame.io";
 import { ChangeEventHandler } from "react";
-import KingSVG from "../../boards_and_assets/king.svg";
 
 const Chat = (props: MyGameProps) => {
   const [input, setInput] = React.useState("");
@@ -33,51 +32,85 @@ const Chat = (props: MyGameProps) => {
     setInput(event.target.value);
   };
   return (
-    <Box
-      sx={{
-        height: "100vh",
-        width: "100%",
+    <div
+      style={{
         display: "flex",
-        flexDirection: "column",
-        bgcolor: "grey.200",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "100%",
+        marginLeft: "20px",
+        marginRight: "20px",
       }}
     >
-      <Box sx={{ flexGrow: 1, overflow: "auto", p: 2 }}>
-        {props.chatMessages.map((message) => (
-          <Message key={message.id} message={message} {...props} />
-        ))}
-      </Box>
-      <Box sx={{ p: 2, backgroundColor: "background.default" }}>
-        <Grid container spacing={2}>
-          <Grid item xs={10}>
-            <TextField
-              size="small"
-              fullWidth
-              placeholder="Type a message"
-              variant="outlined"
-              value={input}
-              onChange={handleInputChange}
-              onKeyDownCapture={(event) => {
-                if (event.key === "Enter") {
-                  handleSend();
-                }
-              }}
-            />
-          </Grid>
-          <Grid item xs={2}>
-            <Button
-              fullWidth
-              color="primary"
-              variant="contained"
-              endIcon={<SendIcon />}
-              onClick={handleSend}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          alignContent: "center",
+          maxWidth: 1220,
+          width: "100%",
+        }}
+      >
+        <div>
+          <Box
+            sx={{
+              height: "100vh",
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              bgcolor: "grey.200",
+            }}
+          >
+            <Box sx={{ flexGrow: 1, overflow: "auto", p: 2 }}>
+              {props.chatMessages.map((message) => (
+                <Message key={message.id} message={message} {...props} />
+              ))}
+            </Box>
+            <Box sx={{ p: 2, backgroundColor: "background.default" }}>
+              <Grid container spacing={2}>
+                <Grid item xs={10}>
+                  <TextField
+                    size="small"
+                    fullWidth
+                    placeholder="Type a message"
+                    variant="outlined"
+                    value={input}
+                    onChange={handleInputChange}
+                    onKeyDownCapture={(event) => {
+                      if (event.key === "Enter") {
+                        handleSend();
+                      }
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={2}>
+                  <Button
+                    fullWidth
+                    color="primary"
+                    variant="contained"
+                    endIcon={<SendIcon />}
+                    onClick={handleSend}
+                  >
+                    Send
+                  </Button>
+                </Grid>
+              </Grid>
+            </Box>
+          </Box>
+          <text style={{ fontSize: 16 }}>
+            King SVG from King by Alina Oleynik from{" "}
+            <a
+              href="https://thenounproject.com/browse/icons/term/king/"
+              target="_blank"
+              title="King Icons"
             >
-              Send
-            </Button>
-          </Grid>
-        </Grid>
-      </Box>
-    </Box>
+              Noun Project
+            </a>
+          </text>
+        </div>
+      </div>
+    </div>
   );
 };
 
