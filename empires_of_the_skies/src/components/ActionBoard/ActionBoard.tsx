@@ -25,7 +25,7 @@ import buildCathedral from "../../boards_and_assets/build_cathedral.svg";
 import buildPalace from "../../boards_and_assets/build_palace.svg";
 import buildShipyard from "../../boards_and_assets/build_shipyards.svg";
 import buildForts from "../../boards_and_assets/build_forts.svg";
-import InfluencePrelatesExplination from "../../boards_and_assets/influence_prelates_explination.svg";
+import InfluencePrelatesExplanation from "../../boards_and_assets/influence_prelates_explination.svg";
 import PunishDissenters from "../../boards_and_assets/punish_dissenters_explination.svg";
 import punishDissenters1 from "../../boards_and_assets/punish_dissenters1.svg";
 import punishDissenters2 from "../../boards_and_assets/punish_dissenters2.svg";
@@ -33,7 +33,7 @@ import punishDissenters3 from "../../boards_and_assets/punish_dissenters3.svg";
 import punishDissenters4 from "../../boards_and_assets/punish_dissenters4.svg";
 import punishDissenters5 from "../../boards_and_assets/punish_dissenters5.svg";
 import punishDissenters6 from "../../boards_and_assets/punish_dissenters6.svg";
-import ConvertMonarchExplination from "../../boards_and_assets/convert_monarch_explination.svg";
+import ConvertMonarchExplanation from "../../boards_and_assets/convert_monarch_explination.svg";
 import convertMonarch1 from "../../boards_and_assets/convert_monarch1.svg";
 import convertMonarch2 from "../../boards_and_assets/convert_monarch2.svg";
 import convertMonarch3 from "../../boards_and_assets/convert_monarch3.svg";
@@ -181,7 +181,7 @@ export const ActionBoard = (props: ActionBoardProps) => {
           {/* button row with the influence prelates buttons */}
           <ButtonRow key={"influence prelates buttons"}>
             <ThemeProvider theme={influencePrelatesTheme}>
-              <img src={InfluencePrelatesExplination}></img>
+              <img src={InfluencePrelatesExplanation}></img>
               {generateButtonsList(
                 8,
                 props.moves.influencePrelates,
@@ -238,7 +238,7 @@ export const ActionBoard = (props: ActionBoardProps) => {
           </ButtonRow>
           {/* button row with the convert monarch buttons   */}
           <ButtonRow key={"convert monarch buttons"}>
-            <img src={ConvertMonarchExplination}></img>
+            <img src={ConvertMonarchExplanation}></img>
             {generateButtonsList(
               6,
               props.moves.convertMonarch,

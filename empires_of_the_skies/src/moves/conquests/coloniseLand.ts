@@ -9,6 +9,7 @@ const coloniseLand: MoveFn<MyGameState> = (
     decision: "fight",
     ...G.playerInfo[playerID],
   };
+  G.stage = "conquest draw or pick card";
 };
 
 export default coloniseLand;

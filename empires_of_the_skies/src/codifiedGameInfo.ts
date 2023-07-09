@@ -115,9 +115,9 @@ import shieldSeven from "./boards_and_assets/fortunes_of_war_cards/7_shield.svg"
 import shieldEight from "./boards_and_assets/fortunes_of_war_cards/8_shield.svg";
 import noEffect from "./boards_and_assets/fortunes_of_war_cards/no_effect.svg";
 
-import { FortuneOfWarCardInfo, TileInfoProps } from "./types";
+import { FortuneOfWarCardInfo, KingdomName, TileInfoProps } from "./types";
 
-export const colourToKingdomMap = {
+export const colourToKingdomMap: Record<string, KingdomName> = {
   "#DC5454": "Angland",
   "#51658D": "Gallois",
   "#F5DE48": "Castillia",

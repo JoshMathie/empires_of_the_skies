@@ -11,7 +11,7 @@ export const discoverTile: MoveFn<MyGameState> = (
   if (G.mapState.discoveredTiles[y][x] === true) {
     return INVALID_MOVE;
   }
-  const boarderingTiles: number[][] = [
+  const borderingTiles: number[][] = [
     [x, y - 1 < 0 ? 0 : y - 1],
     [x, y + 1 > 3 ? 3 : y + 1],
     [(((x - 1) % 8) + 8) % 8, y],
@@ -19,7 +19,7 @@ export const discoverTile: MoveFn<MyGameState> = (
   ];
   let bordered = false;
 
-  boarderingTiles.forEach((coords) => {
+  borderingTiles.forEach((coords) => {
     if (ctx.numMoves === 0) {
       if (G.mapState.discoveredTiles[coords[1]][coords[0]] === true) {
         bordered = true;
@@ -46,8 +46,9 @@ export const discoverTile: MoveFn<MyGameState> = (
   }
   G.mapState.discoveredTiles[y][x] = true;
   G.mapState.mostRecentlyDiscoveredTile = [x, y];
+  G.firstTurnOfRound = false;
   if (currentTile.shield !== 0 || currentTile.sword !== 0) {
-    if (ctx.turn === ctx.numPlayers) {
+    if (ctx.currentPlayer === ctx.playOrder[ctx.playOrder.length - 1]) {
       events.endPhase();
     } else {
       events.endTurn();

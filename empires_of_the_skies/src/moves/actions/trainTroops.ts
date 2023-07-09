@@ -2,10 +2,7 @@ import { MoveFn } from "boardgame.io";
 import { MyGameState } from "../../types";
 import { checkCounsellorsNotZero } from "../moveValidation";
 import { INVALID_MOVE } from "boardgame.io/core";
-import {
-  drawFortuneOfWarCard,
-  resetFortuneOfWarCardDeck,
-} from "../../helpers/helpers";
+import { drawFortuneOfWarCard } from "../../helpers/helpers";
 import { removeGoldAmount, removeOneCounsellor } from "../resourceUpdates";
 
 const trainTroops: MoveFn<MyGameState> = (
@@ -22,7 +19,7 @@ const trainTroops: MoveFn<MyGameState> = (
     return INVALID_MOVE;
   }
   for (let i = 0; i < value; i++) {
-    const card = drawFortuneOfWarCard(G, random);
+    const card = drawFortuneOfWarCard(G);
 
     G.playerInfo[playerID].resources.fortuneCards.push({
       ...card,

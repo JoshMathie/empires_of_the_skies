@@ -12,7 +12,7 @@ const drawCard: MoveFn<MyGameState> = (
     Object.values(G.battleState).forEach((battler) => {
       if (battler.id === playerID) {
         //draw card function currently never returns a no effect card
-        battler.fowCard = drawFortuneOfWarCard(G, random);
+        battler.fowCard = drawFortuneOfWarCard(G);
       }
     });
 

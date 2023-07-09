@@ -6,7 +6,6 @@ import {
 } from "../types";
 import { fortuneOfWarCards } from "../codifiedGameInfo";
 import { Ctx } from "boardgame.io";
-import { RandomAPI } from "boardgame.io/dist/types/src/plugins/random/random";
 import { EventsAPI } from "boardgame.io/dist/types/src/plugins/events/events";
 import {
   findNextBattle,
@@ -167,12 +166,9 @@ export const sortPlayersInPlayerOrder = (playerIDs: string[], ctx: Ctx) => {
   return sortedPlayerIDs;
 };
 
-export const drawFortuneOfWarCard = (
-  G: MyGameState,
-  random: RandomAPI
-): FortuneOfWarCardInfo => {
+export const drawFortuneOfWarCard = (G: MyGameState): FortuneOfWarCardInfo => {
   const cardDeck = G.cardDecks.fortuneOfWarCards;
-  let randomIndex = random.Die(cardDeck.length) - 1;
+  let randomIndex = Math.floor(Math.random() * cardDeck.length);
 
   //checking if the card is a no effect card
   while (
@@ -180,7 +176,7 @@ export const drawFortuneOfWarCard = (
     cardDeck[randomIndex].sword === 0
   ) {
     resetFortuneOfWarCardDeck(G);
-    randomIndex = random.Die(cardDeck.length);
+    randomIndex = Math.floor(Math.random() * cardDeck.length);
   }
   const card = cardDeck[randomIndex];
   G.cardDecks.discardedFortuneOfWarCards.push(cardDeck[randomIndex]);
@@ -196,7 +192,7 @@ export const checkIfCurrentPlayerIsInCurrentBattle = (
   const [x, y] = G.mapState.currentBattle;
   console.log("current battlemap:");
   console.log(G.mapState.battleMap.toString());
-  console.log(`The bit just before the failure... ${[y, x]}`);
+  console.log(`The bit just before the failure... ${[x, y]}`);
   if (G.mapState.battleMap[y][x].length > 0) {
     if (!G.mapState.battleMap[y][x].includes(ctx.currentPlayer)) {
       events.endTurn({
@@ -206,15 +202,19 @@ export const checkIfCurrentPlayerIsInCurrentBattle = (
   } else {
     switch (ctx.phase) {
       case "aerial_battle":
+        console.log("finding next aerial battle");
         findNextBattle(G, events, ctx);
         break;
       case "ground_battle":
+        console.log("finding next ground battle");
         findNextGroundBattle(G, events);
         break;
       case "plunder_legends":
+        console.log("finding next plunder");
         findNextPlunder(G, events);
         break;
       case "conquest":
+        console.log("finding next conquest");
         findNextConquest(G, events);
         break;
     }

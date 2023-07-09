@@ -17,6 +17,7 @@ import DefendOrYieldDialog from "./GroundBattle/DefendOrYieldDialog";
 import GroundAttackOrPassDialog from "./GroundBattle/GroundAttackOrPassDialog";
 import GarrisonTroopsDialog from "./GroundBattle/GarrisonTroopsDialog";
 import OutpostOrColonyDialog from "./Conquests/OutpostOrColonyDialog";
+import ElectionDialog from "./Election/ElectionDialog";
 
 import PlayerTable from "./PlayerTable/PlayerTable";
 import Chat from "./Chat/Chat";
@@ -116,6 +117,7 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
         <DefendOrYieldDialog {...props} setTurnComplete={setTurnComplete} />
         <GarrisonTroopsDialog {...props} setTurnComplete={setTurnComplete} />
         <OutpostOrColonyDialog {...props} setTurnComplete={setTurnComplete} />
+        <ElectionDialog {...props} />
       </Box>
     </div>
   );

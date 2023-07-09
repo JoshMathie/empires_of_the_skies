@@ -67,7 +67,14 @@ const PlayerTable = (props: PlayerTableProps) => {
           <TableBody>
             {Object.entries(props.G.playerInfo).map(([key, value]) => (
               <TableRow key={key}>
-                <TableCell sx={{ backgroundColor: value.colour }}>
+                <TableCell
+                  sx={{
+                    backgroundColor: value.colour,
+                    border: value.isArchprelate
+                      ? "5px solid purple"
+                      : undefined,
+                  }}
+                >
                   {colourToKingdomMap[value.colour]}
                 </TableCell>
                 <TableCell align="right">

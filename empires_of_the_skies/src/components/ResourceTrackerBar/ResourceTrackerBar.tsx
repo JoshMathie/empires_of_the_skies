@@ -288,6 +288,7 @@ const ResourceTrackerBar = (props: ResourceTrackerBarProps) => {
                 onClick={() => {
                   setPassDialogOpen(true);
                 }}
+                disabled={!(props.ctx.currentPlayer === props.playerID)}
               >
                 Pass
               </Button>
@@ -303,6 +304,7 @@ const ResourceTrackerBar = (props: ResourceTrackerBarProps) => {
           <DialogActions>
             <Button
               color="error"
+              variant="contained"
               onClick={() => {
                 setPassDialogOpen(false);
               }}
@@ -311,6 +313,7 @@ const ResourceTrackerBar = (props: ResourceTrackerBarProps) => {
             </Button>
             <Button
               color="warning"
+              variant="contained"
               onClick={() => {
                 setPassDialogOpen(false);
                 props.moves.pass();

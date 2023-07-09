@@ -14,6 +14,7 @@ import {
   oceanTiles,
   legendTiles,
   knownWorldTiles,
+  colourToKingdomMap,
 } from "./codifiedGameInfo";
 import discoverTile from "./moves/discovery/discoverTile";
 import alterPlayerOrder from "./moves/actions/alterPlayerOrder";
@@ -61,6 +62,7 @@ import constructOutpost from "./moves/conquests/constructOutpost";
 import doNothing from "./moves/conquests/doNothing";
 import drawCardConquest from "./moves/conquests/drawCardConquest";
 import pickCardConquest from "./moves/conquests/pickCardConquest";
+import vote from "./moves/election/vote";
 
 import { findNextBattle, findNextPlunder } from "./helpers/findNext";
 
@@ -85,7 +87,8 @@ const MyGame: Game<MyGameState> = {
         const playerColour = colours.pop();
         playerIDMap[playerID] = {
           id: playerID,
-          colour: playerColour ? playerColour : PlayerColour.green,
+          kingdomName: colourToKingdomMap[playerColour ?? PlayerColour.green],
+          colour: playerColour ?? PlayerColour.green,
           ready: true, //look into what this should be
           passed: false,
           resources: {
@@ -232,6 +235,11 @@ const MyGame: Game<MyGameState> = {
         discardedFortuneOfWarCards: [],
       },
       stage: "discovery",
+      electionResults: {},
+      hasVoted: [],
+      round: 0,
+      finalRound: 4,
+      firstTurnOfRound: true,
     };
   },
   moves: {
@@ -293,8 +301,78 @@ const MyGame: Game<MyGameState> = {
     discovery: {
       start: true,
       onBegin: (context) => {
+        context.ctx.playOrderPos = 0;
         context.G.stage = "discovery";
         console.log("Discovery phase has begun");
+
+        context.G.firstTurnOfRound = true;
+
+        Object.values(context.G.playerInfo).forEach((playerInfo) => {
+          playerInfo.passed = false;
+        });
+        const currentTurnOrder = [...context.ctx.playOrder];
+        const newTurnOrder: string[] = Object.values(
+          context.G.boardState.alterPlayerOrder
+        ).map((id) => {
+          if (id) {
+            currentTurnOrder.splice(currentTurnOrder.indexOf(id), 1);
+            return id;
+          } else {
+            return currentTurnOrder.splice(0, 1)[0];
+          }
+        });
+        if (newTurnOrder.length !== context.ctx.playOrder.length) {
+          throw Error(`Something has gone wrong when updating the player order.
+          old order: ${context.ctx.playOrder}
+          new order: ${newTurnOrder}`);
+        } else {
+          context.ctx.playOrder = newTurnOrder;
+        }
+
+        Object.entries(context.G.boardState).forEach(
+          ([key, gameStateObject]) => {
+            if (key === "foundBuildings") {
+              Object.values(gameStateObject).forEach((idArray) => {
+                idArray.forEach((id: string) => {
+                  context.G.playerInfo[id].resources.counsellors += 1;
+                });
+              });
+              context.G.boardState.foundBuildings[1] = [];
+              context.G.boardState.foundBuildings[2] = [];
+              context.G.boardState.foundBuildings[3] = [];
+              context.G.boardState.foundBuildings[4] = [];
+            } else if (key === "issueHolyDecree") {
+              context.G.boardState[key] = false;
+            } else {
+              Object.values(gameStateObject).forEach((id) => {
+                if (id) {
+                  context.G.playerInfo[id].resources.counsellors += 1;
+                  id = undefined;
+                }
+              });
+            }
+          }
+        );
+
+        Object.values(context.G.playerInfo).forEach((player) => {
+          Object.values(player.playerBoardCounsellorLocations).forEach(
+            (counsellor) => {
+              if (counsellor) {
+                player.resources.counsellors += 1;
+                counsellor = false;
+              }
+            }
+          );
+        });
+        context.events.endTurn({ next: context.ctx.playOrder[0] });
+        context.events.pass();
+      },
+      turn: {
+        onBegin: (context) => {
+          if (context.G.firstTurnOfRound && context.ctx.playOrderPos !== 0) {
+            context.events.endTurn({ next: context.ctx.playOrder[0] });
+          }
+        },
       },
       moves: {
         discoverTile: { move: discoverTile, undoable: false },
@@ -317,6 +395,19 @@ const MyGame: Game<MyGameState> = {
           if (context.G.playerInfo[context.ctx.currentPlayer].passed === true) {
             context.events.endTurn();
           }
+
+          let allDiscovered = true;
+          Object.values(context.G.mapState.discoveredTiles).forEach(
+            (tileRow) => {
+              tileRow.forEach((tile) => {
+                if (tile === false) {
+                  allDiscovered = false;
+                }
+              });
+            }
+          );
+
+          if (allDiscovered) context.events.endPhase();
         },
       },
       moves: {
@@ -453,7 +544,17 @@ const MyGame: Game<MyGameState> = {
       },
       next: "election",
     },
-    election: {},
+    election: {
+      onBegin: (context) => {
+        context.G.electionResults = {};
+        context.G.hasVoted = [];
+      },
+      moves: { vote: { move: vote, undoable: false } },
+      next: "discovery",
+      onEnd: (context) => {
+        context.G.round += 1;
+      },
+    },
   },
   maxPlayers: 6,
   minPlayers: 1,

@@ -24,13 +24,29 @@ export const WorldMapTile = (props: worldMapTileProps) => {
     props.G.mapState.buildings[yLocation][xLocation].player?.colour;
 
   const building = () => {
-    const currentBuilding =
-      props.G.mapState.buildings[yLocation][xLocation].buildings;
+    const currentRegion = props.G.mapState.buildings[yLocation][xLocation];
+    const currentBuilding = currentRegion.buildings;
     let icon;
     if (currentBuilding === "colony") {
-      icon = <ColonyIcon colour={fortColour ?? "white"} />;
+      icon = (
+        <ColonyIcon
+          colour={
+            fortColour ?? props.G.playerInfo[props.ctx.currentPlayer].colour
+          }
+          regiments={currentRegion.garrisonedRegiments}
+          levies={currentRegion.garrisonedLevies}
+        />
+      );
     } else if (currentBuilding === "outpost") {
-      icon = <OutpostIcon colour={fortColour ?? "white"} />;
+      icon = (
+        <OutpostIcon
+          colour={
+            fortColour ?? props.G.playerInfo[props.ctx.currentPlayer].colour
+          }
+          regiments={currentRegion.garrisonedRegiments}
+          levies={currentRegion.garrisonedLevies}
+        />
+      );
     }
 
     return icon;

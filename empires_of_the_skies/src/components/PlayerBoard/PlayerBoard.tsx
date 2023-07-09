@@ -4,7 +4,7 @@ import buildSkyships from "../../boards_and_assets/player_boards/buttons/build_s
 import conscriptLevies from "../../boards_and_assets/player_boards/buttons/conscript_levies.svg";
 import dispatchSkyshipFleet from "../../boards_and_assets/player_boards/buttons/dispatch_skyship_fleet.svg";
 import { ButtonRow } from "../ActionBoard/ActionBoardButtonRow";
-import { FleetInfo, MyGameProps, PlayerColour } from "../../types";
+import { FleetInfo, MyGameProps } from "../../types";
 import { PlayerBoardButton } from "./PlayerBoardButton";
 import {
   Button,

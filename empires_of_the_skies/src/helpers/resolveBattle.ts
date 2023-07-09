@@ -267,7 +267,7 @@ export const resolveConquest = (
   attackerSwordValue += G.battleState?.attacker.fowCard?.sword ?? 0;
   attackerShieldValue += G.battleState?.attacker.fowCard?.shield ?? 0;
 
-  const defenderCard = drawFortuneOfWarCard(G, random);
+  const defenderCard = drawFortuneOfWarCard(G);
 
   const defenderSwordValue =
     G.mapState.currentTileArray[y][x].sword + defenderCard.sword;
@@ -316,7 +316,7 @@ export const resolveConquest = (
   });
 
   let remainingAttackers =
-    (attackerGarrisonedLevies ?? 0) + (attackerGarrisonedRegiments ?? 0);
+    attackerGarrisonedLevies + attackerGarrisonedRegiments;
 
   attackerFleets.forEach((fleet) => {
     if (fleet.location[0] === x && fleet.location[1] === y) {
@@ -333,10 +333,18 @@ export const resolveConquest = (
     }
   });
 
+  console.log(
+    `Remaining attackers in colonisation attempt: ${remainingAttackers}`
+  );
   const remainingDefenders =
     attackerSwordValue - (defenderShieldValue + defenderSwordValue);
 
+  console.log(
+    `Remaining defenders in colonisation attempt: ${remainingDefenders}`
+  );
+
   if (remainingDefenders > 0 || remainingAttackers < 1) {
+    console.log("Attacker has failed their conquest attempt");
     const currentBuilding = G.mapState.buildings[y][x];
     if (currentBuilding.garrisonedRegiments > 0) {
       attackerFleets.forEach((fleet) => {
@@ -369,9 +377,10 @@ export const resolveConquest = (
     currentBuilding.fort = false;
     currentBuilding.garrisonedLevies = 0;
     currentBuilding.garrisonedRegiments = 0;
-
+    G.conquestState = undefined;
     findNextConquest(G, events);
   } else if (remainingDefenders <= 0 && remainingAttackers > 0) {
+    console.log("Attacker has successfully colonised a region");
     const currentPlayer =
       G.playerInfo[G.battleState?.attacker.id ?? ctx.currentPlayer];
     const currentBuilding = G.mapState.buildings[y][x];
@@ -380,7 +389,8 @@ export const resolveConquest = (
 
     currentBuilding.player = currentPlayer;
     currentBuilding.buildings = "colony";
-
+    console.log("Setting stage for the garrison of troops");
+    G.conquestState = undefined;
     G.stage = "garrison troops";
   }
 };

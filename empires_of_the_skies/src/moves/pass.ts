@@ -7,6 +7,7 @@ const pass: MoveFn<MyGameState> = (
 ) => {
   G.playerInfo[playerID].passed = true;
   if (ctx.phase === "discovery") {
+    G.firstTurnOfRound = false;
     if (ctx.turn === ctx.numPlayers) {
       G.stage = "actions";
       events.endPhase();

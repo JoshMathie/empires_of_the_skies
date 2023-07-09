@@ -80,6 +80,7 @@ const DrawOrPickCardDialog = (props: DrawOrPickCardDialogProps) => {
               ? props.moves.pickCardConquest(currentCard)
               : props.moves.pickCard(currentCard);
           }}
+          disabled={cards.length === 0}
         >
           Use selected card
         </Button>

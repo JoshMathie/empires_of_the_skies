@@ -26,6 +26,11 @@ export interface MyGameState {
     | "defend or yield"
     | "resolve ground battle"
     | "garrison troops";
+  electionResults: Record<string, number>;
+  hasVoted: string[];
+  round: number;
+  finalRound: 4;
+  firstTurnOfRound: boolean;
 }
 
 export type BattleState = {
@@ -80,6 +85,7 @@ export type MapBuildingInfo = {
 
 export type PlayerInfo = {
   id: string;
+  kingdomName: KingdomName;
   colour: (typeof PlayerColour)[keyof typeof PlayerColour];
   ready: boolean;
   passed: boolean;
@@ -94,7 +100,18 @@ export type PlayerInfo = {
   prisoners: number;
   shipyards: number;
   forts: FortInfo[];
+  troopsToGarrison?: TroopInfo;
 };
+
+type TroopInfo = { regiments: number; levies: number };
+
+export type KingdomName =
+  | "Angland"
+  | "Gallois"
+  | "Castillia"
+  | "Nordmark"
+  | "Ostreich"
+  | "Constantium";
 
 type FortInfo = {
   location: number[];
@@ -174,16 +191,10 @@ export type ActionBoardInfo = {
     1: string | undefined;
     2: string | undefined;
     3: string | undefined;
-
-    // free: string | undefined;
-    // oneGold: string | undefined;
-    // threeGold: string | undefined;
   };
   trainTroops: {
     1: string | undefined;
     2: string | undefined;
-    // free: string | undefined;
-    // oneGold: string | undefined;
   };
   recruitRegiments: {
     1: string | undefined;
@@ -192,12 +203,6 @@ export type ActionBoardInfo = {
     4: string | undefined;
     5: string | undefined;
     6: string | undefined;
-    // free: string | undefined;
-    // oneGold: string | undefined;
-    // twoGold: string | undefined;
-    // threeGoldToSixRegiments: string | undefined;
-    // threeGoldToSevenRegiments: string | undefined;
-    // fourGold: string | undefined;
   };
   purchaseSkyships: {
     1: string | undefined;
@@ -206,22 +211,12 @@ export type ActionBoardInfo = {
     4: string | undefined;
     5: string | undefined;
     6: string | undefined;
-    // zeelandOneGold: string | undefined;
-    // zeelandThreeGold: string | undefined;
-    // zeelandFourGold: string | undefined;
-    // venoaOneGold: string | undefined;
-    // venoaThreeGold: string | undefined;
-    // venoaFourGold: string | undefined;
   };
   foundBuildings: {
     1: string[];
     2: string[];
     3: string[];
     4: string[];
-    // cathedrals: string[];
-    // palaces: string[];
-    // shipyards: string[];
-    // forts: string[];
   };
   influencePrelates: {
     1: string | undefined;
@@ -232,14 +227,6 @@ export type ActionBoardInfo = {
     6: string | undefined;
     7: string | undefined;
     8: string | undefined;
-    // angland: string | undefined;
-    // gallois: string | undefined;
-    // castilia: string | undefined;
-    // zeeland: string | undefined;
-    // venoa: string | undefined;
-    // normark: string | undefined;
-    // ostreich: string | undefined;
-    // constantium: string | undefined;
   };
   punishDissenters: {
     1: string | undefined;
@@ -248,12 +235,6 @@ export type ActionBoardInfo = {
     4: string | undefined;
     5: string | undefined;
     6: string | undefined;
-    // threeVP: string | undefined;
-    // counsellor: string | undefined;
-    // twoVP: string | undefined;
-    // oneVP: string | undefined;
-    // oneGold: string | undefined;
-    // free: string | undefined;
   };
   convertMonarch: {
     1: string | undefined;
@@ -262,12 +243,6 @@ export type ActionBoardInfo = {
     4: string | undefined;
     5: string | undefined;
     6: string | undefined;
-    // twoCounsellors: string | undefined;
-    // threeVP: string | undefined;
-    // counsellor: string | undefined;
-    // twoVP: string | undefined;
-    // oneVP: string | undefined;
-    // oneGold: string | undefined;
   };
   issueHolyDecree: boolean;
 };

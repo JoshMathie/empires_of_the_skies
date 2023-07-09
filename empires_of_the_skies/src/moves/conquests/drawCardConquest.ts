@@ -9,7 +9,7 @@ const drawCardConquest: MoveFn<MyGameState> = (
   ...args
 ) => {
   if (G.conquestState) {
-    G.conquestState.fowCard = drawFortuneOfWarCard(G, random);
+    G.conquestState.fowCard = drawFortuneOfWarCard(G);
   }
 
   resolveConquest(G, events, ctx, random);
