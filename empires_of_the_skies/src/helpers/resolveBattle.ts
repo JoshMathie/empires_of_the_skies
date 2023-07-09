@@ -2,9 +2,12 @@ import { Ctx } from "boardgame.io";
 import { EventsAPI } from "boardgame.io/dist/types/src/plugins/plugin-events";
 import { FleetInfo, MyGameState } from "../types";
 import {
+  findNextConquest,
   findNextGroundBattle,
   findNextPlayerInBattleSequence,
 } from "./findNext";
+import { drawFortuneOfWarCard } from "./helpers";
+import { RandomAPI } from "boardgame.io/dist/types/src/plugins/random/random";
 
 export const resolveBattleAndReturnWinner = (
   G: MyGameState,
@@ -225,5 +228,159 @@ export const resolveBattleAndReturnWinner = (
         events
       );
     }
+  }
+};
+
+export const resolveConquest = (
+  G: MyGameState,
+  events: EventsAPI,
+  ctx: Ctx,
+  random: RandomAPI
+) => {
+  const [x, y] = G.mapState.currentBattle;
+
+  let attackerSwordValue = 0;
+  let attackerShieldValue = 0;
+  let attackerFleets: FleetInfo[] = [];
+
+  G.playerInfo[
+    G.battleState?.attacker.id ?? ctx.currentPlayer
+  ].fleetInfo.forEach((currentFleet) => {
+    if (currentFleet.location[0] === x && currentFleet.location[1] === y) {
+      attackerSwordValue +=
+        currentFleet.skyships +
+        currentFleet.levies +
+        currentFleet.regiments * 2;
+      attackerShieldValue += currentFleet.skyships;
+      attackerFleets.push(currentFleet);
+    }
+  });
+  let attackerGarrisonedRegiments =
+    G.mapState.buildings[y][x].garrisonedRegiments;
+
+  let attackerGarrisonedLevies = G.mapState.buildings[y][x].garrisonedLevies;
+
+  attackerSwordValue += attackerGarrisonedRegiments * 2;
+
+  attackerSwordValue += attackerGarrisonedLevies;
+
+  attackerSwordValue += G.battleState?.attacker.fowCard?.sword ?? 0;
+  attackerShieldValue += G.battleState?.attacker.fowCard?.shield ?? 0;
+
+  const defenderCard = drawFortuneOfWarCard(G, random);
+
+  const defenderSwordValue =
+    G.mapState.currentTileArray[y][x].sword + defenderCard.sword;
+  const defenderShieldValue =
+    G.mapState.currentTileArray[y][x].shield + defenderCard.shield;
+
+  const attackerLosses = defenderSwordValue - attackerShieldValue;
+  let attackerLossesCopy = attackerLosses.valueOf();
+  console.log(`attacker losses = ${attackerLossesCopy}`);
+
+  if (attackerLossesCopy > attackerGarrisonedLevies) {
+    attackerLossesCopy -= attackerGarrisonedLevies;
+    attackerGarrisonedLevies = 0;
+  } else {
+    attackerGarrisonedLevies -= attackerLossesCopy;
+
+    attackerLossesCopy = 0;
+  }
+  if (attackerLossesCopy > attackerGarrisonedRegiments) {
+    attackerLossesCopy -= attackerGarrisonedRegiments;
+    attackerGarrisonedRegiments = 0;
+  } else {
+    attackerGarrisonedRegiments -= attackerLossesCopy;
+
+    attackerLossesCopy = 0;
+  }
+  attackerFleets.forEach((fleet) => {
+    while (
+      attackerLossesCopy > 0 &&
+      (fleet.regiments > 0 || fleet.skyships > 0 || fleet.levies > 0)
+    ) {
+      if (
+        fleet.skyships > fleet.regiments + fleet.levies &&
+        fleet.skyships > 0
+      ) {
+        fleet.skyships -= 1;
+        attackerLossesCopy -= 1;
+      } else if (fleet.levies > 0) {
+        fleet.levies -= 1;
+        attackerLossesCopy -= 1;
+      } else if (fleet.regiments > 0) {
+        fleet.regiments -= 1;
+        attackerLossesCopy -= 2;
+      }
+    }
+  });
+
+  let remainingAttackers =
+    (attackerGarrisonedLevies ?? 0) + (attackerGarrisonedRegiments ?? 0);
+
+  attackerFleets.forEach((fleet) => {
+    if (fleet.location[0] === x && fleet.location[1] === y) {
+      remainingAttackers += fleet.regiments + fleet.levies + fleet.skyships;
+      if (fleet.regiments + fleet.levies + fleet.skyships === 0) {
+        fleet.location = [4, 0];
+        G.mapState.battleMap[y][x].splice(
+          G.mapState.battleMap[y][x].indexOf(
+            G.battleState?.attacker.id ?? ctx.currentPlayer
+          ),
+          1
+        );
+      }
+    }
+  });
+
+  const remainingDefenders =
+    attackerSwordValue - (defenderShieldValue + defenderSwordValue);
+
+  if (remainingDefenders > 0 || remainingAttackers < 1) {
+    const currentBuilding = G.mapState.buildings[y][x];
+    if (currentBuilding.garrisonedRegiments > 0) {
+      attackerFleets.forEach((fleet) => {
+        const difference = fleet.skyships - (fleet.levies + fleet.regiments);
+        if (difference > 0) {
+          const lowerAmount = Math.min(
+            difference,
+            currentBuilding.garrisonedRegiments
+          );
+          fleet.regiments += lowerAmount;
+          currentBuilding.garrisonedRegiments -= lowerAmount;
+        }
+      });
+    }
+    if (currentBuilding.garrisonedLevies > 0) {
+      attackerFleets.forEach((fleet) => {
+        const difference = fleet.skyships - (fleet.levies + fleet.regiments);
+        if (difference > 0) {
+          const lowerAmount = Math.min(
+            difference,
+            currentBuilding.garrisonedLevies
+          );
+          fleet.regiments += lowerAmount;
+          currentBuilding.garrisonedLevies -= lowerAmount;
+        }
+      });
+    }
+
+    currentBuilding.player = undefined;
+    currentBuilding.fort = false;
+    currentBuilding.garrisonedLevies = 0;
+    currentBuilding.garrisonedRegiments = 0;
+
+    findNextConquest(G, events);
+  } else if (remainingDefenders <= 0 && remainingAttackers > 0) {
+    const currentPlayer =
+      G.playerInfo[G.battleState?.attacker.id ?? ctx.currentPlayer];
+    const currentBuilding = G.mapState.buildings[y][x];
+
+    currentPlayer.resources.victoryPoints += 1;
+
+    currentBuilding.player = currentPlayer;
+    currentBuilding.buildings = "colony";
+
+    G.stage = "garrison troops";
   }
 };

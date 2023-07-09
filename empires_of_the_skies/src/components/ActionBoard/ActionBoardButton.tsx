@@ -19,7 +19,7 @@ export const ActionBoardButton = (props: ActionBoardButtonProps) => {
   }
   return (
     <Button
-      style={{
+      sx={{
         minWidth: props.width ? props.width : "98px",
         height: "50px",
         textAlign: "left",
@@ -31,8 +31,6 @@ export const ActionBoardButton = (props: ActionBoardButtonProps) => {
         fontSize: "18px",
         color: "black",
         textTransform: "none",
-      }}
-      sx={{
         backgroundColor: props.backgroundColour
           ? props.backgroundColour
           : "#e0e0e0",
@@ -81,7 +79,6 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
   return (
     <>
       <Button
-        style={{}}
         sx={{
           backgroundColor: "#5ebf85",
           width: props.width ? props.width : "180px",

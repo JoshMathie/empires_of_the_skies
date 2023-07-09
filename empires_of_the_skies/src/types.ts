@@ -10,6 +10,7 @@ export interface MyGameState {
   playerOrder: PlayerOrder;
   cardDecks: CardDeckInfo;
   battleState?: BattleState;
+  conquestState?: BattlePlayerInfo;
   stage:
     | "discovery"
     | "actions"
@@ -19,7 +20,8 @@ export interface MyGameState {
     | "plunder legends"
     | "relocate loser"
     | "ground battle"
-    | "conquests"
+    | "conquest"
+    | "conquest draw or pick card"
     | "election"
     | "defend or yield"
     | "resolve ground battle"
@@ -71,9 +73,9 @@ export type MapState = {
 export type MapBuildingInfo = {
   player?: PlayerInfo;
   buildings?: "outpost" | "colony";
-  fort?: boolean;
-  garrisonedRegiments?: number;
-  garrisonedLevies?: number;
+  fort: boolean;
+  garrisonedRegiments: number;
+  garrisonedLevies: number;
 };
 
 export type PlayerInfo = {

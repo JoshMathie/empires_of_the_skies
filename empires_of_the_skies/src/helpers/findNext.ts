@@ -21,12 +21,13 @@ export const findNextBattle = (G: MyGameState, events: EventsAPI, ctx: Ctx) => {
         console.log(
           `current battle is now ${G.mapState.currentBattle} and next possible attacker is player ${nextPlayer}`
         );
+        G.stage = "attack or pass";
         events.endTurn({ next: nextPlayer });
         return;
       }
     }
   }
-  G.mapState.currentBattle = [0, -1];
+  G.mapState.currentBattle = [0, 0];
   G.stage = "plunder legends";
   events.endPhase();
 };
@@ -48,12 +49,13 @@ export const findNextPlunder = (G: MyGameState, events: EventsAPI): void => {
         console.log(
           `current plunder is now ${G.mapState.currentBattle} with player ${nextPlayer} `
         );
+        G.stage = "plunder legends";
         events.endTurn({ next: nextPlayer });
         return;
       }
     }
   }
-  G.mapState.currentBattle = [0, -1];
+  G.mapState.currentBattle = [0, 0];
   G.stage = "ground battle";
   events.endPhase();
 };
@@ -79,13 +81,14 @@ export const findNextGroundBattle = (
         console.log(
           `current ground battle is now ${G.mapState.currentBattle} with player ${nextPlayer} potentially attacking`
         );
+        G.stage = "attack or pass";
         events.endTurn({ next: nextPlayer });
         return;
       }
     }
   }
-  G.mapState.currentBattle = [0, -1];
-  G.stage = "conquests";
+  G.mapState.currentBattle = [0, 0];
+  G.stage = "conquest";
   events.endPhase();
 };
 
@@ -107,12 +110,13 @@ export const findNextConquest = (G: MyGameState, events: EventsAPI) => {
         console.log(
           `current conquest is now ${G.mapState.currentBattle} with player ${nextPlayer} potentially attacking`
         );
+        G.stage = "conquest";
         events.endTurn({ next: nextPlayer });
         return;
       }
     }
   }
-  G.mapState.currentBattle = [0, -1];
+  G.mapState.currentBattle = [0, 0];
   G.stage = "election";
   events.endPhase();
 };

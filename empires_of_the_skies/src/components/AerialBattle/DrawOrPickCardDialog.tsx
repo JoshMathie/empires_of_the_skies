@@ -47,12 +47,18 @@ const DrawOrPickCardDialog = (props: DrawOrPickCardDialogProps) => {
     <Dialog
       maxWidth={"xl"}
       open={
-        props.playerID === props.ctx.currentPlayer &&
-        inCurrentBattle &&
-        props.G.battleState?.attacker.decision === "fight" &&
-        props.G.battleState?.defender.decision === "fight" &&
-        !props.G.battleState?.attacker.victorious &&
-        !props.G.battleState?.defender.victorious
+        (props.playerID === props.ctx.currentPlayer &&
+          inCurrentBattle &&
+          props.G.battleState?.attacker.decision === "fight" &&
+          props.G.battleState?.defender.decision === "fight" &&
+          !props.G.battleState?.attacker.victorious &&
+          !props.G.battleState?.defender.victorious) ||
+        (props.playerID === props.ctx.currentPlayer &&
+          inCurrentBattle &&
+          props.G.stage === "conquest draw or pick card" &&
+          props.ctx.phase === "conquest" &&
+          props.G.conquestState !== undefined &&
+          props.G.conquestState.id === props.playerID)
       }
     >
       <DialogTitle>Draw or Pick a Card</DialogTitle>
@@ -70,7 +76,9 @@ const DrawOrPickCardDialog = (props: DrawOrPickCardDialogProps) => {
           variant="contained"
           color="primary"
           onClick={() => {
-            props.moves.pickCard(currentCard);
+            props.ctx.phase === "conquest"
+              ? props.moves.pickCardConquest(currentCard)
+              : props.moves.pickCard(currentCard);
           }}
         >
           Use selected card
@@ -78,7 +86,11 @@ const DrawOrPickCardDialog = (props: DrawOrPickCardDialogProps) => {
         <Button
           variant="contained"
           color="secondary"
-          onClick={props.moves.drawCard}
+          onClick={
+            props.ctx.phase === "conquest"
+              ? props.moves.drawCardConquest
+              : props.moves.drawCard
+          }
         >
           Draw random card
         </Button>

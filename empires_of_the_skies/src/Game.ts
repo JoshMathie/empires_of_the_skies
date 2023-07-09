@@ -56,6 +56,11 @@ import doNotGroundAttack from "./moves/groundBattle/doNotGroundAttack";
 import defendGroundAttack from "./moves/groundBattle/defendGroundAttack";
 import garrisonTroops from "./moves/groundBattle/garrisonTroops";
 import yieldToAttacker from "./moves/groundBattle/yieldToAttacker";
+import coloniseLand from "./moves/conquests/coloniseLand";
+import constructOutpost from "./moves/conquests/constructOutpost";
+import doNothing from "./moves/conquests/doNothing";
+import drawCardConquest from "./moves/conquests/drawCardConquest";
+import pickCardConquest from "./moves/conquests/pickCardConquest";
 
 import { findNextBattle, findNextPlunder } from "./helpers/findNext";
 
@@ -420,7 +425,35 @@ const MyGame: Game<MyGameState> = {
       },
       next: "conquest",
     },
-    conquest: {},
+    conquest: {
+      onBegin: (context) => {
+        context.G.stage = "attack or pass";
+
+        console.log("Conquests have begun");
+      },
+      turn: {
+        onBegin: (context) => {
+          console.log(
+            `it is now player ${context.ctx.currentPlayer}'s time to conquer`
+          );
+          checkIfCurrentPlayerIsInCurrentBattle(
+            context.G,
+            context.ctx,
+            context.events
+          );
+        },
+      },
+      moves: {
+        coloniseLand: { move: coloniseLand, undoable: true },
+        constructOutpost: { move: constructOutpost, undoable: true },
+        doNothing: { move: doNothing, undoable: true },
+        drawCardConquest: { move: drawCardConquest, undoable: true },
+        pickCardConquest: { move: pickCardConquest, undoable: true },
+        garrisonTroops: { move: garrisonTroops, undoable: true },
+      },
+      next: "election",
+    },
+    election: {},
   },
   maxPlayers: 6,
   minPlayers: 1,
@@ -469,7 +502,11 @@ const getInitialDiscoveredTiles = () => {
 };
 
 const getInitialOutpostsAndColonysInfo = () => {
-  const buildingInfo: MapBuildingInfo = {};
+  const buildingInfo: MapBuildingInfo = {
+    garrisonedLevies: 0,
+    garrisonedRegiments: 0,
+    fort: false,
+  };
   const eightBuildingInfo: MapBuildingInfo[] = [
     buildingInfo,
     buildingInfo,

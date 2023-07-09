@@ -138,7 +138,7 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
                 onClick={() => {
                   setLevyCount(levyCount + 3);
                 }}
-                style={{
+                sx={{
                   backgroundColor: "transparent",
                   border: "none",
                   width: "30px",
@@ -194,7 +194,7 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
                 onClick={() => {
                   setLevyCount(levyCount - 3);
                 }}
-                style={{
+                sx={{
                   backgroundColor: "transparent",
                   border: "none",
                   width: "30px",
@@ -231,7 +231,7 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
                 onClick={() => {
                   setSkyshipCount(skyshipCount + 1);
                 }}
-                style={{
+                sx={{
                   backgroundColor: "transparent",
                   border: "none",
                   width: "30px",
@@ -312,7 +312,7 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
                     setSkyshipCount(skyshipCount - 1);
                   }
                 }}
-                style={{
+                sx={{
                   backgroundColor: "transparent",
                   border: "none",
                   width: "30px",
@@ -329,7 +329,7 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
                 onClick={() => {
                   setRegimentCount(regimentCount + 1);
                 }}
-                style={{
+                sx={{
                   backgroundColor: "transparent",
                   border: "none",
                   width: "30px",
@@ -389,7 +389,7 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
                 onClick={() => {
                   setRegimentCount(regimentCount - 1);
                 }}
-                style={{
+                sx={{
                   backgroundColor: "transparent",
                   border: "none",
                   width: "30px",
@@ -406,7 +406,7 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
                 onClick={() => {
                   setLevyCountForDispatch(levyCountForDispatch + 1);
                 }}
-                style={{
+                sx={{
                   backgroundColor: "transparent",
                   border: "none",
                   width: "30px",
@@ -466,7 +466,7 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
                 onClick={() => {
                   setLevyCountForDispatch(levyCountForDispatch - 1);
                 }}
-                style={{
+                sx={{
                   backgroundColor: "transparent",
                   border: "none",
                   width: "30px",
@@ -494,7 +494,7 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
                   setSkyshipCount(0);
                   setDispatchDisabled(true);
                 }}
-                style={{
+                sx={{
                   backgroundColor: colour,
                   width: "80px",
                   height: "50px",

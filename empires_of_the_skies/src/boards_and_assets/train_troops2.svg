@@ -1,7 +1,5 @@
 <svg width="120" height="57" viewBox="0 0 120 57" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g clip-path="url(#clip0_2_22765)">
-<path d="M-120.917 -0.539512H0.159834V58.028H-120.917V-0.539512Z" stroke="#1A1A18" stroke-width="0.288" stroke-miterlimit="22.9256"/>
-<path d="M0.159912 -0.539512H120.586V58.028H0.159912V-0.539512Z" stroke="#1A1A18" stroke-width="0.288" stroke-miterlimit="22.9256"/>
 <path d="M91 3C105.359 3 117 14.6407 117 29C117 43.3594 105.359 55 91 55C76.6406 55 65 43.3594 65 29C65 14.6407 76.6406 3 91 3Z" stroke="#1A1A18" stroke-width="2.6664" stroke-miterlimit="22.9256" stroke-dasharray="13.33 13.33"/>
 <mask id="mask0_2_22765" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="75" y="5" width="27" height="38">
 <path d="M78.8732 5.46608H97.854C99.6852 5.46608 101.184 7.01189 101.184 8.90122V39.0664C101.184 40.9558 99.6852 42.5016 97.854 42.5016H78.8732C77.042 42.5016 75.5435 40.9558 75.5435 39.0664V8.90122C75.5435 7.01189 77.042 5.46608 78.8732 5.46608Z" fill="white"/>

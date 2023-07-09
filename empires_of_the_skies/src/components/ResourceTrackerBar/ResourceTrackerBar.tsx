@@ -18,6 +18,7 @@ import {
   clearMoves,
 } from "../../helpers/helpers";
 import { Person4Sharp } from "@mui/icons-material";
+import ArchprelateIcon from "../Icons/ArchprelateIcon";
 
 const ResourceTrackerBar = (props: ResourceTrackerBarProps) => {
   const currentPlayer = checkPlayerIDAndReturnPlayerInfo(props);
@@ -65,6 +66,15 @@ const ResourceTrackerBar = (props: ResourceTrackerBarProps) => {
               }}
             ></Person4Sharp>
             {"   \t"}
+            {props.G.playerInfo[props.playerID ?? props.ctx.currentPlayer]
+              .isArchprelate && (
+              <div>
+                <Tooltip title="You are the Archprelate">
+                  <ArchprelateIcon />
+                </Tooltip>
+                {"   \t"}
+              </div>
+            )}
             <Tooltip title="Counsellors">
               <svg
                 width="35"

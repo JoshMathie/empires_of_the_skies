@@ -27,19 +27,28 @@ const GarrisonTroopsDialog = (props: GarrisonTroopsDialogProps) => {
   });
 
   if (
-    props.ctx.currentPlayer === props.playerID &&
-    props.ctx.phase === "ground_battle" &&
-    props.G.stage === "garrison troops" &&
-    inCurrentBattle &&
-    props.G.battleState?.attacker.id === props.playerID &&
-    props.G.battleState.attacker.victorious === true &&
-    !hasTroopsToGarrison
+    (props.ctx.currentPlayer === props.playerID &&
+      props.ctx.phase === "ground_battle" &&
+      props.G.stage === "garrison troops" &&
+      inCurrentBattle &&
+      props.G.battleState?.attacker.id === props.playerID &&
+      props.G.battleState.attacker.victorious === true &&
+      hasTroopsToGarrison) ||
+    (props.ctx.currentPlayer === props.playerID &&
+      props.ctx.phase === "conquest" &&
+      props.G.stage === "garrison troops" &&
+      inCurrentBattle &&
+      hasTroopsToGarrison)
   ) {
     props.events.endTurn && props.events.endTurn();
   }
 
-  const [levyCountForDispatch, setLevyCountForDispatch] = useState(0);
-  const [regimentCount, setRegimentCount] = useState(0);
+  const [levyCountForDispatch, setLevyCountForDispatch] = useState(
+    props.G.mapState.buildings[y][x].garrisonedLevies
+  );
+  const [regimentCount, setRegimentCount] = useState(
+    props.G.mapState.buildings[y][x].garrisonedRegiments
+  );
 
   const playerInfo =
     props.G.playerInfo[props.playerID ?? props.ctx.currentPlayer];
@@ -221,16 +230,25 @@ const GarrisonTroopsDialog = (props: GarrisonTroopsDialogProps) => {
         <Button
           color="warning"
           variant="contained"
-          onClick={props.moves.yieldToAttacker}
+          onClick={
+            props.ctx.phase === "ground_attack"
+              ? props.moves.doNotGroundAttack
+              : props.moves.doNothing
+          }
         >
-          Yield
+          Pass
         </Button>
         <Button
           color="success"
           variant="contained"
-          onClick={props.moves.defendGroundAttack}
+          onClick={() =>
+            props.moves.garrisonTroops({
+              regiments: regimentCount,
+              levies: levyCountForDispatch,
+            })
+          }
         >
-          Defend
+          Garrison
         </Button>
       </DialogActions>
     </Dialog>

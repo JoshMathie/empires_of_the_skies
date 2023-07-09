@@ -52,10 +52,10 @@ const Chat = (props: MyGameProps) => {
           width: "100%",
         }}
       >
-        <div>
+        <div style={{ width: "100%" }}>
           <Box
             sx={{
-              height: "100vh",
+              height: "80vh",
               width: "100%",
               display: "flex",
               flexDirection: "column",

@@ -50,10 +50,6 @@ const AttackOrPassDiaLog = (props: AerialBattleDialogProps) => {
         props.G.battleState === undefined &&
         props.G.stage === "attack or pass"
       }
-      style={{
-        color:
-          props.G.playerInfo[props.playerID ?? props.ctx.currentPlayer].colour,
-      }}
     >
       <DialogTitle>Choose your battle action</DialogTitle>
       <DialogContent>

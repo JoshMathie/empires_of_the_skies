@@ -8,6 +8,12 @@ import { fortuneOfWarCards } from "../codifiedGameInfo";
 import { Ctx } from "boardgame.io";
 import { RandomAPI } from "boardgame.io/dist/types/src/plugins/random/random";
 import { EventsAPI } from "boardgame.io/dist/types/src/plugins/events/events";
+import {
+  findNextBattle,
+  findNextConquest,
+  findNextGroundBattle,
+  findNextPlunder,
+} from "./findNext";
 
 export const clearMoves = (
   props: MyGameProps,
@@ -188,9 +194,29 @@ export const checkIfCurrentPlayerIsInCurrentBattle = (
   events: EventsAPI
 ) => {
   const [x, y] = G.mapState.currentBattle;
-  if (!G.mapState.battleMap[y][x].includes(ctx.currentPlayer)) {
-    events.endTurn({
-      next: G.mapState.battleMap[y][x][0],
-    });
+  console.log("current battlemap:");
+  console.log(G.mapState.battleMap.toString());
+  console.log(`The bit just before the failure... ${[y, x]}`);
+  if (G.mapState.battleMap[y][x].length > 0) {
+    if (!G.mapState.battleMap[y][x].includes(ctx.currentPlayer)) {
+      events.endTurn({
+        next: G.mapState.battleMap[y][x][0],
+      });
+    }
+  } else {
+    switch (ctx.phase) {
+      case "aerial_battle":
+        findNextBattle(G, events, ctx);
+        break;
+      case "ground_battle":
+        findNextGroundBattle(G, events);
+        break;
+      case "plunder_legends":
+        findNextPlunder(G, events);
+        break;
+      case "conquest":
+        findNextConquest(G, events);
+        break;
+    }
   }
 };

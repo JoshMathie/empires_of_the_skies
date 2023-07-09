@@ -16,6 +16,7 @@ import PlunderLegendsDialog from "./PlunderLegends/PlunderLegendsDialog";
 import DefendOrYieldDialog from "./GroundBattle/DefendOrYieldDialog";
 import GroundAttackOrPassDialog from "./GroundBattle/GroundAttackOrPassDialog";
 import GarrisonTroopsDialog from "./GroundBattle/GarrisonTroopsDialog";
+import OutpostOrColonyDialog from "./Conquests/OutpostOrColonyDialog";
 
 import PlayerTable from "./PlayerTable/PlayerTable";
 import Chat from "./Chat/Chat";
@@ -114,6 +115,7 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
         />
         <DefendOrYieldDialog {...props} setTurnComplete={setTurnComplete} />
         <GarrisonTroopsDialog {...props} setTurnComplete={setTurnComplete} />
+        <OutpostOrColonyDialog {...props} setTurnComplete={setTurnComplete} />
       </Box>
     </div>
   );

@@ -7,11 +7,10 @@ import CounsellorIcon from "../Icons/CounsellorIcon";
 export const PlayerBoardButton = (props: PlayerBoardButtonProps) => {
   return (
     <Button
-      style={{
+      sx={{
         width: props.width ? props.width : "98px",
         height: props.height ? props.height : "50px",
         backgroundImage: `url(${props.backgroundImage})`,
-        // replace background size with 'contain' to displaye entire
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",

@@ -13,6 +13,7 @@ Levies: ${props.levies}`}
         viewBox="0 0 41 59"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        style={{ zIndex: 100 }}
       >
         <path
           fillRule="evenodd"

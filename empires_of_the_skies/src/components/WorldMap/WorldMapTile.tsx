@@ -9,8 +9,9 @@ import { generalTheme } from "../themes";
 import FortIcon from "../Icons/FortIcon";
 import { clearMoves } from "../../helpers/helpers";
 import FleetIcon from "../Icons/FleetIcon";
-//TODO: enable displaying shyship fleets on world map tiles
-//TODO: build a tooltip for displaying fleet information
+import ColonyIcon from "../Icons/ColonyIcon";
+import OutpostIcon from "../Icons/OutpostIcon";
+
 //Method for displaying a flippable tile which contains a world map tile image
 export const WorldMapTile = (props: worldMapTileProps) => {
   const xPosition = useRef(0);
@@ -22,7 +23,19 @@ export const WorldMapTile = (props: worldMapTileProps) => {
   const fortColour =
     props.G.mapState.buildings[yLocation][xLocation].player?.colour;
 
-  //NOTE fleet icons are not always displayed when they should be
+  const building = () => {
+    const currentBuilding =
+      props.G.mapState.buildings[yLocation][xLocation].buildings;
+    let icon;
+    if (currentBuilding === "colony") {
+      icon = <ColonyIcon colour={fortColour ?? "white"} />;
+    } else if (currentBuilding === "outpost") {
+      icon = <OutpostIcon colour={fortColour ?? "white"} />;
+    }
+
+    return icon;
+  };
+
   let fleets: JSX.Element[] = [];
 
   Object.entries(props.G.playerInfo).forEach(([playerId, playerInfo]) => {
@@ -91,10 +104,8 @@ Loot:
   const [flip, setFlip] = useState(
     props.G.mapState.discoveredTiles[yLocation][xLocation]
   );
-  // const [selected, setSelected] = useState(false);
 
   const altOnClick = () => {
-    // setSelected(!selected);
     if (props.alternateOnClick) {
       props.alternateOnClick([xLocation, yLocation]);
     }
@@ -124,7 +135,6 @@ Loot:
                 ) {
                   clearMoves(props, props.setTurnComplete);
                   setFlip(true);
-                  // setSelected(true);
                   props.moves.discoverTile({ ...props }, [
                     xLocation,
                     yLocation,
@@ -147,9 +157,7 @@ Loot:
             (xLocation === 4 && yLocation === 0)
           }
           placement="right-start"
-          style={{ whiteSpace: "pre", fontSize: "20px" }}
           sx={{ whiteSpace: "pre-line", fontSize: "20px" }}
-          // hidden={xLocation === 4 && yLocation === 0}
           disableHoverListener={
             (xLocation === 4 && yLocation === 0) || currentTile.type === "ocean"
           }
@@ -169,9 +177,8 @@ Loot:
             }}
             onClick={props.selectable ? altOnClick : undefined}
           >
-            {fort ? (
-              <FortIcon colour={fortColour ? fortColour : "white"}></FortIcon>
-            ) : null}
+            {building()}
+            {fort ? <FortIcon colour={fortColour ?? "white"}></FortIcon> : null}
             {xLocation !== 4 || yLocation !== 0 ? fleets : null}
           </button>
         </Tooltip>
