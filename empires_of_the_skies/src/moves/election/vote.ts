@@ -74,9 +74,9 @@ const vote: MoveFn<MyGameState> = (
     });
     let finalWinner: string;
     if (winners.length > 1) {
-      ctx.playOrder.forEach((id) => {
-        if (winners.includes(id)) {
-          if (finalWinner === undefined) finalWinner = id;
+      Object.values(G.playerInfo).forEach((player) => {
+        if (player.isArchprelate) {
+          finalWinner = player.id;
         }
       });
     } else finalWinner = winners[0];
@@ -84,6 +84,13 @@ const vote: MoveFn<MyGameState> = (
     Object.values(G.playerInfo).forEach((player) => {
       if (player.id === finalWinner) {
         player.isArchprelate = true;
+        let orthodoxRealms = 0;
+        Object.values(G.playerInfo).forEach((player) => {
+          if (player.hereticOrOrthodox === "orthodox") {
+            orthodoxRealms += 1;
+          }
+        });
+        player.resources.victoryPoints += Math.floor(orthodoxRealms / 3);
       } else player.isArchprelate = false;
     });
 

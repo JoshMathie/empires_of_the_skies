@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { MyGameProps } from "../../types";
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
 } from "@mui/material";
+import { ButtonRow } from "../ActionBoard/ActionBoardButtonRow";
 
 const ElectionDialog = (props: ElectionDialogProps) => {
   const [currentVote, setCurrentVote] = useState(props.ctx.playOrder[0]);
@@ -21,9 +23,9 @@ const ElectionDialog = (props: ElectionDialogProps) => {
         key={id}
         sx={{
           backgroundColor: buttonColour,
-          border: currentVote === id ? "2px solid black" : undefined,
+          border: currentVote === id ? "4px solid black" : undefined,
+          color: "black",
         }}
-        variant="contained"
         onClick={() => {
           setCurrentVote(id);
         }}
@@ -34,30 +36,35 @@ const ElectionDialog = (props: ElectionDialogProps) => {
   });
 
   return (
-    <Dialog
-      open={
+    <Box
+      visibility={
         props.ctx.phase === "election" &&
         props.playerID === props.ctx.currentPlayer
+          ? "visible"
+          : "hidden"
       }
+      display={"flex"}
+      flexDirection={"column"}
+      bgcolor={"grey.200"} //based on house of commons green
+      alignItems={"center"}
     >
-      <DialogTitle>Please cast your vote for the next Archprelate</DialogTitle>
-      <DialogContent>
-        {buttons}
-        <div hidden={hidden}>Vote received, awaiting other player votes.</div>
-      </DialogContent>
-      <DialogActions>
-        <Button
-          color="success"
-          variant="contained"
-          onClick={() => {
-            setHidden(false);
-            props.moves.vote(currentVote);
-          }}
-        >
-          Confirm Vote
-        </Button>
-      </DialogActions>
-    </Dialog>
+      <span style={{ padding: 20 }}>
+        Please cast your vote for the next Archprelate
+      </span>
+      <ButtonRow>{buttons}</ButtonRow>
+      <div hidden={hidden}>Vote received, awaiting other player votes.</div>
+      <Button
+        color="success"
+        variant="contained"
+        onClick={() => {
+          setHidden(false);
+          props.moves.vote(currentVote);
+        }}
+        sx={{ margin: 2, color: "black" }}
+      >
+        Confirm Vote
+      </Button>
+    </Box>
   );
 };
 

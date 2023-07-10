@@ -63,8 +63,80 @@ import doNothing from "./moves/conquests/doNothing";
 import drawCardConquest from "./moves/conquests/drawCardConquest";
 import pickCardConquest from "./moves/conquests/pickCardConquest";
 import vote from "./moves/election/vote";
+import retrieveFleets from "./moves/resolution/retrieveFleets";
 
 import { findNextBattle, findNextPlunder } from "./helpers/findNext";
+import { TurnOrder } from "boardgame.io/core";
+import resolveRound from "./helpers/resolveRound";
+
+const initialBoardState: ActionBoardInfo = {
+  alterPlayerOrder: {
+    1: undefined,
+    2: undefined,
+    3: undefined,
+    4: undefined,
+    5: undefined,
+    6: undefined,
+  },
+  recruitCounsellors: {
+    1: undefined,
+    2: undefined,
+    3: undefined,
+  },
+  recruitRegiments: {
+    1: undefined,
+    2: undefined,
+    3: undefined,
+    4: undefined,
+    5: undefined,
+    6: undefined,
+  },
+  trainTroops: {
+    1: undefined,
+    2: undefined,
+  },
+  purchaseSkyships: {
+    1: undefined,
+    2: undefined,
+    3: undefined,
+    4: undefined,
+    5: undefined,
+    6: undefined,
+  },
+  foundBuildings: {
+    1: [],
+    2: [],
+    3: [],
+    4: [],
+  },
+  influencePrelates: {
+    1: undefined,
+    2: undefined,
+    3: undefined,
+    4: undefined,
+    5: undefined,
+    6: undefined,
+    7: undefined,
+    8: undefined,
+  },
+  punishDissenters: {
+    1: undefined,
+    2: undefined,
+    3: undefined,
+    4: undefined,
+    5: undefined,
+    6: undefined,
+  },
+  convertMonarch: {
+    1: undefined,
+    2: undefined,
+    3: undefined,
+    4: undefined,
+    5: undefined,
+    6: undefined,
+  },
+  issueHolyDecree: false,
+};
 
 const MyGame: Game<MyGameState> = {
   turn: { minMoves: 1 },
@@ -149,79 +221,11 @@ const MyGame: Game<MyGameState> = {
       });
       return playerIDMap;
     };
-    const initialBoardState: ActionBoardInfo = {
-      alterPlayerOrder: {
-        1: undefined,
-        2: undefined,
-        3: undefined,
-        4: undefined,
-        5: undefined,
-        6: undefined,
-      },
-      recruitCounsellors: {
-        1: undefined,
-        2: undefined,
-        3: undefined,
-      },
-      recruitRegiments: {
-        1: undefined,
-        2: undefined,
-        3: undefined,
-        4: undefined,
-        5: undefined,
-        6: undefined,
-      },
-      trainTroops: {
-        1: undefined,
-        2: undefined,
-      },
-      purchaseSkyships: {
-        1: undefined,
-        2: undefined,
-        3: undefined,
-        4: undefined,
-        5: undefined,
-        6: undefined,
-      },
-      foundBuildings: {
-        1: [],
-        2: [],
-        3: [],
-        4: [],
-      },
-      influencePrelates: {
-        1: undefined,
-        2: undefined,
-        3: undefined,
-        4: undefined,
-        5: undefined,
-        6: undefined,
-        7: undefined,
-        8: undefined,
-      },
-      punishDissenters: {
-        1: undefined,
-        2: undefined,
-        3: undefined,
-        4: undefined,
-        5: undefined,
-        6: undefined,
-      },
-      convertMonarch: {
-        1: undefined,
-        2: undefined,
-        3: undefined,
-        4: undefined,
-        5: undefined,
-        6: undefined,
-      },
-      issueHolyDecree: false,
-    };
 
     return {
       playerInfo: playerInfos(ctx),
       mapState: mapState,
-      boardState: initialBoardState,
+      boardState: { ...initialBoardState },
       playerOrder: {
         1: undefined,
         2: undefined,
@@ -240,6 +244,7 @@ const MyGame: Game<MyGameState> = {
       round: 0,
       finalRound: 4,
       firstTurnOfRound: true,
+      turnOrder: ctx.playOrder,
     };
   },
   moves: {
@@ -326,7 +331,7 @@ const MyGame: Game<MyGameState> = {
           old order: ${context.ctx.playOrder}
           new order: ${newTurnOrder}`);
         } else {
-          context.ctx.playOrder = newTurnOrder;
+          context.G.turnOrder = newTurnOrder;
         }
 
         Object.entries(context.G.boardState).forEach(
@@ -337,22 +342,19 @@ const MyGame: Game<MyGameState> = {
                   context.G.playerInfo[id].resources.counsellors += 1;
                 });
               });
-              context.G.boardState.foundBuildings[1] = [];
-              context.G.boardState.foundBuildings[2] = [];
-              context.G.boardState.foundBuildings[3] = [];
-              context.G.boardState.foundBuildings[4] = [];
             } else if (key === "issueHolyDecree") {
               context.G.boardState[key] = false;
             } else {
               Object.values(gameStateObject).forEach((id) => {
                 if (id) {
                   context.G.playerInfo[id].resources.counsellors += 1;
-                  id = undefined;
                 }
               });
             }
           }
         );
+
+        context.G.boardState = { ...initialBoardState };
 
         Object.values(context.G.playerInfo).forEach((player) => {
           Object.values(player.playerBoardCounsellorLocations).forEach(
@@ -363,6 +365,9 @@ const MyGame: Game<MyGameState> = {
               }
             }
           );
+          player.playerBoardCounsellorLocations.buildSkyships = false;
+          player.playerBoardCounsellorLocations.conscriptLevies = false;
+          player.playerBoardCounsellorLocations.dispatchSkyshipFleet = false;
         });
         context.events.endTurn({ next: context.ctx.playOrder[0] });
         context.events.pass();
@@ -373,6 +378,7 @@ const MyGame: Game<MyGameState> = {
             context.events.endTurn({ next: context.ctx.playOrder[0] });
           }
         },
+        order: TurnOrder.CUSTOM_FROM("turnOrder"),
       },
       moves: {
         discoverTile: { move: discoverTile, undoable: false },
@@ -387,28 +393,22 @@ const MyGame: Game<MyGameState> = {
     },
     actions: {
       onBegin: (context) => {
+        context.G.firstTurnOfRound = true;
         context.G.stage = "actions";
         console.log("Actions phase has begun");
       },
       turn: {
         onBegin: (context) => {
+          if (context.G.firstTurnOfRound && context.ctx.playOrderPos !== 0) {
+            context.events.endTurn({ next: context.ctx.playOrder[0] });
+          }
+
+          context.G.firstTurnOfRound = false;
           if (context.G.playerInfo[context.ctx.currentPlayer].passed === true) {
             context.events.endTurn();
           }
-
-          let allDiscovered = true;
-          Object.values(context.G.mapState.discoveredTiles).forEach(
-            (tileRow) => {
-              tileRow.forEach((tile) => {
-                if (tile === false) {
-                  allDiscovered = false;
-                }
-              });
-            }
-          );
-
-          if (allDiscovered) context.events.endPhase();
         },
+        order: TurnOrder.CUSTOM_FROM("turnOrder"),
       },
       moves: {
         alterPlayerOrder,
@@ -550,10 +550,21 @@ const MyGame: Game<MyGameState> = {
         context.G.hasVoted = [];
       },
       moves: { vote: { move: vote, undoable: false } },
-      next: "discovery",
+      next: "resolution",
       onEnd: (context) => {
         context.G.round += 1;
       },
+    },
+    resolution: {
+      turn: { order: TurnOrder.ONCE },
+      onBegin: (context) => {
+        console.log("resolution phase has begun");
+        context.G.stage = "retrieve fleets";
+      },
+      onEnd: (context) => {
+        resolveRound(context.G);
+      },
+      moves: { retrieveFleets: { move: retrieveFleets, undoable: false } },
     },
   },
   maxPlayers: 6,

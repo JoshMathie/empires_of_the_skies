@@ -15,6 +15,7 @@ import SendIcon from "@mui/icons-material/Send";
 import { MyGameProps } from "../../types";
 import { ChatMessage } from "boardgame.io";
 import { ChangeEventHandler } from "react";
+import ElectionDialog from "../Election/ElectionDialog";
 
 const Chat = (props: MyGameProps) => {
   const [input, setInput] = React.useState("");
@@ -62,6 +63,7 @@ const Chat = (props: MyGameProps) => {
               bgcolor: "grey.200",
             }}
           >
+            <ElectionDialog {...props} />
             <Box sx={{ flexGrow: 1, overflow: "auto", p: 2 }}>
               {props.chatMessages.map((message) => (
                 <Message key={message.id} message={message} {...props} />

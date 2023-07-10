@@ -1,7 +1,7 @@
 import { MyGameState } from "../../types";
 import { MoveFn } from "boardgame.io";
 import { checkCounsellorsNotZero } from "../moveValidation";
-import { removeGoldAmount } from "../resourceUpdates";
+import { addOneCounsellor, removeGoldAmount } from "../resourceUpdates";
 import { INVALID_MOVE } from "boardgame.io/core";
 
 export const recruitCounsellors: MoveFn<MyGameState> = (
@@ -18,6 +18,9 @@ export const recruitCounsellors: MoveFn<MyGameState> = (
     return INVALID_MOVE;
   }
   const costs: { [key: number]: number } = { 1: 0, 2: 1, 3: 3 };
+  if (value === 3) {
+    addOneCounsellor(G, playerID);
+  }
   G.boardState.recruitCounsellors[value] = playerID;
   removeGoldAmount(G, playerID, costs[value]);
   args[1][1](true);

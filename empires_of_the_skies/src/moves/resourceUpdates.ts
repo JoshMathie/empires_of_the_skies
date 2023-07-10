@@ -5,6 +5,9 @@ import { INVALID_MOVE } from "boardgame.io/core";
 export const removeOneCounsellor = (G: MyGameState, playerID: string) => {
   G.playerInfo[playerID].resources.counsellors -= 1;
 };
+export const addOneCounsellor = (G: MyGameState, playerID: string) => {
+  G.playerInfo[playerID].resources.counsellors += 1;
+};
 export const removeVPAmount = (
   G: MyGameState,
   playerID: string,

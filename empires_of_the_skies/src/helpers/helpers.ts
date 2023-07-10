@@ -156,9 +156,12 @@ export const blessingOrCurseVPAmount = (G: MyGameState): number => {
   return Math.floor(total / 3);
 };
 
-export const sortPlayersInPlayerOrder = (playerIDs: string[], ctx: Ctx) => {
+export const sortPlayersInPlayerOrder = (
+  playerIDs: string[],
+  G: MyGameState
+) => {
   const sortedPlayerIDs: string[] = [];
-  ctx.playOrder.forEach((id) => {
+  G.turnOrder.forEach((id) => {
     if (playerIDs.includes(id)) {
       sortedPlayerIDs.push(id);
     }

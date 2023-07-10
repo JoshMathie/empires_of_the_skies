@@ -25,12 +25,14 @@ export interface MyGameState {
     | "election"
     | "defend or yield"
     | "resolve ground battle"
-    | "garrison troops";
+    | "garrison troops"
+    | "retrieve fleets";
   electionResults: Record<string, number>;
   hasVoted: string[];
   round: number;
   finalRound: 4;
   firstTurnOfRound: boolean;
+  turnOrder: string[];
 }
 
 export type BattleState = {
@@ -92,7 +94,7 @@ export type PlayerInfo = {
   resources: Resources;
   isArchprelate: boolean;
   playerBoardCounsellorLocations: PlayerBoardInfo;
-  hereticOrOrthodox: string;
+  hereticOrOrthodox: "heretic" | "orthodox";
   fleetInfo: FleetInfo[];
   cathedrals: number;
   palaces: number;

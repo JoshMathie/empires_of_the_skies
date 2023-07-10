@@ -5,7 +5,16 @@ import { ActionBoard } from "./ActionBoard/ActionBoard";
 import WorldMap from "./WorldMap/WorldMap";
 import { PlayerBoard } from "./PlayerBoard/PlayerBoard";
 
-import { Box, Tab, Tabs } from "@mui/material";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  Tab,
+  Tabs,
+  ThemeProvider,
+} from "@mui/material";
 import { TabPanel, TabContext } from "@mui/lab";
 import ResourceTrackerBar from "./ResourceTrackerBar/ResourceTrackerBar";
 import AttackOrPassDiaLog from "./AerialBattle/AttackOrPassDialog";
@@ -17,10 +26,12 @@ import DefendOrYieldDialog from "./GroundBattle/DefendOrYieldDialog";
 import GroundAttackOrPassDialog from "./GroundBattle/GroundAttackOrPassDialog";
 import GarrisonTroopsDialog from "./GroundBattle/GarrisonTroopsDialog";
 import OutpostOrColonyDialog from "./Conquests/OutpostOrColonyDialog";
-import ElectionDialog from "./Election/ElectionDialog";
+import RetrieveFleetsDialog from "./Resolution/RetrieveFleetsDialog";
 
 import PlayerTable from "./PlayerTable/PlayerTable";
 import Chat from "./Chat/Chat";
+import { generalTheme } from "./themes";
+import { Campaign } from "@mui/icons-material";
 
 export const ActionBoardsAndMap = (props: MyGameProps) => {
   const [value, setValue] = useState("0");
@@ -28,97 +39,134 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
+  const [dialogOpen, setDialogOpen] = useState(true);
 
   return (
     <div>
-      <ResourceTrackerBar
-        {...props}
-        turnComplete={turnComplete}
-        setTurnComplete={setTurnComplete}
-      />
-      <Box
-        sx={{
-          flexGrow: 1,
-        }}
-      >
-        <TabContext value={value}>
-          <Tabs value={value} onChange={handleChange} centered>
-            <Tab
-              label="Action Board"
-              value={"0"}
-              style={{
-                fontFamily: "dauphinn",
-                fontSize: 26,
-                textTransform: "none",
-              }}
-            />
-            <Tab
-              label="Player Board"
-              value={"1"}
-              style={{
-                fontFamily: "dauphinn",
-                fontSize: 26,
-                textTransform: "none",
-              }}
-            />
-            <Tab
-              label="World Map"
-              value={"2"}
-              style={{
-                fontFamily: "dauphinn",
-                fontSize: 26,
-                textTransform: "none",
-              }}
-            />
-            <Tab
-              label="Player Table"
-              value={"3"}
-              style={{
-                fontFamily: "dauphinn",
-                fontSize: 26,
-                textTransform: "none",
-              }}
-            />{" "}
-            <Tab
-              label="Group Chat"
-              value={"4"}
-              style={{
-                fontFamily: "dauphinn",
-                fontSize: 26,
-                textTransform: "none",
-              }}
-            />
-          </Tabs>
-          <TabPanel value={"0"} tabIndex={0}>
-            <ActionBoard {...props} setTurnComplete={setTurnComplete} />
-          </TabPanel>
-          <TabPanel value={"1"} tabIndex={1}>
-            <PlayerBoard {...props} setTurnComplete={setTurnComplete} />
-          </TabPanel>
-          <TabPanel value={"2"} tabIndex={2}>
-            <WorldMap {...props} setTurnComplete={setTurnComplete} />
-          </TabPanel>
-          <TabPanel value={"3"} tabIndex={3}>
-            <PlayerTable {...props} />
-          </TabPanel>
-          <TabPanel value={"4"} tabIndex={4}>
-            <Chat {...props} />
-          </TabPanel>
-        </TabContext>
-        <AttackOrPassDiaLog {...props} setTurnComplete={setTurnComplete} />
-        <AttackOrEvadeDialog {...props} setTurnComplete={setTurnComplete} />
-        <DrawOrPickCardDialog {...props} setTurnComplete={setTurnComplete} />
-        <RelocateLoserDialog {...props} setTurnComplete={setTurnComplete} />
-        <PlunderLegendsDialog {...props} setTurnComplete={setTurnComplete} />
-        <GroundAttackOrPassDialog
+      <ThemeProvider theme={generalTheme}>
+        <ResourceTrackerBar
           {...props}
+          turnComplete={turnComplete}
           setTurnComplete={setTurnComplete}
         />
-        <DefendOrYieldDialog {...props} setTurnComplete={setTurnComplete} />
-        <GarrisonTroopsDialog {...props} setTurnComplete={setTurnComplete} />
-        <OutpostOrColonyDialog {...props} setTurnComplete={setTurnComplete} />
-        <ElectionDialog {...props} />
-      </Box>
+        <Box
+          sx={{
+            flexGrow: 1,
+          }}
+        >
+          <TabContext value={value}>
+            <Tabs value={value} onChange={handleChange} centered>
+              <Tab
+                label="Action Board"
+                value={"0"}
+                style={{
+                  fontFamily: "dauphinn",
+                  fontSize: 26,
+                  textTransform: "none",
+                }}
+              />
+              <Tab
+                label="Player Board"
+                value={"1"}
+                style={{
+                  fontFamily: "dauphinn",
+                  fontSize: 26,
+                  textTransform: "none",
+                }}
+              />
+              <Tab
+                label="World Map"
+                value={"2"}
+                style={{
+                  fontFamily: "dauphinn",
+                  fontSize: 26,
+                  textTransform: "none",
+                }}
+              />
+              <Tab
+                label="Player Table"
+                value={"3"}
+                style={{
+                  fontFamily: "dauphinn",
+                  fontSize: 26,
+                  textTransform: "none",
+                }}
+              />{" "}
+              <Tab
+                label={
+                  props.ctx.phase === "election" &&
+                  props.playerID === props.ctx.currentPlayer
+                    ? "Election"
+                    : "Group Chat"
+                }
+                value={"4"}
+                style={{
+                  fontFamily: "dauphinn",
+                  fontSize: 26,
+                  textTransform: "none",
+                }}
+                icon={
+                  props.ctx.phase === "election" &&
+                  props.playerID === props.ctx.currentPlayer ? (
+                    <Campaign />
+                  ) : undefined
+                }
+                iconPosition="end"
+              />
+            </Tabs>
+            <TabPanel value={"0"} tabIndex={0}>
+              <ActionBoard {...props} setTurnComplete={setTurnComplete} />
+            </TabPanel>
+            <TabPanel value={"1"} tabIndex={1}>
+              <PlayerBoard {...props} setTurnComplete={setTurnComplete} />
+            </TabPanel>
+            <TabPanel value={"2"} tabIndex={2}>
+              <WorldMap {...props} setTurnComplete={setTurnComplete} />
+            </TabPanel>
+            <TabPanel value={"3"} tabIndex={3}>
+              <PlayerTable {...props} />
+            </TabPanel>
+            <TabPanel value={"4"} tabIndex={4}>
+              <Chat {...props} />
+            </TabPanel>
+          </TabContext>
+          <AttackOrPassDiaLog {...props} setTurnComplete={setTurnComplete} />
+          <AttackOrEvadeDialog {...props} setTurnComplete={setTurnComplete} />
+          <DrawOrPickCardDialog {...props} setTurnComplete={setTurnComplete} />
+          <RelocateLoserDialog {...props} setTurnComplete={setTurnComplete} />
+          <PlunderLegendsDialog {...props} setTurnComplete={setTurnComplete} />
+          <GroundAttackOrPassDialog
+            {...props}
+            setTurnComplete={setTurnComplete}
+          />
+          <DefendOrYieldDialog {...props} setTurnComplete={setTurnComplete} />
+          <GarrisonTroopsDialog {...props} setTurnComplete={setTurnComplete} />
+          <OutpostOrColonyDialog {...props} setTurnComplete={setTurnComplete} />
+          <RetrieveFleetsDialog {...props} setTurnComplete={setTurnComplete} />
+          <Dialog
+            open={
+              props.ctx.phase === "election" &&
+              props.playerID === props.ctx.currentPlayer &&
+              dialogOpen
+            }
+          >
+            <DialogTitle>
+              It is your turn to vote, head to the election tab.
+            </DialogTitle>
+            <DialogActions>
+              <Button
+                variant="contained"
+                color="error"
+                onClick={() => {
+                  setDialogOpen(false);
+                }}
+              >
+                Dismiss
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </Box>
+      </ThemeProvider>
     </div>
   );
 };

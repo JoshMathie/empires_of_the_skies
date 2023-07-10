@@ -384,8 +384,15 @@ export const resolveConquest = (
     const currentPlayer =
       G.playerInfo[G.battleState?.attacker.id ?? ctx.currentPlayer];
     const currentBuilding = G.mapState.buildings[y][x];
+    const currentTile = G.mapState.currentTileArray[y][x];
 
+    Object.entries(currentTile.loot.colony).forEach(([lootName, value]) => {
+      const lootNameAsResource =
+        lootName as keyof typeof currentTile.loot.colony;
+      currentPlayer.resources[lootNameAsResource] += value;
+    });
     currentPlayer.resources.victoryPoints += 1;
+    currentPlayer.heresyTracker += 1;
 
     currentBuilding.player = currentPlayer;
     currentBuilding.buildings = "colony";

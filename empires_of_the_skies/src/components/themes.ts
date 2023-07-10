@@ -37,6 +37,9 @@ export const generalTheme = createTheme({
         textPrimary: "#000000",
       },
     },
+    MuiTab: {
+      styleOverrides: { root: { border: "0px" } },
+    },
   },
 });
 

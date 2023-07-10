@@ -6,9 +6,21 @@ const constructOutpost: MoveFn<MyGameState> = (
   ...args
 ) => {
   const [x, y] = G.mapState.currentBattle;
+  const currentPlayer = G.playerInfo[playerID];
+  const currentBuilding = G.mapState.buildings[y][x];
+  const currentTile = G.mapState.currentTileArray[y][x];
 
-  G.mapState.buildings[y][x].player = G.playerInfo[playerID];
-  G.mapState.buildings[y][x].buildings = "outpost";
+  currentBuilding.player = currentPlayer;
+  currentBuilding.buildings = "outpost";
+
+  Object.entries(currentTile.loot.outpost).forEach(([lootName, value]) => {
+    const lootNameAsResource = lootName as keyof typeof currentTile.loot.colony;
+    currentPlayer.resources[lootNameAsResource] += value;
+  });
+
+  currentPlayer.resources.victoryPoints += 1;
+  currentPlayer.heresyTracker += 1;
+
   G.stage = "garrison troops";
 };
 

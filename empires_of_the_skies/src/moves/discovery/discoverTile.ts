@@ -47,6 +47,18 @@ export const discoverTile: MoveFn<MyGameState> = (
   G.mapState.discoveredTiles[y][x] = true;
   G.mapState.mostRecentlyDiscoveredTile = [x, y];
   G.firstTurnOfRound = false;
+
+  let allDiscovered = true;
+  Object.values(G.mapState.discoveredTiles).forEach((tileRow) => {
+    tileRow.forEach((tile) => {
+      if (tile === false) {
+        allDiscovered = false;
+      }
+    });
+  });
+
+  if (allDiscovered) events.endPhase();
+
   if (currentTile.shield !== 0 || currentTile.sword !== 0) {
     if (ctx.currentPlayer === ctx.playOrder[ctx.playOrder.length - 1]) {
       events.endPhase();

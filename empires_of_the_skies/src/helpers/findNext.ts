@@ -14,7 +14,7 @@ export const findNextBattle = (G: MyGameState, events: EventsAPI, ctx: Ctx) => {
       }
       if (G.mapState.battleMap[y][x].length > 1) {
         const playerIDs: string[] = [...G.mapState.battleMap[y][x]];
-        const nextPlayer = sortPlayersInPlayerOrder(playerIDs, ctx)[0];
+        const nextPlayer = sortPlayersInPlayerOrder(playerIDs, G)[0];
         G.mapState.currentBattle = [x, y];
         G.battleState = undefined;
         G.stage = "attack or pass";
@@ -133,8 +133,8 @@ export const findNextPlayerInBattleSequence = (
       G.mapState.currentBattle[0]
     ],
   ];
-  const sortedPlayerIDs = sortPlayersInPlayerOrder(playerIDs, ctx);
-  const currentPlayerIndex = sortPlayersInPlayerOrder(playerIDs, ctx).indexOf(
+  const sortedPlayerIDs = sortPlayersInPlayerOrder(playerIDs, G);
+  const currentPlayerIndex = sortPlayersInPlayerOrder(playerIDs, G).indexOf(
     playerID
   );
   const nextPlayerIndex = currentPlayerIndex + 1;
