@@ -1,3 +1,5 @@
+import React from "react";
+
 const FortIcon = (props: FortProps) => {
   return (
     <svg
