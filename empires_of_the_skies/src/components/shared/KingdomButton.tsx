@@ -16,6 +16,7 @@ export const KingdomButton = (props: KingdomButtonProps) => {
 
   return (
     <Button
+      key={props.id}
       style={{
         backgroundColor: props.G.playerInfo[props.id].colour,
         border: props.id === props.selectedKingdom ? "2px solid black" : "none",

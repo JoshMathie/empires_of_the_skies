@@ -7,7 +7,6 @@ export const LobbyComp = () => {
   return (
     <Lobby
       gameServer={`https://${window.location.hostname}:8000`}
-      lobbyServer={`https://${window.location.hostname}:8000`}
       gameComponents={[{ game: MyGame, board: ActionBoardsAndMap }]}
     />
   );

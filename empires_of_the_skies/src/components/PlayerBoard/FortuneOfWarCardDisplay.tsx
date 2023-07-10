@@ -1,6 +1,7 @@
 import React from "react";
 import { MyGameProps } from "../../types";
 import fortuneOfWarCardBack from "../../boards_and_assets/fortunes_of_war_card_back.svg";
+import svgNameToElementMap from "../WorldMap/nameToElementMap";
 
 const FortuneOfWarCardDisplay = (props: FortuneOfWarCardDisplayProps) => {
   const defaultImage = fortuneOfWarCardBack;
@@ -13,7 +14,7 @@ const FortuneOfWarCardDisplay = (props: FortuneOfWarCardDisplayProps) => {
   }
   if (card) {
     opacity = 1;
-    displayImage = card.flipped ? card.image : defaultImage;
+    displayImage = card.flipped ? svgNameToElementMap[card.name] : defaultImage;
   } else {
     displayImage = defaultImage;
   }

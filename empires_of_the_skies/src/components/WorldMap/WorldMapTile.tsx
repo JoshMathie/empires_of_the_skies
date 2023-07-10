@@ -11,6 +11,7 @@ import { clearMoves } from "../../helpers/helpers";
 import FleetIcon from "../Icons/FleetIcon";
 import ColonyIcon from "../Icons/ColonyIcon";
 import OutpostIcon from "../Icons/OutpostIcon";
+import svgNameToElementMap from "./nameToElementMap";
 
 //Method for displaying a flippable tile which contains a world map tile image
 export const WorldMapTile = (props: worldMapTileProps) => {
@@ -149,7 +150,6 @@ Loot:
                   Math.abs(event.clientX - xPosition.current) < 10 &&
                   Math.abs(event.clientY - yPosition.current) < 10
                 ) {
-                  clearMoves(props, props.setTurnComplete);
                   setFlip(true);
                   props.moves.discoverTile({ ...props }, [
                     xLocation,
@@ -181,7 +181,7 @@ Loot:
           <button
             className="front"
             style={{
-              backgroundImage: `url(${currentTile.image})`,
+              backgroundImage: `url(${svgNameToElementMap[currentTile.name]})`,
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",
               height: "100%",

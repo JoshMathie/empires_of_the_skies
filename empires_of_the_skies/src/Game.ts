@@ -155,7 +155,7 @@ const MyGame: Game<MyGameState> = {
     const playerInfos = (ctx: Ctx): { [details: string]: PlayerInfo } => {
       const colours = getPlayerColours(ctx);
       const playerIDMap: { [details: string]: PlayerInfo } = {};
-      ctx.playOrder.forEach((playerID) => {
+      ctx.playOrder.forEach((playerID: string) => {
         const playerColour = colours.pop();
         playerIDMap[playerID] = {
           id: playerID,
@@ -305,14 +305,14 @@ const MyGame: Game<MyGameState> = {
   phases: {
     discovery: {
       start: true,
-      onBegin: (context) => {
+      onBegin: (context: any) => {
         context.ctx.playOrderPos = 0;
         context.G.stage = "discovery";
         console.log("Discovery phase has begun");
 
         context.G.firstTurnOfRound = true;
 
-        Object.values(context.G.playerInfo).forEach((playerInfo) => {
+        Object.values(context.G.playerInfo).forEach((playerInfo: any) => {
           playerInfo.passed = false;
         });
         const currentTurnOrder = [...context.ctx.playOrder];
@@ -335,9 +335,9 @@ const MyGame: Game<MyGameState> = {
         }
 
         Object.entries(context.G.boardState).forEach(
-          ([key, gameStateObject]) => {
+          ([key, gameStateObject]: [string, any]) => {
             if (key === "foundBuildings") {
-              Object.values(gameStateObject).forEach((idArray) => {
+              Object.values(gameStateObject).forEach((idArray: any) => {
                 idArray.forEach((id: string) => {
                   context.G.playerInfo[id].resources.counsellors += 1;
                 });
@@ -345,7 +345,7 @@ const MyGame: Game<MyGameState> = {
             } else if (key === "issueHolyDecree") {
               context.G.boardState[key] = false;
             } else {
-              Object.values(gameStateObject).forEach((id) => {
+              Object.values(gameStateObject).forEach((id: any) => {
                 if (id) {
                   context.G.playerInfo[id].resources.counsellors += 1;
                 }
@@ -356,7 +356,7 @@ const MyGame: Game<MyGameState> = {
 
         context.G.boardState = { ...initialBoardState };
 
-        Object.values(context.G.playerInfo).forEach((player) => {
+        Object.values(context.G.playerInfo).forEach((player: any) => {
           Object.values(player.playerBoardCounsellorLocations).forEach(
             (counsellor) => {
               if (counsellor) {
@@ -373,7 +373,7 @@ const MyGame: Game<MyGameState> = {
         context.events.pass();
       },
       turn: {
-        onBegin: (context) => {
+        onBegin: (context: any) => {
           if (context.G.firstTurnOfRound && context.ctx.playOrderPos !== 0) {
             context.events.endTurn({ next: context.ctx.playOrder[0] });
           }
@@ -385,20 +385,20 @@ const MyGame: Game<MyGameState> = {
         pass: { move: pass, undoable: false },
       },
       next: "actions",
-      onEnd: (context) => {
-        Object.values(context.G.playerInfo).forEach((playerInfo) => {
+      onEnd: (context: any) => {
+        Object.values(context.G.playerInfo).forEach((playerInfo: any) => {
           playerInfo.passed = false;
         });
       },
     },
     actions: {
-      onBegin: (context) => {
+      onBegin: (context: any) => {
         context.G.firstTurnOfRound = true;
         context.G.stage = "actions";
         console.log("Actions phase has begun");
       },
       turn: {
-        onBegin: (context) => {
+        onBegin: (context: any) => {
           if (context.G.firstTurnOfRound && context.ctx.playOrderPos !== 0) {
             context.events.endTurn({ next: context.ctx.playOrder[0] });
           }
@@ -432,20 +432,20 @@ const MyGame: Game<MyGameState> = {
         issueHolyDecree,
         pass: { move: pass, undoable: false },
       },
-      onEnd: (context) => {
-        Object.values(context.G.playerInfo).forEach((playerInfo) => {
+      onEnd: (context: any) => {
+        Object.values(context.G.playerInfo).forEach((playerInfo: any) => {
           playerInfo.passed = false;
         });
       },
       next: "aerial_battle",
     },
     aerial_battle: {
-      onBegin: (context) => {
+      onBegin: (context: any) => {
         findNextBattle(context.G, context.events, context.ctx);
         console.log("Aerial battle phase has begun");
       },
       turn: {
-        onBegin: (context) => {
+        onBegin: (context: any) => {
           console.log(
             `It is now player ${context.ctx.currentPlayer}'s turn in the aerial battle phase`
           );
@@ -468,7 +468,7 @@ const MyGame: Game<MyGameState> = {
       },
     },
     plunder_legends: {
-      onBegin: (context) => {
+      onBegin: (context: any) => {
         context.G.stage = "plunder legends";
         console.log("Plunder legends phase has begun");
 
@@ -477,7 +477,7 @@ const MyGame: Game<MyGameState> = {
       moves: { plunder, doNotPlunder },
       next: "ground_battle",
       turn: {
-        onBegin: (context) => {
+        onBegin: (context: any) => {
           console.log(
             `it is now player ${context.ctx.currentPlayer}'s time to plunder`
           );
@@ -490,13 +490,13 @@ const MyGame: Game<MyGameState> = {
       },
     },
     ground_battle: {
-      onBegin: (context) => {
+      onBegin: (context: any) => {
         context.G.stage = "attack or pass";
 
         console.log("Ground battles have begun");
       },
       turn: {
-        onBegin: (context) => {
+        onBegin: (context: any) => {
           console.log(
             `it is now player ${context.ctx.currentPlayer}'s time to ground attack`
           );
@@ -517,13 +517,13 @@ const MyGame: Game<MyGameState> = {
       next: "conquest",
     },
     conquest: {
-      onBegin: (context) => {
+      onBegin: (context: any) => {
         context.G.stage = "attack or pass";
 
         console.log("Conquests have begun");
       },
       turn: {
-        onBegin: (context) => {
+        onBegin: (context: any) => {
           console.log(
             `it is now player ${context.ctx.currentPlayer}'s time to conquer`
           );
@@ -545,23 +545,23 @@ const MyGame: Game<MyGameState> = {
       next: "election",
     },
     election: {
-      onBegin: (context) => {
+      onBegin: (context: any) => {
         context.G.electionResults = {};
         context.G.hasVoted = [];
       },
       moves: { vote: { move: vote, undoable: false } },
       next: "resolution",
-      onEnd: (context) => {
+      onEnd: (context: any) => {
         context.G.round += 1;
       },
     },
     resolution: {
       turn: { order: TurnOrder.ONCE },
-      onBegin: (context) => {
+      onBegin: (context: any) => {
         console.log("resolution phase has begun");
         context.G.stage = "retrieve fleets";
       },
-      onEnd: (context) => {
+      onEnd: (context: any) => {
         resolveRound(context.G, context.events);
       },
       moves: { retrieveFleets: { move: retrieveFleets, undoable: false } },
