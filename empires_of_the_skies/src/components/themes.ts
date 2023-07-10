@@ -40,6 +40,9 @@ export const generalTheme = createTheme({
     MuiTab: {
       styleOverrides: { root: { border: "0px" } },
     },
+    MuiTableCell: {
+      styleOverrides: { root: { fontSize: 18.5 } },
+    },
   },
 });
 

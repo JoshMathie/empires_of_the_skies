@@ -6,11 +6,15 @@ const FleetDisplay = (props: FleetDisplayProps) => {
   return (
     <Button
       variant="contained"
-      style={{ marginRight: "10px" }}
+      sx={{
+        marginRight: "10px",
+        border:
+          props.selected === props.fleetId ? "5px solid black" : undefined,
+      }}
       color={props.selected === props.fleetId ? "success" : "primary"}
       onClick={() => props.onClickFunction(props.fleetId)}
     >
-      {`Fleet: ${props.fleetId}
+      {`Fleet: ${props.fleetId + 1}
 Location: [${props.location[0] + 1}, ${4 - props.location[1]}]
 Skyships: ${props.skyships}
 Regiments: ${props.regiments}

@@ -190,6 +190,13 @@ const MyGame: Game<MyGameState> = {
           hereticOrOrthodox: "orthodox",
           fleetInfo: [
             {
+              fleetId: 0,
+              location: [4, 0],
+              skyships: 0,
+              regiments: 0,
+              levies: 0,
+            },
+            {
               fleetId: 1,
               location: [4, 0],
               skyships: 0,
@@ -198,13 +205,6 @@ const MyGame: Game<MyGameState> = {
             },
             {
               fleetId: 2,
-              location: [4, 0],
-              skyships: 0,
-              regiments: 0,
-              levies: 0,
-            },
-            {
-              fleetId: 3,
               location: [4, 0],
               skyships: 0,
               regiments: 0,
@@ -562,9 +562,10 @@ const MyGame: Game<MyGameState> = {
         context.G.stage = "retrieve fleets";
       },
       onEnd: (context) => {
-        resolveRound(context.G);
+        resolveRound(context.G, context.events);
       },
       moves: { retrieveFleets: { move: retrieveFleets, undoable: false } },
+      next: "discovery",
     },
   },
   maxPlayers: 6,

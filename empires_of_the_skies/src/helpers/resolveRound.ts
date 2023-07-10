@@ -1,6 +1,7 @@
+import { EventsAPI } from "boardgame.io/dist/types/src/plugins/plugin-events";
 import { MyGameState } from "../types";
 
-const resolveRound = (G: MyGameState) => {
+const resolveRound = (G: MyGameState, events: EventsAPI) => {
   const resourceCounterMap: Record<string, number> = {
     mithril: 0,
     dragonScales: 0,
@@ -140,6 +141,10 @@ const resolveRound = (G: MyGameState) => {
         G.playerInfo[id].resources.victoryPoints += awardAmountSecondPlace;
       });
     }
+  }
+
+  if (G.round === G.finalRound) {
+    events.endGame();
   }
 };
 

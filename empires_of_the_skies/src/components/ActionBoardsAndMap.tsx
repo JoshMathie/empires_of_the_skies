@@ -29,6 +29,7 @@ import OutpostOrColonyDialog from "./Conquests/OutpostOrColonyDialog";
 import RetrieveFleetsDialog from "./Resolution/RetrieveFleetsDialog";
 
 import PlayerTable from "./PlayerTable/PlayerTable";
+import HeresyTracker from "./PlayerTable/HeresyTracker";
 import Chat from "./Chat/Chat";
 import { generalTheme } from "./themes";
 import { Campaign } from "@mui/icons-material";
@@ -124,7 +125,18 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
               <WorldMap {...props} setTurnComplete={setTurnComplete} />
             </TabPanel>
             <TabPanel value={"3"} tabIndex={3}>
-              <PlayerTable {...props} />
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "100%",
+                  flexDirection: "column",
+                }}
+              >
+                <PlayerTable {...props} />
+                <HeresyTracker {...props} />
+              </div>
             </TabPanel>
             <TabPanel value={"4"} tabIndex={4}>
               <Chat {...props} />

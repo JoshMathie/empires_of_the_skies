@@ -146,8 +146,7 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
                 <Button
                   variant="contained"
                   style={{
-                    backgroundColor: "#cd0ffc",
-                    fontFamily: "dauphinn",
+                    backgroundColor: "#E77B00",
                   }}
                   onClick={() => {
                     props.moves.increaseHeresy({ ...props });
@@ -158,7 +157,7 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
                 </Button>
                 <Button
                   variant="contained"
-                  style={{ backgroundColor: "#fa921b", fontFamily: "dauphinn" }}
+                  style={{ backgroundColor: "#A74383" }}
                   onClick={() => {
                     props.moves.increaseOrthodoxy({ ...props });
                     setHeresyOrOrthodoxyDialogOpen(false);

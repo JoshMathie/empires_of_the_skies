@@ -65,7 +65,7 @@ const DrawOrPickCardDialog = (props: DrawOrPickCardDialogProps) => {
       <DialogContent>
         You can either draw a random fortune of war card, or pick one from your
         hand if you have any.
-        {cards}
+        <div style={{ display: "flex", flexDirection: "row" }}>{cards}</div>
         <WorldMap
           {...props}
           selectableTiles={[props.G.mapState.currentBattle]}

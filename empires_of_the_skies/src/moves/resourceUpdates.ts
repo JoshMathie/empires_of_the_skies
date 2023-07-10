@@ -71,7 +71,7 @@ export const increaseHeresy: MoveFn<MyGameState> = (
 };
 
 export const increaseHeresyWithinMove = (G: MyGameState, playerID: string) => {
-  if (G.playerInfo[playerID].heresyTracker < 11) {
+  if (G.playerInfo[playerID].heresyTracker < 12) {
     G.playerInfo[playerID].heresyTracker += 1;
   }
 };

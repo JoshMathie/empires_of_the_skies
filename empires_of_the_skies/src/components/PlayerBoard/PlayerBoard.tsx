@@ -29,13 +29,13 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
   const [regimentCount, setRegimentCount] = useState(0);
   const [levyCount, setLevyCount] = useState(0);
   const [levyCountForDispatch, setLevyCountForDispatch] = useState(0);
-  const [selectedFleet, setSelectedFleet] = useState(1);
+  const [selectedFleet, setSelectedFleet] = useState(0);
   const [dispatchFleetMapVisible, setDispatchFleetMapVisible] = useState(false);
   const [fleetDestination, setFleetDestination] = useState([4, 0]);
 
   let fleets: JSX.Element[] = [];
   let currentFleet: FleetInfo = {
-    fleetId: 1,
+    fleetId: 0,
     location: [4, 0],
     skyships: 0,
     regiments: 0,
@@ -60,7 +60,7 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
       ></FleetDisplay>
     );
   });
-  currentFleet = playerInfo.fleetInfo[selectedFleet - 1];
+  currentFleet = playerInfo.fleetInfo[selectedFleet];
 
   const fortuneOfWarCards: JSX.Element[] = [];
 
