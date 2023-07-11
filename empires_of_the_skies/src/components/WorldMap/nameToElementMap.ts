@@ -31,7 +31,7 @@ import Trolls1 from "../../map_tiles/unknown_world_tiles/trolls1.svg";
 import Trolls2 from "../../map_tiles/unknown_world_tiles/trolls2.svg";
 import Trolls3 from "../../map_tiles/unknown_world_tiles/trolls3.svg";
 import swordOne from "../../boards_and_assets/fortunes_of_war_cards/1_sword.svg";
-import swordtwo from "../../boards_and_assets/fortunes_of_war_cards/2_sword.svg";
+import swordTwo from "../../boards_and_assets/fortunes_of_war_cards/2_sword.svg";
 import swordThree from "../../boards_and_assets/fortunes_of_war_cards/3_sword.svg";
 import swordFour from "../../boards_and_assets/fortunes_of_war_cards/4_sword.svg";
 import swordFive from "../../boards_and_assets/fortunes_of_war_cards/5_sword.svg";
@@ -43,10 +43,10 @@ import shieldEight from "../../boards_and_assets/fortunes_of_war_cards/8_shield.
 import noEffect from "../../boards_and_assets/fortunes_of_war_cards/no_effect.svg";
 
 const svgNameToElementMap: Record<string, string> = {
-  KnownWorldTile1: KnownWorldTile1,
-  KnownWorldTile2: KnownWorldTile2,
-  KnownWorldTile3: KnownWorldTile3,
-  KnownWorldTile4: KnownWorldTile4,
+  KnownWorld1: KnownWorldTile1,
+  KnownWorld2: KnownWorldTile2,
+  KnownWorld3: KnownWorldTile3,
+  KnownWorld4: KnownWorldTile4,
   Dwarves1: Dwarves1,
   Dwarves2: Dwarves2,
   Dwarves3: Dwarves3,
@@ -75,16 +75,16 @@ const svgNameToElementMap: Record<string, string> = {
   Trolls1: Trolls1,
   Trolls2: Trolls2,
   Trolls3: Trolls3,
-  swordOne: swordOne,
-  swordtwo: swordtwo,
-  swordThree: swordThree,
-  swordFour: swordFour,
-  swordFive: swordFive,
-  shieldFour: shieldFour,
-  shieldFive: shieldFive,
-  shieldSix: shieldSix,
-  shieldSeven: shieldSeven,
-  shieldEight: shieldEight,
+  SwordOne: swordOne,
+  SwordTwo: swordTwo,
+  SwordThree: swordThree,
+  SwordFour: swordFour,
+  SwordFive: swordFive,
+  ShieldFour: shieldFour,
+  ShieldFive: shieldFive,
+  ShieldSix: shieldSix,
+  ShieldSeven: shieldSeven,
+  ShieldEight: shieldEight,
   noEffect: noEffect,
 };
 
