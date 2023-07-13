@@ -69,7 +69,6 @@ const WorldMap = (props: WorldMapProps) => {
 interface WorldMapProps extends MyGameProps {
   alternateOnClick?: (coords: number[]) => void;
   selectableTiles?: number[][];
-  setTurnComplete: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default WorldMap;

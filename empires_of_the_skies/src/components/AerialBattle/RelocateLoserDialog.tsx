@@ -80,8 +80,6 @@ const RelocateLoserDialog = (props: RelocateLoserDialogProps) => {
   );
 };
 
-interface RelocateLoserDialogProps extends MyGameProps {
-  setTurnComplete: React.Dispatch<React.SetStateAction<boolean>>;
-}
+interface RelocateLoserDialogProps extends MyGameProps {}
 
 export default RelocateLoserDialog;

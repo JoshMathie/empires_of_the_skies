@@ -1,4 +1,4 @@
-import { MoveFn } from "boardgame.io";
+import { Move } from "boardgame.io";
 import { MyGameState } from "../../types";
 import {
   addVPAmount,
@@ -8,13 +8,28 @@ import {
 } from "../resourceUpdates";
 import { INVALID_MOVE } from "boardgame.io/core";
 import { blessingOrCurseVPAmount } from "../../helpers/helpers";
+import { EventsAPI } from "boardgame.io/dist/types/src/plugins/plugin-events";
+import { RandomAPI } from "boardgame.io/dist/types/src/plugins/random/random";
+import { Ctx } from "boardgame.io/dist/types/src/types";
 
-const issueHolyDecree: MoveFn<MyGameState> = (
-  { G, ctx, playerID, events, random },
-  ...args
+const issueHolyDecree: Move<MyGameState> = (
+  {
+    G,
+    ctx,
+    playerID,
+    events,
+    random,
+  }: {
+    G: MyGameState;
+    ctx: Ctx;
+    playerID: string;
+    events: EventsAPI;
+    random: RandomAPI;
+  },
+  ...args: any[]
 ) => {
-  const value = args[0][0];
-  const id = args[0][1];
+  const value = args[0];
+  const id = args[1];
   if (!G.playerInfo[playerID].isArchprelate) {
     console.log(
       "One who has not been anointed by God has attempted to issue a holy decree."
@@ -45,7 +60,7 @@ const issueHolyDecree: MoveFn<MyGameState> = (
   }
 
   G.boardState.issueHolyDecree = true;
-  args[0][2](true);
+  G.playerInfo[playerID].turnComplete = true;
 };
 
 export default issueHolyDecree;

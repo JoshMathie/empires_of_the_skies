@@ -1,25 +1,33 @@
-import { MoveFn } from "boardgame.io";
+import { Move } from "boardgame.io";
 import { MyGameState } from "../../types";
 import { INVALID_MOVE } from "boardgame.io/core";
 import { checkCounsellorsNotZero } from "../moveValidation";
 import { removeOneCounsellor } from "../resourceUpdates";
 import { EventsAPI } from "boardgame.io/dist/types/src/plugins/plugin-events";
+import { RandomAPI } from "boardgame.io/dist/types/src/plugins/random/random";
+import { Ctx } from "boardgame.io/dist/types/src/types";
 
 // needs a stage where the player selects a map tile to place the fort onto and that tile is verified to ensure they can build on it
-const foundBuildings: MoveFn<MyGameState> = (
-  { G, ctx, playerID, events, random },
-  ...args
+const foundBuildings: Move<MyGameState> = (
+  {
+    G,
+    ctx,
+    playerID,
+    events,
+    random,
+  }: {
+    G: MyGameState;
+    ctx: Ctx;
+    playerID: string;
+    events: EventsAPI;
+    random: RandomAPI;
+  },
+  ...args: any[]
 ) => {
   if (checkCounsellorsNotZero(playerID, G)) {
     return INVALID_MOVE;
   }
-  const value: keyof typeof G.boardState.foundBuildings = args[1][0] + 1;
-
-  if (value === 4) {
-    for (let playerInfo of Object.values(G.playerInfo)) {
-      playerInfo.forts.forEach((coord) => {});
-    }
-  }
+  const value: keyof typeof G.boardState.foundBuildings = args[0] + 1;
 
   const specialisedBuildingFunctions = {
     1: foundCathedral,
@@ -52,7 +60,7 @@ const foundCathedral = (
   }
   G.boardState.foundBuildings[1].push(playerID);
   removeOneCounsellor(G, playerID);
-  args[1][3](true);
+  G.playerInfo[playerID].turnComplete = true;
 };
 //TODO: add a input for the user to select the heresy tracker movement direction
 const foundPalace = (
@@ -76,10 +84,8 @@ const foundPalace = (
   }
   G.boardState.foundBuildings[2].push(playerID);
   removeOneCounsellor(G, playerID);
-  args[1][2] = playerID;
-  args[1][1](true);
-  //should be setTurnComplete
-  args[1][3](true);
+
+  G.playerInfo[playerID].turnComplete = true;
 };
 
 const foundShipyard = (
@@ -98,7 +104,7 @@ const foundShipyard = (
   G.boardState.foundBuildings[3].push(playerID);
   removeOneCounsellor(G, playerID);
 
-  args[1][3](true);
+  G.playerInfo[playerID].turnComplete = true;
 };
 //TODO: add capability for the user to select the map tile to build the fort on
 // and validate that they have either an outpost or colony on that tile as well as regiments
@@ -112,9 +118,8 @@ const foundFort = (
 
   G.playerInfo[playerID].resources.gold -= cost;
   removeOneCounsellor(G, playerID);
-  args[1][2] = playerID;
-  args[1][1](true);
-  //should be setTurnComplete
-  args[1][3](true);
+
+  //should be G.turnComplete
+  G.playerInfo[playerID].turnComplete = true;
 };
 export default foundBuildings;

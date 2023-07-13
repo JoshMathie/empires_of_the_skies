@@ -1,6 +1,10 @@
-import { MoveFn } from "boardgame.io";
+import { Move } from "boardgame.io";
 import { MyGameState } from "../types";
 import { INVALID_MOVE } from "boardgame.io/core";
+import { Ctx } from "boardgame.io/dist/types/src/types";
+import { EventsAPI } from "boardgame.io/dist/types/src/plugins/plugin-events";
+import { RandomAPI } from "boardgame.io/dist/types/src/plugins/random/random";
+import { clearMoves } from "../helpers/helpers";
 
 export const removeOneCounsellor = (G: MyGameState, playerID: string) => {
   G.playerInfo[playerID].resources.counsellors -= 1;
@@ -63,9 +67,21 @@ export const addRegiments = (
   G.playerInfo[playerID].resources.regiments += amount;
 };
 
-export const increaseHeresy: MoveFn<MyGameState> = (
-  { G, ctx, playerID, events, random },
-  ...args
+export const increaseHeresy: Move<MyGameState> = (
+  {
+    G,
+    ctx,
+    playerID,
+    events,
+    random,
+  }: {
+    G: MyGameState;
+    ctx: Ctx;
+    playerID: string;
+    events: EventsAPI;
+    random: RandomAPI;
+  },
+  ...args: any[]
 ) => {
   increaseHeresyWithinMove(G, playerID);
 };
@@ -75,9 +91,21 @@ export const increaseHeresyWithinMove = (G: MyGameState, playerID: string) => {
     G.playerInfo[playerID].heresyTracker += 1;
   }
 };
-export const increaseOrthodoxy: MoveFn<MyGameState> = (
-  { G, ctx, playerID, events, random },
-  ...args
+export const increaseOrthodoxy: Move<MyGameState> = (
+  {
+    G,
+    ctx,
+    playerID,
+    events,
+    random,
+  }: {
+    G: MyGameState;
+    ctx: Ctx;
+    playerID: string;
+    events: EventsAPI;
+    random: RandomAPI;
+  },
+  ...args: any[]
 ) => {
   increaseOrthodoxyWithinMove(G, playerID);
 };
@@ -90,15 +118,27 @@ export const increaseOrthodoxyWithinMove = (
     G.playerInfo[playerID].heresyTracker -= 1;
   }
 };
-export const checkAndPlaceFort: MoveFn<MyGameState> = (
-  { G, ctx, playerID, events, random },
-  ...args
+export const checkAndPlaceFort: Move<MyGameState> = (
+  {
+    G,
+    ctx,
+    playerID,
+    events,
+    random,
+  }: {
+    G: MyGameState;
+    ctx: Ctx;
+    playerID: string;
+    events: EventsAPI;
+    random: RandomAPI;
+  },
+  ...args: any[]
 ) => {
-  const coords = args[1];
-  let tileInfo = G.mapState.buildings[coords[0][1]][coords[0][0]];
+  const [x, y] = args[0];
+  const props = args[1];
+  let tileInfo = G.mapState.buildings[y][x];
   if (tileInfo === undefined) {
-    //args[1][1] = fortPlacementFailed reference
-    args[1][1].current = true;
+    clearMoves(props);
     return INVALID_MOVE;
   }
   let hasRelevantPresence = false;
@@ -118,27 +158,38 @@ export const checkAndPlaceFort: MoveFn<MyGameState> = (
   let matched = false;
   Object.values(G.playerInfo).forEach((playerInfo) => {
     playerInfo.forts.forEach((fort) => {
-      if (fort.location[0] === coords[0] && fort.location[1] === coords[1]) {
+      if (fort.location[0] === x && fort.location[1] === y) {
         matched = true;
       }
     });
   });
 
   if (!hasRelevantPresence || matched) {
-    //args[1][1] = fortPlacementFailed reference
-    args[1][1].current = true;
+    clearMoves(props);
     return INVALID_MOVE;
   }
-  args[1][1].current = false;
+
   tileInfo.player = G.playerInfo[playerID];
-  G.playerInfo[playerID].forts.push(coords[0]);
+  G.playerInfo[playerID].forts.push({ location: [x, y] });
   tileInfo.fort = true;
-  args[1][2](true);
+  G.playerInfo[playerID].turnComplete = true;
 };
 
-export const flipCards: MoveFn<MyGameState> = (
-  { G, ctx, playerID, events, random },
-  ...args
+export const flipCards: Move<MyGameState> = (
+  {
+    G,
+    ctx,
+    playerID,
+    events,
+    random,
+  }: {
+    G: MyGameState;
+    ctx: Ctx;
+    playerID: string;
+    events: EventsAPI;
+    random: RandomAPI;
+  },
+  ...args: any[]
 ) => {
   G.playerInfo[playerID].resources.fortuneCards.forEach((card) => {
     card.flipped = true;

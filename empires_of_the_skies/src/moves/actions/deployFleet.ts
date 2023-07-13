@@ -1,20 +1,35 @@
-import { MoveFn } from "boardgame.io";
+import { Move } from "boardgame.io";
 import { MyGameState } from "../../types";
 import { findPossibleDestinations } from "../../helpers/helpers";
 import { INVALID_MOVE } from "boardgame.io/core";
 import { removeGoldAmount } from "../resourceUpdates";
 import { checkCounsellorsNotZero } from "../moveValidation";
+import { EventsAPI } from "boardgame.io/dist/types/src/plugins/events/events";
+import { RandomAPI } from "boardgame.io/dist/types/src/plugins/random/random";
+import { Ctx } from "boardgame.io/dist/types/src/types";
 
-const deployFleet: MoveFn<MyGameState> = (
-  { G, ctx, playerID, events, random },
-  ...args
+const deployFleet: Move<MyGameState> = (
+  {
+    G,
+    ctx,
+    playerID,
+    events,
+    random,
+  }: {
+    G: MyGameState;
+    ctx: Ctx;
+    playerID: string;
+    events: EventsAPI;
+    random: RandomAPI;
+  },
+  ...args: any[]
 ) => {
   if (checkCounsellorsNotZero(playerID, G) !== undefined) {
     return INVALID_MOVE;
   }
-  const fleet = args[0][0];
+  const fleet = args[0];
   const startingCoords = fleet.location;
-  const [x, y] = args[0][1];
+  const [x, y] = args[1];
   const unladen = fleet.regiments === 0 && fleet.levies === 0;
 
   let destinationValid = false;
@@ -65,7 +80,7 @@ const deployFleet: MoveFn<MyGameState> = (
 
   removeGoldAmount(G, playerID, cost);
 
-  args[0][2](true);
+  G.playerInfo[playerID].turnComplete = true;
 };
 
 export default deployFleet;

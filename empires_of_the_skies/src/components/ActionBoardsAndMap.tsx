@@ -36,7 +36,6 @@ import { Campaign } from "@mui/icons-material";
 
 export const ActionBoardsAndMap = (props: MyGameProps) => {
   const [value, setValue] = useState("0");
-  const [turnComplete, setTurnComplete] = useState(false);
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
@@ -45,11 +44,7 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
   return (
     <div>
       <ThemeProvider theme={generalTheme}>
-        <ResourceTrackerBar
-          {...props}
-          turnComplete={turnComplete}
-          setTurnComplete={setTurnComplete}
-        />
+        <ResourceTrackerBar {...props} />
         <Box
           sx={{
             flexGrow: 1,
@@ -116,13 +111,13 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
               />
             </Tabs>
             <TabPanel value={"0"} tabIndex={0}>
-              <ActionBoard {...props} setTurnComplete={setTurnComplete} />
+              <ActionBoard {...props} />
             </TabPanel>
             <TabPanel value={"1"} tabIndex={1}>
-              <PlayerBoard {...props} setTurnComplete={setTurnComplete} />
+              <PlayerBoard {...props} />
             </TabPanel>
             <TabPanel value={"2"} tabIndex={2}>
-              <WorldMap {...props} setTurnComplete={setTurnComplete} />
+              <WorldMap {...props} />
             </TabPanel>
             <TabPanel value={"3"} tabIndex={3}>
               <div
@@ -142,19 +137,16 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
               <Chat {...props} />
             </TabPanel>
           </TabContext>
-          <AttackOrPassDiaLog {...props} setTurnComplete={setTurnComplete} />
-          <AttackOrEvadeDialog {...props} setTurnComplete={setTurnComplete} />
-          <DrawOrPickCardDialog {...props} setTurnComplete={setTurnComplete} />
-          <RelocateLoserDialog {...props} setTurnComplete={setTurnComplete} />
-          <PlunderLegendsDialog {...props} setTurnComplete={setTurnComplete} />
-          <GroundAttackOrPassDialog
-            {...props}
-            setTurnComplete={setTurnComplete}
-          />
-          <DefendOrYieldDialog {...props} setTurnComplete={setTurnComplete} />
-          <GarrisonTroopsDialog {...props} setTurnComplete={setTurnComplete} />
-          <OutpostOrColonyDialog {...props} setTurnComplete={setTurnComplete} />
-          <RetrieveFleetsDialog {...props} setTurnComplete={setTurnComplete} />
+          <AttackOrPassDiaLog {...props} />
+          <AttackOrEvadeDialog {...props} />
+          <DrawOrPickCardDialog {...props} />
+          <RelocateLoserDialog {...props} />
+          <PlunderLegendsDialog {...props} />
+          <GroundAttackOrPassDialog {...props} />
+          <DefendOrYieldDialog {...props} />
+          <GarrisonTroopsDialog {...props} />
+          <OutpostOrColonyDialog {...props} />
+          <RetrieveFleetsDialog {...props} />
           <Dialog
             open={
               props.ctx.phase === "election" &&

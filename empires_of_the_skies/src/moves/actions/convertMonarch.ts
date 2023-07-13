@@ -1,4 +1,4 @@
-import { MoveFn } from "boardgame.io";
+import { Move } from "boardgame.io";
 import { MyGameState } from "../../types";
 import {
   removeGoldAmount,
@@ -7,12 +7,27 @@ import {
 } from "../resourceUpdates";
 import { INVALID_MOVE } from "boardgame.io/core";
 import { checkCounsellorsNotZero } from "../moveValidation";
+import { EventsAPI } from "boardgame.io/dist/types/src/plugins/events/events";
+import { RandomAPI } from "boardgame.io/dist/types/src/plugins/random/random";
+import { Ctx } from "boardgame.io/dist/types/src/types";
 
-const convertMonarch: MoveFn<MyGameState> = (
-  { G, ctx, playerID, events, random },
-  ...args
+const convertMonarch: Move<MyGameState> = (
+  {
+    G,
+    ctx,
+    playerID,
+    events,
+    random,
+  }: {
+    G: MyGameState;
+    ctx: Ctx;
+    playerID: string;
+    events: EventsAPI;
+    random: RandomAPI;
+  },
+  ...args: any[]
 ) => {
-  const value: keyof typeof G.boardState.convertMonarch = args[1][0] + 1;
+  const value: keyof typeof G.boardState.convertMonarch = args[0] + 1;
   const playerInfo = G.playerInfo[playerID];
   if (checkCounsellorsNotZero(playerID, G) !== undefined) {
     return INVALID_MOVE;
@@ -83,7 +98,7 @@ const convertMonarch: MoveFn<MyGameState> = (
   removeOneCounsellor(G, playerID);
 
   G.boardState.convertMonarch[value] = playerID;
-  args[1][1](true);
+  G.playerInfo[playerID].turnComplete = true;
 };
 
 export default convertMonarch;

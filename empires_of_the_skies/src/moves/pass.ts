@@ -1,9 +1,24 @@
-import { MoveFn } from "boardgame.io";
+import { Move } from "boardgame.io";
 import { MyGameState } from "../types";
+import { Ctx } from "boardgame.io/dist/types/src/types";
+import { EventsAPI } from "boardgame.io/dist/types/src/plugins/plugin-events";
+import { RandomAPI } from "boardgame.io/dist/types/src/plugins/random/random";
 
-const pass: MoveFn<MyGameState> = (
-  { G, ctx, playerID, events, random },
-  ...args
+const pass: Move<MyGameState> = (
+  {
+    G,
+    ctx,
+    playerID,
+    events,
+    random,
+  }: {
+    G: MyGameState;
+    ctx: Ctx;
+    playerID: string;
+    events: EventsAPI;
+    random: RandomAPI;
+  },
+  ...args: any[]
 ) => {
   G.playerInfo[playerID].passed = true;
   if (ctx.phase === "discovery") {

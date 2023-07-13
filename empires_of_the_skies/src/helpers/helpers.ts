@@ -14,17 +14,15 @@ import {
   findNextPlunder,
 } from "./findNext";
 
-export const clearMoves = (
-  props: MyGameProps,
-  setTurnComplete: React.Dispatch<React.SetStateAction<boolean>>
-) => {
+export const clearMoves = (props: MyGameProps) => {
   if (props.ctx.numMoves) {
     console.log(`undoing ${props.ctx.numMoves} move(s)`);
 
     for (let i = 0; i < props.ctx.numMoves; i++) {
       props.undo();
     }
-    setTurnComplete(false);
+    props.G.playerInfo[props.playerID ?? props.ctx.currentPlayer].turnComplete =
+      false;
   }
 };
 

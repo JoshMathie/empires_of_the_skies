@@ -1,8 +1,8 @@
-import { MoveFn } from "boardgame.io";
+import { Move } from "boardgame.io";
 import { MyGameState } from "../../types";
 import { findNextPlunder } from "../../helpers/findNext";
 
-const plunder: MoveFn<MyGameState> = (
+const plunder: Move<MyGameState> = (
   { G, ctx, playerID, events, random },
   ...args
 ) => {

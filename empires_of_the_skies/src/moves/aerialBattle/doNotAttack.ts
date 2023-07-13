@@ -1,11 +1,11 @@
-import { MoveFn } from "boardgame.io";
+import { Move } from "boardgame.io";
 import { MyGameState } from "../../types";
 import {
   findNextBattle,
   findNextPlayerInBattleSequence,
 } from "../../helpers/findNext";
 
-const doNotAttack: MoveFn<MyGameState> = (
+const doNotAttack: Move<MyGameState> = (
   { G, ctx, playerID, events, random },
   ...args
 ) => {

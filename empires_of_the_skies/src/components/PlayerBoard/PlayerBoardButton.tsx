@@ -19,7 +19,7 @@ export const PlayerBoardButton = (props: PlayerBoardButtonProps) => {
       }}
       disabled={props.disabled}
       onClick={() => {
-        clearMoves(props, props.setTurnComplete);
+        clearMoves(props);
         props.onClick();
       }}
     >
@@ -39,5 +39,4 @@ interface PlayerBoardButtonProps extends MyGameProps {
   width?: string;
   height?: string;
   children?: JSX.Element;
-  setTurnComplete: React.Dispatch<React.SetStateAction<boolean>>;
 }

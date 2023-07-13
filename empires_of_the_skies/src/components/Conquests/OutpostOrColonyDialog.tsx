@@ -68,7 +68,5 @@ Current map tile: [${1 + x}, ${4 - y}]`}
   );
 };
 
-export interface AerialBattleDialogProps extends MyGameProps {
-  setTurnComplete: React.Dispatch<React.SetStateAction<boolean>>;
-}
+export interface AerialBattleDialogProps extends MyGameProps {}
 export default AttackOrPassDiaLog;

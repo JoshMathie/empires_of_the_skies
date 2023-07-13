@@ -1,14 +1,28 @@
-import { MoveFn } from "boardgame.io";
+import { Move } from "boardgame.io";
 import { PlayerOrder, MyGameState } from "../../types";
 import { checkCounsellorsNotZero } from "../moveValidation";
 import { INVALID_MOVE } from "boardgame.io/core";
 import { removeOneCounsellor } from "../resourceUpdates";
+import { EventsAPI } from "boardgame.io/dist/types/src/plugins/plugin-events";
+import { RandomAPI } from "boardgame.io/dist/types/src/plugins/random/random";
+import { Ctx } from "boardgame.io/dist/types/src/types";
 
-export const alterPlayerOrder: MoveFn<MyGameState> = (
-  { G, ctx, events, random },
-  ...args
+export const alterPlayerOrder: Move<MyGameState> = (
+  {
+    G,
+    ctx,
+    events,
+    random,
+  }: {
+    G: MyGameState;
+    ctx: Ctx;
+    playerID: string;
+    events: EventsAPI;
+    random: RandomAPI;
+  },
+  ...args: any[]
 ) => {
-  const newPosition: keyof PlayerOrder = args[1][0] + 1;
+  const newPosition: keyof PlayerOrder = args[0] + 1;
   const playerID = ctx.currentPlayer;
   if (checkCounsellorsNotZero(playerID, G) !== undefined) {
     return INVALID_MOVE;
@@ -30,7 +44,7 @@ export const alterPlayerOrder: MoveFn<MyGameState> = (
   removeOneCounsellor(G, playerID);
   G.boardState.alterPlayerOrder[newPosition] = playerID;
   G.playerOrder[newPosition] = playerID;
-  args[1][1](true);
+  G.playerInfo[playerID].turnComplete = true;
 };
 
 export default alterPlayerOrder;

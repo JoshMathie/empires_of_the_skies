@@ -151,10 +151,7 @@ Loot:
                   Math.abs(event.clientY - yPosition.current) < 10
                 ) {
                   setFlip(true);
-                  props.moves.discoverTile({ ...props }, [
-                    xLocation,
-                    yLocation,
-                  ]);
+                  props.moves.discoverTile([xLocation, yLocation]);
                 }
               }
             : () => {}
@@ -207,5 +204,4 @@ interface worldMapTileProps extends MyGameProps {
   location: number[];
   alternateOnClick?: (coords: number[]) => void;
   selectable?: boolean;
-  setTurnComplete: React.Dispatch<React.SetStateAction<boolean>>;
 }

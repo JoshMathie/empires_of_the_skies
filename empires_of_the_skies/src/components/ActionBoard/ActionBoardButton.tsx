@@ -11,11 +11,12 @@ import {
 import WorldMap from "../WorldMap/WorldMap";
 import { clearMoves } from "../../helpers/helpers";
 import CounsellorIcon from "../Icons/CounsellorIcon";
+
 export const ActionBoardButton = (props: ActionBoardButtonProps) => {
   let counsellorColour: string | undefined;
 
-  if (props.counsellor !== undefined) {
-    counsellorColour = props.G.playerInfo[props.counsellor.toString()].colour;
+  if (props.counsellor) {
+    counsellorColour = props.G.playerInfo[props.counsellor].colour;
   }
   return (
     <Button
@@ -36,11 +37,8 @@ export const ActionBoardButton = (props: ActionBoardButtonProps) => {
           : "#e0e0e0",
       }}
       onClick={() => {
-        clearMoves(props, props.setTurnComplete);
-        props.onClickFunction({ ...props }, [
-          props.value,
-          props.setTurnComplete,
-        ]);
+        clearMoves(props);
+        props.onClickFunction(props.value);
       }}
       value={props.value}
     >
@@ -55,12 +53,12 @@ export const ActionBoardButton = (props: ActionBoardButtonProps) => {
 };
 
 export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
+  const [worldMapDialogOpen, setWorldMapDialogOpen] = useState(false);
   const [heresyOrOrthodoxyDialogOpen, setHeresyOrOrthodoxyDialogOpen] =
     useState(false);
-  const playerID = useRef("0");
-  const [worldMapDialogOpen, setWorldMapDialogOpen] = useState(false);
-  const [selectedTile, setSelectedTile] = useState([0, 0]);
   const fortPlacementFailed = useRef(false);
+
+  const [selectedTile, setSelectedTile] = useState([0, 0]);
 
   let listOfCounsellors: ReactElement[] = [];
   if (props.counsellors) {
@@ -95,15 +93,15 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
           cursor: "pointer",
         }}
         onClick={() => {
-          clearMoves(props, props.setTurnComplete);
-          props.onClickFunction({ ...props }, [
-            props.value,
-            props.value === 1
-              ? setHeresyOrOrthodoxyDialogOpen
-              : setWorldMapDialogOpen,
-            playerID,
-            props.setTurnComplete,
-          ]);
+          clearMoves(props);
+          props.onClickFunction(props.value);
+          console.log(props.value);
+          if (props.value === 1) {
+            setHeresyOrOrthodoxyDialogOpen(true);
+          }
+          if (props.value === 3) {
+            setWorldMapDialogOpen(true);
+          }
         }}
         value={props.value}
       >
@@ -112,9 +110,7 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
       </Button>
       <Dialog
         maxWidth={false}
-        open={
-          props.value === 1 ? heresyOrOrthodoxyDialogOpen : worldMapDialogOpen
-        }
+        open={heresyOrOrthodoxyDialogOpen || worldMapDialogOpen}
       >
         <DialogTitle style={{ fontFamily: "dauphinn" }}>
           {props.value === 1
@@ -149,7 +145,7 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
                     backgroundColor: "#E77B00",
                   }}
                   onClick={() => {
-                    props.moves.increaseHeresy({ ...props });
+                    props.moves.increaseHeresy();
                     setHeresyOrOrthodoxyDialogOpen(false);
                   }}
                 >
@@ -159,7 +155,7 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
                   variant="contained"
                   style={{ backgroundColor: "#A74383" }}
                   onClick={() => {
-                    props.moves.increaseOrthodoxy({ ...props });
+                    props.moves.increaseOrthodoxy();
                     setHeresyOrOrthodoxyDialogOpen(false);
                   }}
                 >
@@ -171,12 +167,9 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
                 variant="contained"
                 color="success"
                 onClick={() => {
-                  props.moves.checkAndPlaceFort({ ...props }, [
-                    selectedTile,
-                    fortPlacementFailed,
-                  ]);
+                  props.moves.checkAndPlaceFort(selectedTile, props);
                   if (fortPlacementFailed.current) {
-                    clearMoves(props, props.setTurnComplete);
+                    clearMoves(props);
                   }
                   setWorldMapDialogOpen(false);
                 }}
@@ -188,7 +181,7 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
               variant="contained"
               color="error"
               onClick={() => {
-                clearMoves(props, props.setTurnComplete);
+                clearMoves(props);
                 setWorldMapDialogOpen(false);
                 setHeresyOrOrthodoxyDialogOpen(false);
               }}
@@ -203,7 +196,7 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
 };
 
 export interface ActionBoardButtonProps extends MyGameProps {
-  onClickFunction: ({ ...props }, args: any[]) => void;
+  onClickFunction: (value: number) => void;
   value: number;
   counsellor?: string | undefined;
   counsellors?: string[] | undefined;
@@ -211,5 +204,4 @@ export interface ActionBoardButtonProps extends MyGameProps {
   text?: string;
   width?: string;
   backgroundColour?: string;
-  setTurnComplete: React.Dispatch<React.SetStateAction<boolean>>;
 }

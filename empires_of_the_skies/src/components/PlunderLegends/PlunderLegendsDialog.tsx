@@ -48,7 +48,5 @@ const PlunderLegendsDialog = (props: PlunderLegendsDialogProps) => {
   );
 };
 
-interface PlunderLegendsDialogProps extends MyGameProps {
-  setTurnComplete: React.Dispatch<React.SetStateAction<boolean>>;
-}
+interface PlunderLegendsDialogProps extends MyGameProps {}
 export default PlunderLegendsDialog;

@@ -100,8 +100,6 @@ const DrawOrPickCardDialog = (props: DrawOrPickCardDialogProps) => {
   );
 };
 
-interface DrawOrPickCardDialogProps extends MyGameProps {
-  setTurnComplete: React.Dispatch<React.SetStateAction<boolean>>;
-}
+interface DrawOrPickCardDialogProps extends MyGameProps {}
 
 export default DrawOrPickCardDialog;

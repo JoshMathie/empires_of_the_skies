@@ -1,14 +1,29 @@
-import { MoveFn } from "boardgame.io";
+import { Move } from "boardgame.io";
 import { MyGameState, PlayerColour } from "../../types";
 import { checkCounsellorsNotZero } from "../moveValidation";
 import { INVALID_MOVE } from "boardgame.io/core";
 import { addGoldAmount, removeGoldAmount } from "../resourceUpdates";
+import { EventsAPI } from "boardgame.io/dist/types/src/plugins/plugin-events";
+import { RandomAPI } from "boardgame.io/dist/types/src/plugins/random/random";
+import { Ctx } from "boardgame.io/dist/types/src/types";
 
-export const influencePrelates: MoveFn<MyGameState> = (
-  { G, ctx, playerID, events, random },
-  ...args
+export const influencePrelates: Move<MyGameState> = (
+  {
+    G,
+    ctx,
+    playerID,
+    events,
+    random,
+  }: {
+    G: MyGameState;
+    ctx: Ctx;
+    playerID: string;
+    events: EventsAPI;
+    random: RandomAPI;
+  },
+  ...args: any[]
 ) => {
-  const value: keyof typeof G.boardState.influencePrelates = args[1][0] + 1;
+  const value: keyof typeof G.boardState.influencePrelates = args[0] + 1;
 
   if (checkCounsellorsNotZero(playerID, G) !== undefined) {
     return INVALID_MOVE;
@@ -45,7 +60,7 @@ export const influencePrelates: MoveFn<MyGameState> = (
   removeGoldAmount(G, playerID, cost);
 
   G.boardState.influencePrelates[value] = playerID;
-  args[1][1](true);
+  G.playerInfo[playerID].turnComplete = true;
 };
 
 export default influencePrelates;

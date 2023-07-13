@@ -65,8 +65,6 @@ You can either evade or fight back. If you evade, the attacking kingdom will get
   );
 };
 
-interface AttackOrEvadeDialogProps extends MyGameProps {
-  setTurnComplete: React.Dispatch<React.SetStateAction<boolean>>;
-}
+interface AttackOrEvadeDialogProps extends MyGameProps {}
 
 export default AttackOrEvadeDialog;

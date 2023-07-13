@@ -1,18 +1,33 @@
-import { MoveFn } from "boardgame.io";
+import { Move } from "boardgame.io";
 import { MyGameState } from "../../types";
 import { checkCounsellorsNotZero } from "../moveValidation";
 import { INVALID_MOVE } from "boardgame.io/core";
 import { drawFortuneOfWarCard } from "../../helpers/helpers";
 import { removeGoldAmount, removeOneCounsellor } from "../resourceUpdates";
+import { EventsAPI } from "boardgame.io/dist/types/src/plugins/plugin-events";
+import { RandomAPI } from "boardgame.io/dist/types/src/plugins/random/random";
+import { Ctx } from "boardgame.io/dist/types/src/types";
 
-const trainTroops: MoveFn<MyGameState> = (
-  { G, ctx, playerID, events, random },
-  ...args
+const trainTroops: Move<MyGameState> = (
+  {
+    G,
+    ctx,
+    playerID,
+    events,
+    random,
+  }: {
+    G: MyGameState;
+    ctx: Ctx;
+    playerID: string;
+    events: EventsAPI;
+    random: RandomAPI;
+  },
+  ...args: any[]
 ) => {
   if (checkCounsellorsNotZero(playerID, G) !== undefined) {
     return INVALID_MOVE;
   }
-  const value: keyof typeof G.boardState.trainTroops = args[1][0] + 1;
+  const value: keyof typeof G.boardState.trainTroops = args[0] + 1;
 
   if (G.boardState.trainTroops[value] !== undefined) {
     console.log("Player has selected a move which has already been taken.");
@@ -31,7 +46,7 @@ const trainTroops: MoveFn<MyGameState> = (
     removeGoldAmount(G, playerID, 1);
   }
   G.boardState.trainTroops[value] = playerID;
-  args[1][1](true);
+  G.playerInfo[playerID].turnComplete = true;
 };
 
 export default trainTroops;

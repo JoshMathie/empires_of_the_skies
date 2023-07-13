@@ -1,8 +1,8 @@
-import { MoveFn } from "boardgame.io";
+import { Move } from "boardgame.io";
 import { MyGameState } from "../../types";
 import { findNextPlayerInBattleSequence } from "../../helpers/findNext";
 
-const relocateDefeatedFleet: MoveFn<MyGameState> = (
+const relocateDefeatedFleet: Move<MyGameState> = (
   { G, ctx, playerID, events, random },
   ...args
 ) => {

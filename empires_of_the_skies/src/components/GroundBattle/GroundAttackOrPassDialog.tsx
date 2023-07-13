@@ -64,7 +64,5 @@ Current battle tile: [${1 + x}, ${4 - y}]`}
   );
 };
 
-export interface GroundAttackOrPassDialogProps extends MyGameProps {
-  setTurnComplete: React.Dispatch<React.SetStateAction<boolean>>;
-}
+export interface GroundAttackOrPassDialogProps extends MyGameProps {}
 export default GroundAttackOrPassDialog;

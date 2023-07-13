@@ -1,4 +1,4 @@
-import { MoveFn } from "boardgame.io";
+import { Move } from "boardgame.io";
 import { MyGameState } from "../../types";
 import { checkCounsellorsNotZero } from "../moveValidation";
 import { INVALID_MOVE } from "boardgame.io/core";
@@ -7,10 +7,25 @@ import {
   removeGoldAmount,
   removeOneCounsellor,
 } from "../resourceUpdates";
+import { Ctx } from "boardgame.io/dist/types/src/types.js";
+import { EventsAPI } from "boardgame.io/dist/types/src/plugins/plugin-events.js";
+import { RandomAPI } from "boardgame.io/dist/types/src/plugins/random/random.js";
 
-const buildSkyships: MoveFn<MyGameState> = (
-  { G, ctx, playerID, events, random },
-  ...args
+const buildSkyships: Move<MyGameState> = (
+  {
+    G,
+    ctx,
+    playerID,
+    events,
+    random,
+  }: {
+    G: MyGameState;
+    ctx: Ctx;
+    playerID: string;
+    events: EventsAPI;
+    random: RandomAPI;
+  },
+  ...args: any[]
 ) => {
   if (checkCounsellorsNotZero(playerID, G) !== undefined) {
     return INVALID_MOVE;
@@ -39,7 +54,7 @@ const buildSkyships: MoveFn<MyGameState> = (
   }
   G.playerInfo[playerID].playerBoardCounsellorLocations.buildSkyships = true;
 
-  args[0](true);
+  G.playerInfo[playerID].turnComplete = true;
 };
 
 export default buildSkyships;

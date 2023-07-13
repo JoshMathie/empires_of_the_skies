@@ -1,7 +1,7 @@
-import { MoveFn } from "boardgame.io";
+import { Move } from "boardgame.io";
 import { MyGameState } from "../../types";
 
-const evadeAttackingFleet: MoveFn<MyGameState> = (
+const evadeAttackingFleet: Move<MyGameState> = (
   { G, ctx, playerID, events, random },
   ...args
 ) => {

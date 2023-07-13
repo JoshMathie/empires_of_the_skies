@@ -24,7 +24,6 @@ import { clearMoves, findPossibleDestinations } from "../../helpers/helpers";
 // displays buttons which can build cathedrals, palaces and skyships
 // also displays the button to imprison dissenters and to dispatch skyship fleets
 export const PlayerBoard = (props: PlayerBoardProps) => {
-  const [dispatchDisabled, setDispatchDisabled] = useState(true);
   const [skyshipCount, setSkyshipCount] = useState(0);
   const [regimentCount, setRegimentCount] = useState(0);
   const [levyCount, setLevyCount] = useState(0);
@@ -69,6 +68,10 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
       <FortuneOfWarCardDisplay {...props} value={i}></FortuneOfWarCardDisplay>
     );
   }
+
+  const dispatchDisabled =
+    props.G.playerInfo[props.playerID ?? props.ctx.currentPlayer]
+      .playerBoardCounsellorLocations.dispatchDisabled;
   return (
     <ThemeProvider theme={influencePrelatesTheme}>
       <div
@@ -102,8 +105,8 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
               Build Skyships
               <PlayerBoardButton
                 onClick={() => {
-                  setDispatchDisabled(true);
-                  props.moves.buildSkyships(props.setTurnComplete);
+                  props.moves.enableDispatchButtons(true);
+                  props.moves.buildSkyships();
                 }}
                 counsellor={
                   playerInfo?.playerBoardCounsellorLocations.buildSkyships
@@ -119,11 +122,8 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
               Conscript Levies
               <PlayerBoardButton
                 onClick={() => {
-                  setDispatchDisabled(true);
-                  props.moves.conscriptLevies({ ...props }, [
-                    levyCount,
-                    props.setTurnComplete,
-                  ]);
+                  props.moves.enableDispatchButtons(true);
+                  props.moves.conscriptLevies(levyCount);
                 }}
                 backgroundImage={conscriptLevies}
                 colour={colour}
@@ -211,9 +211,7 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
             <ButtonRow>
               Dispatch Skyship Fleet
               <PlayerBoardButton
-                onClick={() => {
-                  props.moves.enableDispatchButtons(setDispatchDisabled);
-                }}
+                onClick={() => props.moves.enableDispatchButtons(false)}
                 backgroundImage={dispatchSkyshipFleet}
                 colour={colour}
                 height="70px"
@@ -482,17 +480,16 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
               <Button
                 onClick={() => {
                   setDispatchFleetMapVisible(true);
-                  props.moves.passFleetInfoToPlayerInfo([
+                  props.moves.passFleetInfoToPlayerInfo(
                     selectedFleet,
                     skyshipCount,
                     regimentCount,
-                    levyCountForDispatch,
-                    props.setTurnComplete,
-                  ]);
+                    levyCountForDispatch
+                  );
                   setRegimentCount(0);
                   setLevyCountForDispatch(0);
                   setSkyshipCount(0);
-                  setDispatchDisabled(true);
+                  props.moves.enableDispatchButtons(true);
                 }}
                 sx={{
                   backgroundColor: colour,
@@ -534,11 +531,7 @@ Selected tile: [${fleetDestination[0] + 1}, ${
                   variant="contained"
                   color="success"
                   onClick={() => {
-                    props.moves.deployFleet([
-                      currentFleet,
-                      fleetDestination,
-                      props.setTurnComplete,
-                    ]);
+                    props.moves.deployFleet(currentFleet, fleetDestination);
                     setDispatchFleetMapVisible(false);
                   }}
                 >
@@ -548,7 +541,7 @@ Selected tile: [${fleetDestination[0] + 1}, ${
                   variant="contained"
                   color="error"
                   onClick={() => {
-                    clearMoves(props, props.setTurnComplete);
+                    clearMoves(props);
                     setDispatchFleetMapVisible(false);
                   }}
                 >
@@ -803,6 +796,4 @@ Selected tile: [${fleetDestination[0] + 1}, ${
   );
 };
 
-interface PlayerBoardProps extends MyGameProps {
-  setTurnComplete: React.Dispatch<React.SetStateAction<boolean>>;
-}
+interface PlayerBoardProps extends MyGameProps {}

@@ -67,11 +67,7 @@ const HolyDecreeDialog = (props: HolyDecreeDialogProps) => {
           variant="text"
           style={{ border: "none", height: "45px", overflow: "visible" }}
           onClick={() => {
-            props.moves.issueHolyDecree([
-              "curse monarch",
-              hereticKingdom,
-              props.setTurnComplete,
-            ]);
+            props.moves.issueHolyDecree("curse monarch", hereticKingdom);
             props.setOpen(false);
           }}
         >
@@ -89,11 +85,7 @@ const HolyDecreeDialog = (props: HolyDecreeDialogProps) => {
           variant="text"
           style={{ border: "none", height: "45px", overflow: "visible" }}
           onClick={() => {
-            props.moves.issueHolyDecree([
-              "bless monarch",
-              orthodoxKingdom,
-              props.setTurnComplete,
-            ]);
+            props.moves.issueHolyDecree("bless monarch", orthodoxKingdom);
             props.setOpen(false);
           }}
         >
@@ -110,10 +102,7 @@ const HolyDecreeDialog = (props: HolyDecreeDialogProps) => {
           variant="text"
           style={{ border: "none", height: "45px", overflow: "visible" }}
           onClick={() => {
-            props.moves.issueHolyDecree([
-              "reform dogma",
-              props.setTurnComplete,
-            ]);
+            props.moves.issueHolyDecree("reform dogma");
             props.setOpen(false);
           }}
         >
@@ -124,10 +113,7 @@ const HolyDecreeDialog = (props: HolyDecreeDialogProps) => {
           variant="text"
           style={{ border: "none", height: "45px", overflow: "visible" }}
           onClick={() => {
-            props.moves.issueHolyDecree([
-              "confirm dogma",
-              props.setTurnComplete,
-            ]);
+            props.moves.issueHolyDecree("confirm dogma");
             props.setOpen(false);
           }}
         >
@@ -153,6 +139,5 @@ const HolyDecreeDialog = (props: HolyDecreeDialogProps) => {
 interface HolyDecreeDialogProps extends MyGameProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setTurnComplete: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export default HolyDecreeDialog;

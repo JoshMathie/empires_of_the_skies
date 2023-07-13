@@ -29,6 +29,8 @@ const ResourceTrackerBar = (props: ResourceTrackerBarProps) => {
   const colour = currentPlayer.colour;
   const victoryPoints = currentPlayer.resources.victoryPoints;
   const levies = currentPlayer.resources.levies;
+  const turnComplete =
+    props.G.playerInfo[props.playerID ?? props.ctx.currentPlayer].turnComplete;
 
   const [passDialogOpen, setPassDialogOpen] = useState(false);
 
@@ -258,13 +260,13 @@ const ResourceTrackerBar = (props: ResourceTrackerBarProps) => {
             <Button
               variant="contained"
               color="error"
-              onClick={() => clearMoves(props, props.setTurnComplete)}
+              onClick={() => clearMoves(props)}
             >
               Clear Move
             </Button>
-            {props.turnComplete ? (
+            {turnComplete ? (
               <Button
-                disabled={!props.turnComplete}
+                disabled={!turnComplete}
                 variant="contained"
                 color="success"
                 sx={{ marginLeft: "10px" }}
@@ -272,8 +274,8 @@ const ResourceTrackerBar = (props: ResourceTrackerBarProps) => {
                   if (props.ctx.numMoves !== undefined) {
                     if (props.ctx.numMoves > 0) {
                       props.moves.flipCards();
+                      props.moves.setTurnCompleteFalse();
                       endTurn();
-                      props.setTurnComplete(false);
                     }
                   }
                 }}
@@ -328,8 +330,5 @@ const ResourceTrackerBar = (props: ResourceTrackerBarProps) => {
   );
 };
 
-interface ResourceTrackerBarProps extends MyGameProps {
-  turnComplete: boolean;
-  setTurnComplete: React.Dispatch<React.SetStateAction<boolean>>;
-}
+interface ResourceTrackerBarProps extends MyGameProps {}
 export default ResourceTrackerBar;

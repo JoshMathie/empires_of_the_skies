@@ -275,8 +275,6 @@ const GarrisonTroopsDialog = (props: GarrisonTroopsDialogProps) => {
   );
 };
 
-interface GarrisonTroopsDialogProps extends MyGameProps {
-  setTurnComplete: React.Dispatch<React.SetStateAction<boolean>>;
-}
+interface GarrisonTroopsDialogProps extends MyGameProps {}
 
 export default GarrisonTroopsDialog;

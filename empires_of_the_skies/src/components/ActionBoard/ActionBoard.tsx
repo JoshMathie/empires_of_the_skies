@@ -346,6 +346,4 @@ export const generateButtonsList = (
   return buttonList;
 };
 
-interface ActionBoardProps extends MyGameProps {
-  setTurnComplete: React.Dispatch<React.SetStateAction<boolean>>;
-}
+interface ActionBoardProps extends MyGameProps {}

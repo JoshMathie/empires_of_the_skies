@@ -4,17 +4,23 @@ import { Client, Lobby } from "boardgame.io/react";
 import { Local, SocketIO } from "boardgame.io/multiplayer";
 import { ActionBoardsAndMap } from "./components/ActionBoardsAndMap";
 import { MyGame } from "./Game";
+import { P2P } from "@boardgame.io/p2p";
 // import { Server, Origins } from "boardgame.io/server";
 
-const EmpiresOfTheSkiesClient = Client({
+const EmpiresOfTheSkiesHostClient = Client({
   game: MyGame,
   board: ActionBoardsAndMap,
   numPlayers: 6,
   multiplayer: SocketIO({ server: "http://localhost:8000" }),
   // debug: false,
-  loading: () => {
-    return <img src="./boards_and_assets/box_image.png"></img>;
-  },
+});
+const EmpiresOfTheSkiesClient = Client({
+  game: MyGame,
+  board: ActionBoardsAndMap,
+  numPlayers: 6,
+  multiplayer: SocketIO({ server: "http://localhost:8000" }),
+  // SocketIO({ server: "http://localhost:8000" }),
+  // debug: false,
 });
 
 const App = () => {

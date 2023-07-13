@@ -64,6 +64,7 @@ import drawCardConquest from "./moves/conquests/drawCardConquest";
 import pickCardConquest from "./moves/conquests/pickCardConquest";
 import vote from "./moves/election/vote";
 import retrieveFleets from "./moves/resolution/retrieveFleets";
+import setTurnCompleteFalse from "./moves/setTurnCompleteFalse";
 
 import { findNextBattle, findNextPlunder } from "./helpers/findNext";
 import { TurnOrder } from "boardgame.io/core";
@@ -142,7 +143,7 @@ const MyGame: Game<MyGameState> = {
   turn: { minMoves: 1 },
 
   name: "empires-of-the-skies",
-  setup: ({ ctx }): MyGameState => {
+  setup: ({ ctx }: { ctx: Ctx }): MyGameState => {
     const mapState: MapState = {
       currentTileArray: getRandomisedMapTileArray(),
       discoveredTiles: getInitialDiscoveredTiles(),
@@ -163,6 +164,7 @@ const MyGame: Game<MyGameState> = {
           colour: playerColour ?? PlayerColour.green,
           ready: true, //look into what this should be
           passed: false,
+          turnComplete: false,
           resources: {
             gold: 6,
             mithril: 0,
@@ -186,6 +188,7 @@ const MyGame: Game<MyGameState> = {
             buildSkyships: false,
             conscriptLevies: false,
             dispatchSkyshipFleet: false,
+            dispatchDisabled: true,
           },
           hereticOrOrthodox: "orthodox",
           fleetInfo: [
@@ -248,64 +251,47 @@ const MyGame: Game<MyGameState> = {
     };
   },
   moves: {
-    discoverTile: {
-      move: discoverTile,
-      undoable: false,
-    },
-    alterPlayerOrder: {
-      move: alterPlayerOrder,
-      undoable: true,
-    },
-    recruitCounsellors: {
-      move: recruitCounsellors,
-      undoable: true,
-    },
-    recruitRegiments: { move: recruitRegiments, undoable: true },
-    purchaseSkyships: { move: purchaseSkyships, undoable: true },
-    foundBuildings: { move: foundBuildings, undoable: true },
-    increaseHeresy: { move: increaseHeresy, undoable: true },
-    increaseOrthodoxy: { move: increaseOrthodoxy, undoable: true },
-    checkAndPlaceFort: { move: checkAndPlaceFort, undoable: true },
-    punishDissenters: { move: punishDissenters, undoable: true },
-    convertMonarch: { move: convertMonarch, undoable: true },
-    influencePrelates: { move: influencePrelates, undoable: true },
-    trainTroops: { move: trainTroops, undoable: true },
-    flipCards: { move: flipCards, undoable: false },
-    buildSkyships: { move: buildSkyships, undoable: true },
-    conscriptLevies: { move: conscriptLevies, undoable: true },
-    passFleetInfoToPlayerInfo: {
-      move: passFleetInfoToPlayerInfo,
-      undoable: true,
-    },
-    deployFleet: { move: deployFleet, undoable: true },
-    enableDispatchButtons: { move: enableDispatchButtons, undoable: true },
-    issueHolyDecree: { move: issueHolyDecree, undoable: true },
-    pass: { move: pass, undoable: false },
-    attackOtherPlayersFleet: {
-      move: attackOtherPlayersFleet,
-      undoable: true,
-    },
-    evadeAttackingFleet: {
-      move: evadeAttackingFleet,
-      undoable: true,
-    },
-    doNotAttack: { move: doNotAttack, undoable: true },
-    retaliate: { move: retaliate, undoable: true },
-    drawCard: { move: drawCard, undoable: false },
-    pickCard: { move: pickCard, undoable: true },
-    relocateDefeatedFleet: { move: relocateDefeatedFleet, undoable: true },
-    plunder: { move: plunder, undoable: true },
-    doNotPlunder: { move: doNotPlunder, undoable: true },
-    attackPlayersBuilding: { move: attackPlayersBuilding, undoable: true },
-    doNotGroundAttack: { move: doNotGroundAttack, undoable: true },
-    defendGroundAttack: { move: defendGroundAttack, undoable: true },
-    garrisonTroops: { move: garrisonTroops, undoable: true },
-    yieldToAttacker: { move: yieldToAttacker, undoable: true },
+    discoverTile,
+    alterPlayerOrder,
+    recruitCounsellors,
+    recruitRegiments,
+    purchaseSkyships,
+    foundBuildings,
+    increaseHeresy,
+    increaseOrthodoxy,
+    checkAndPlaceFort,
+    punishDissenters,
+    convertMonarch,
+    influencePrelates,
+    trainTroops,
+    flipCards,
+    buildSkyships,
+    conscriptLevies,
+    passFleetInfoToPlayerInfo,
+    deployFleet,
+    enableDispatchButtons,
+    issueHolyDecree,
+    pass,
+    attackOtherPlayersFleet,
+    evadeAttackingFleet,
+    doNotAttack,
+    retaliate,
+    drawCard,
+    pickCard,
+    relocateDefeatedFleet,
+    plunder,
+    doNotPlunder,
+    attackPlayersBuilding,
+    doNotGroundAttack,
+    defendGroundAttack,
+    garrisonTroops,
+    yieldToAttacker,
+    setTurnCompleteFalse,
   },
   phases: {
     discovery: {
       start: true,
-      onBegin: (context: any) => {
+      onBegin: (context) => {
         context.ctx.playOrderPos = 0;
         context.G.stage = "discovery";
         console.log("Discovery phase has begun");
@@ -316,16 +302,19 @@ const MyGame: Game<MyGameState> = {
           playerInfo.passed = false;
         });
         const currentTurnOrder = [...context.ctx.playOrder];
-        const newTurnOrder: string[] = Object.values(
-          context.G.boardState.alterPlayerOrder
-        ).map((id) => {
-          if (id) {
-            currentTurnOrder.splice(currentTurnOrder.indexOf(id), 1);
-            return id;
-          } else {
-            return currentTurnOrder.splice(0, 1)[0];
+        let newTurnOrder: string[] = [];
+        Object.values(context.G.boardState.alterPlayerOrder).forEach(
+          (id, index) => {
+            if (index < context.ctx.playOrder.length) {
+              if (id) {
+                newTurnOrder.splice(currentTurnOrder.indexOf(id), 1);
+                newTurnOrder.push(id);
+              } else {
+                newTurnOrder.push(currentTurnOrder.splice(0, 1)[0]);
+              }
+            }
           }
-        });
+        );
         if (newTurnOrder.length !== context.ctx.playOrder.length) {
           throw Error(`Something has gone wrong when updating the player order.
           old order: ${context.ctx.playOrder}
@@ -373,7 +362,7 @@ const MyGame: Game<MyGameState> = {
         context.events.pass();
       },
       turn: {
-        onBegin: (context: any) => {
+        onBegin: (context) => {
           if (context.G.firstTurnOfRound && context.ctx.playOrderPos !== 0) {
             context.events.endTurn({ next: context.ctx.playOrder[0] });
           }
@@ -381,24 +370,24 @@ const MyGame: Game<MyGameState> = {
         order: TurnOrder.CUSTOM_FROM("turnOrder"),
       },
       moves: {
-        discoverTile: { move: discoverTile, undoable: false },
-        pass: { move: pass, undoable: false },
+        discoverTile,
+        pass,
       },
       next: "actions",
-      onEnd: (context: any) => {
+      onEnd: (context) => {
         Object.values(context.G.playerInfo).forEach((playerInfo: any) => {
           playerInfo.passed = false;
         });
       },
     },
     actions: {
-      onBegin: (context: any) => {
+      onBegin: (context) => {
         context.G.firstTurnOfRound = true;
         context.G.stage = "actions";
         console.log("Actions phase has begun");
       },
       turn: {
-        onBegin: (context: any) => {
+        onBegin: (context) => {
           if (context.G.firstTurnOfRound && context.ctx.playOrderPos !== 0) {
             context.events.endTurn({ next: context.ctx.playOrder[0] });
           }
@@ -423,16 +412,17 @@ const MyGame: Game<MyGameState> = {
         convertMonarch,
         influencePrelates,
         trainTroops,
-        flipCards: { move: flipCards, undoable: false },
+        flipCards,
         buildSkyships,
         conscriptLevies,
         passFleetInfoToPlayerInfo,
         deployFleet,
         enableDispatchButtons,
         issueHolyDecree,
-        pass: { move: pass, undoable: false },
+        pass,
+        setTurnCompleteFalse,
       },
-      onEnd: (context: any) => {
+      onEnd: (context) => {
         Object.values(context.G.playerInfo).forEach((playerInfo: any) => {
           playerInfo.passed = false;
         });
@@ -440,12 +430,12 @@ const MyGame: Game<MyGameState> = {
       next: "aerial_battle",
     },
     aerial_battle: {
-      onBegin: (context: any) => {
+      onBegin: (context) => {
         findNextBattle(context.G, context.events, context.ctx);
         console.log("Aerial battle phase has begun");
       },
       turn: {
-        onBegin: (context: any) => {
+        onBegin: (context) => {
           console.log(
             `It is now player ${context.ctx.currentPlayer}'s turn in the aerial battle phase`
           );
@@ -468,7 +458,7 @@ const MyGame: Game<MyGameState> = {
       },
     },
     plunder_legends: {
-      onBegin: (context: any) => {
+      onBegin: (context) => {
         context.G.stage = "plunder legends";
         console.log("Plunder legends phase has begun");
 
@@ -477,7 +467,7 @@ const MyGame: Game<MyGameState> = {
       moves: { plunder, doNotPlunder },
       next: "ground_battle",
       turn: {
-        onBegin: (context: any) => {
+        onBegin: (context) => {
           console.log(
             `it is now player ${context.ctx.currentPlayer}'s time to plunder`
           );
@@ -490,13 +480,13 @@ const MyGame: Game<MyGameState> = {
       },
     },
     ground_battle: {
-      onBegin: (context: any) => {
+      onBegin: (context) => {
         context.G.stage = "attack or pass";
 
         console.log("Ground battles have begun");
       },
       turn: {
-        onBegin: (context: any) => {
+        onBegin: (context) => {
           console.log(
             `it is now player ${context.ctx.currentPlayer}'s time to ground attack`
           );
@@ -508,22 +498,22 @@ const MyGame: Game<MyGameState> = {
         },
       },
       moves: {
-        attackPlayersBuilding: { move: attackPlayersBuilding, undoable: true },
-        doNotGroundAttack: { move: doNotGroundAttack, undoable: true },
-        defendGroundAttack: { move: defendGroundAttack, undoable: true },
-        garrisonTroops: { move: garrisonTroops, undoable: true },
-        yieldToAttacker: { move: yieldToAttacker, undoable: true },
+        attackPlayersBuilding,
+        doNotGroundAttack,
+        defendGroundAttack,
+        garrisonTroops,
+        yieldToAttacker,
       },
       next: "conquest",
     },
     conquest: {
-      onBegin: (context: any) => {
+      onBegin: (context) => {
         context.G.stage = "attack or pass";
 
         console.log("Conquests have begun");
       },
       turn: {
-        onBegin: (context: any) => {
+        onBegin: (context) => {
           console.log(
             `it is now player ${context.ctx.currentPlayer}'s time to conquer`
           );
@@ -535,36 +525,36 @@ const MyGame: Game<MyGameState> = {
         },
       },
       moves: {
-        coloniseLand: { move: coloniseLand, undoable: true },
-        constructOutpost: { move: constructOutpost, undoable: true },
-        doNothing: { move: doNothing, undoable: true },
-        drawCardConquest: { move: drawCardConquest, undoable: true },
-        pickCardConquest: { move: pickCardConquest, undoable: true },
-        garrisonTroops: { move: garrisonTroops, undoable: true },
+        coloniseLand,
+        constructOutpost,
+        doNothing,
+        drawCardConquest,
+        pickCardConquest,
+        garrisonTroops,
       },
       next: "election",
     },
     election: {
-      onBegin: (context: any) => {
+      onBegin: (context) => {
         context.G.electionResults = {};
         context.G.hasVoted = [];
       },
-      moves: { vote: { move: vote, undoable: false } },
+      moves: { vote },
       next: "resolution",
-      onEnd: (context: any) => {
+      onEnd: (context) => {
         context.G.round += 1;
       },
     },
     resolution: {
       turn: { order: TurnOrder.ONCE },
-      onBegin: (context: any) => {
+      onBegin: (context) => {
         console.log("resolution phase has begun");
         context.G.stage = "retrieve fleets";
       },
-      onEnd: (context: any) => {
+      onEnd: (context) => {
         resolveRound(context.G, context.events);
       },
-      moves: { retrieveFleets: { move: retrieveFleets, undoable: false } },
+      moves: { retrieveFleets },
       next: "discovery",
     },
   },

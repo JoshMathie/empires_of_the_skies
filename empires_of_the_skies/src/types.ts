@@ -103,6 +103,7 @@ export type PlayerInfo = {
   shipyards: number;
   forts: FortInfo[];
   troopsToGarrison?: TroopInfo;
+  turnComplete: boolean;
 };
 
 type TroopInfo = { regiments: number; levies: number };
@@ -117,7 +118,6 @@ export type KingdomName =
 
 type FortInfo = {
   location: number[];
-  garrisonedRegiments: number;
 };
 
 export type FleetInfo = {
@@ -132,6 +132,7 @@ export type PlayerBoardInfo = {
   buildSkyships: boolean;
   conscriptLevies: boolean;
   dispatchSkyshipFleet: boolean;
+  dispatchDisabled: boolean;
 };
 
 export type TileLoot = {

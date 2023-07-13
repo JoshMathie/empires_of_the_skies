@@ -1,13 +1,28 @@
 import { INVALID_MOVE } from "boardgame.io/core/";
 import { MyGameState } from "../../types";
-import { MoveFn } from "boardgame.io";
+import { Move } from "boardgame.io";
 import { advanceAllHeresyTrackers } from "../resourceUpdates";
+import { EventsAPI } from "boardgame.io/dist/types/src/plugins/plugin-events";
+import { RandomAPI } from "boardgame.io/dist/types/src/plugins/random/random";
+import { Ctx } from "boardgame.io/dist/types/src/types";
 
-export const discoverTile: MoveFn<MyGameState> = (
-  { G, ctx, playerID, events, random },
-  ...args
+export const discoverTile: Move<MyGameState> = (
+  {
+    G,
+    ctx,
+    playerID,
+    events,
+    random,
+  }: {
+    G: MyGameState;
+    ctx: Ctx;
+    playerID: string;
+    events: EventsAPI;
+    random: RandomAPI;
+  },
+  ...args: any[]
 ) => {
-  const [x, y] = args[1];
+  const [x, y] = args[0];
   if (G.mapState.discoveredTiles[y][x] === true) {
     return INVALID_MOVE;
   }

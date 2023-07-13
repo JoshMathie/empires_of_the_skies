@@ -1,4 +1,4 @@
-import { MoveFn } from "boardgame.io";
+import { Move } from "boardgame.io";
 import { MyGameState } from "../../types";
 import { INVALID_MOVE } from "boardgame.io/core";
 import { checkCounsellorsNotZero } from "../moveValidation";
@@ -7,15 +7,30 @@ import {
   removeGoldAmount,
   removeOneCounsellor,
 } from "../resourceUpdates";
+import { EventsAPI } from "boardgame.io/dist/types/src/plugins/plugin-events";
+import { RandomAPI } from "boardgame.io/dist/types/src/plugins/random/random";
+import { Ctx } from "boardgame.io/dist/types/src/types";
 
-const purchaseSkyships: MoveFn<MyGameState> = (
-  { G, ctx, playerID, events, random },
-  ...args
+const purchaseSkyships: Move<MyGameState> = (
+  {
+    G,
+    ctx,
+    playerID,
+    events,
+    random,
+  }: {
+    G: MyGameState;
+    ctx: Ctx;
+    playerID: string;
+    events: EventsAPI;
+    random: RandomAPI;
+  },
+  ...args: any[]
 ) => {
   if (checkCounsellorsNotZero(playerID, G)) {
     return INVALID_MOVE;
   }
-  const value: keyof typeof G.boardState.purchaseSkyships = args[1][0] + 1;
+  const value: keyof typeof G.boardState.purchaseSkyships = args[0] + 1;
 
   if (G.boardState.purchaseSkyships[value] !== undefined) {
     console.log("Player has chosen an action which has already been taken");
@@ -46,7 +61,7 @@ const purchaseSkyships: MoveFn<MyGameState> = (
     addSkyship(G, playerID);
   }
   G.boardState.purchaseSkyships[value] = playerID;
-  args[1][1](true);
+  G.playerInfo[playerID].turnComplete = true;
 };
 
 export default purchaseSkyships;

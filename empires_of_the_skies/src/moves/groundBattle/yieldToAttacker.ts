@@ -1,10 +1,10 @@
-import { MoveFn } from "boardgame.io";
+import { Move } from "boardgame.io";
 import { MyGameState } from "../../types";
 
 import { addLevyAmount, addRegiments } from "../resourceUpdates";
 import { findNextGroundBattle } from "../../helpers/findNext";
 
-const yieldToAttacker: MoveFn<MyGameState> = (
+const yieldToAttacker: Move<MyGameState> = (
   { G, ctx, playerID, events, random },
   ...args
 ) => {

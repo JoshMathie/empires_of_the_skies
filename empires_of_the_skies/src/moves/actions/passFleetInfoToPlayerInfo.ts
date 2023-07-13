@@ -1,15 +1,30 @@
-import { MoveFn } from "boardgame.io";
+import { Move } from "boardgame.io";
 import { MyGameState } from "../../types";
 import { INVALID_MOVE } from "boardgame.io/core";
+import { EventsAPI } from "boardgame.io/dist/types/src/plugins/plugin-events";
+import { RandomAPI } from "boardgame.io/dist/types/src/plugins/random/random";
+import { Ctx } from "boardgame.io/dist/types/src/types";
 
-const passFleetInfoToPlayerInfo: MoveFn<MyGameState> = (
-  { G, ctx, playerID, events, random },
-  ...args
+const passFleetInfoToPlayerInfo: Move<MyGameState> = (
+  {
+    G,
+    ctx,
+    playerID,
+    events,
+    random,
+  }: {
+    G: MyGameState;
+    ctx: Ctx;
+    playerID: string;
+    events: EventsAPI;
+    random: RandomAPI;
+  },
+  ...args: any[]
 ) => {
-  const fleetId = args[0][0];
-  const skyshipCount = args[0][1];
-  const regimentCount = args[0][2];
-  const levyCount = args[0][3];
+  const fleetId = args[0];
+  const skyshipCount = args[1];
+  const regimentCount = args[2];
+  const levyCount = args[3];
 
   if (fleetId !== G.playerInfo[playerID].fleetInfo[fleetId].fleetId) {
     console.log("Fleet IDs do not match, something has gone wrong...");
@@ -36,7 +51,7 @@ const passFleetInfoToPlayerInfo: MoveFn<MyGameState> = (
     currentPlayer.resources.skyships -= skyshipCount;
     currentPlayer.resources.regiments -= regimentCount;
     currentPlayer.resources.levies -= levyCount;
-    args[0][4](false);
+    G.playerInfo[playerID].turnComplete = true;
   }
 };
 

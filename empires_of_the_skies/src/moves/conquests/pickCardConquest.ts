@@ -1,8 +1,8 @@
-import { MoveFn } from "boardgame.io";
+import { Move } from "boardgame.io";
 import { MyGameState } from "../../types";
 import { resolveConquest } from "../../helpers/resolveBattle";
 
-const pickCard: MoveFn<MyGameState> = (
+const pickCard: Move<MyGameState> = (
   { G, ctx, playerID, events, random },
   ...args
 ) => {

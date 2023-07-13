@@ -91,8 +91,6 @@ const RetrieveFleetsDialog = (props: RetrieveFleetsDialogProps) => {
   );
 };
 
-interface RetrieveFleetsDialogProps extends MyGameProps {
-  setTurnComplete: React.Dispatch<React.SetStateAction<boolean>>;
-}
+interface RetrieveFleetsDialogProps extends MyGameProps {}
 
 export default RetrieveFleetsDialog;

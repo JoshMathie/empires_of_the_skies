@@ -1,8 +1,8 @@
-import { MoveFn } from "boardgame.io";
+import { Move } from "boardgame.io";
 import { MyGameState } from "../../types";
 import { findNextConquest, findNextGroundBattle } from "../../helpers/findNext";
 
-const garrisonTroops: MoveFn<MyGameState> = (
+const garrisonTroops: Move<MyGameState> = (
   { G, ctx, playerID, events, random },
   ...args
 ) => {

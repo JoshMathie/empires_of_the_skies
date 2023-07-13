@@ -66,8 +66,6 @@ You can either yield the region and all its buildings or fight back. If you yiel
   );
 };
 
-interface DefendOrYieldDialogProps extends MyGameProps {
-  setTurnComplete: React.Dispatch<React.SetStateAction<boolean>>;
-}
+interface DefendOrYieldDialogProps extends MyGameProps {}
 
 export default DefendOrYieldDialog;
