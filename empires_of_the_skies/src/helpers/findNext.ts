@@ -3,7 +3,7 @@ import { MyGameState } from "../types";
 import { sortPlayersInPlayerOrder } from "./helpers";
 import { EventsAPI } from "boardgame.io/dist/types/src/plugins/events/events";
 
-export const findNextBattle = (G: MyGameState, events: EventsAPI, ctx: Ctx) => {
+export const findNextBattle = (G: MyGameState, events: EventsAPI) => {
   for (let y = G.mapState.currentBattle[1]; y < 4; y++) {
     for (let x = 0; x < 8; x++) {
       if (
@@ -148,7 +148,7 @@ export const findNextPlayerInBattleSequence = (
     sortedPlayerIDs.length === 1
   ) {
     console.log("finding next battle...");
-    findNextBattle(G, events, ctx);
+    findNextBattle(G, events);
   } else {
     console.log(`next player to attack or pass is ${nextPlayer}`);
     events.endTurn({ next: nextPlayer });

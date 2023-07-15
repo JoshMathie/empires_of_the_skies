@@ -19,8 +19,7 @@ const EmpiresOfTheSkiesClient = Client({
   board: ActionBoardsAndMap,
   numPlayers: 6,
   multiplayer: SocketIO({ server: "http://localhost:8000" }),
-  // SocketIO({ server: "http://localhost:8000" }),
-  // debug: false,
+  debug: false,
 });
 
 const App = () => {

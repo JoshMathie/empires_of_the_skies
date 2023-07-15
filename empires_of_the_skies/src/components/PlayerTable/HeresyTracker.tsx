@@ -4,7 +4,6 @@ import {
   Table,
   TableRow,
   TableCell,
-  TableBody,
   Paper,
 } from "@mui/material";
 import { MyGameProps } from "../../types";

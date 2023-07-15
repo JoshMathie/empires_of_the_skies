@@ -13,6 +13,7 @@ import WorldMap from "../WorldMap/WorldMap";
 const AttackOrPassDiaLog = (props: AerialBattleDialogProps) => {
   const [x, y] = props.G.mapState.currentBattle;
   const possibleDefenders: string[] = [];
+  const [open, setOpen] = useState(true);
 
   props.G.mapState.battleMap[y] &&
     props.G.mapState.battleMap[y][x].forEach((currentItem) => {
@@ -44,6 +45,7 @@ const AttackOrPassDiaLog = (props: AerialBattleDialogProps) => {
     <Dialog
       maxWidth={"xl"}
       open={
+        open &&
         props.ctx.currentPlayer === props.playerID &&
         props.ctx.phase === "aerial_battle" &&
         inCurrentBattle &&
@@ -69,7 +71,10 @@ Current battle tile: [${1 + x}, ${4 - y}]`}
         <Button
           color="warning"
           variant="contained"
-          onClick={props.moves.doNotAttack}
+          onClick={() => {
+            props.moves.doNotAttack();
+            setOpen(false);
+          }}
         >
           Pass
         </Button>
@@ -78,6 +83,7 @@ Current battle tile: [${1 + x}, ${4 - y}]`}
           variant="contained"
           onClick={() => {
             props.moves.attackOtherPlayersFleet(currentKingdom);
+            setOpen(false);
           }}
           disabled={!currentKingdom}
         >

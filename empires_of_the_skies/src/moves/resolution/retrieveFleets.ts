@@ -1,5 +1,5 @@
 import { Move } from "boardgame.io";
-import { MyGameState } from "../../types";
+import { FleetInfo, MyGameState, PlayerInfo } from "../../types";
 
 const retrieveFleets: Move<MyGameState> = (
   { G, ctx, playerID, events, random },
@@ -8,7 +8,7 @@ const retrieveFleets: Move<MyGameState> = (
   const fleets: number[] = args[0];
   if (fleets.length > 0) {
     fleets.forEach((fleetId) => {
-      const currentPlayer = G.playerInfo[playerID];
+      const currentPlayer: PlayerInfo = G.playerInfo[playerID];
       const currentFleet = currentPlayer.fleetInfo[fleetId];
 
       const oldLocation = currentFleet.location;

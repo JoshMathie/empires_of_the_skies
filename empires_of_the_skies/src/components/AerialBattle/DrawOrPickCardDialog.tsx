@@ -14,6 +14,7 @@ import WorldMap from "../WorldMap/WorldMap";
 const DrawOrPickCardDialog = (props: DrawOrPickCardDialogProps) => {
   const [x, y] = props.G.mapState.currentBattle;
   const [currentCard, setCurrentCard] = useState(0);
+  const [open, setOpen] = useState(true);
 
   const inCurrentBattle =
     props.G.mapState.battleMap[y] &&
@@ -47,18 +48,19 @@ const DrawOrPickCardDialog = (props: DrawOrPickCardDialogProps) => {
     <Dialog
       maxWidth={"xl"}
       open={
-        (props.playerID === props.ctx.currentPlayer &&
+        open &&
+        ((props.playerID === props.ctx.currentPlayer &&
           inCurrentBattle &&
           props.G.battleState?.attacker.decision === "fight" &&
           props.G.battleState?.defender.decision === "fight" &&
           !props.G.battleState?.attacker.victorious &&
           !props.G.battleState?.defender.victorious) ||
-        (props.playerID === props.ctx.currentPlayer &&
-          inCurrentBattle &&
-          props.G.stage === "conquest draw or pick card" &&
-          props.ctx.phase === "conquest" &&
-          props.G.conquestState !== undefined &&
-          props.G.conquestState.id === props.playerID)
+          (props.playerID === props.ctx.currentPlayer &&
+            inCurrentBattle &&
+            props.G.stage === "conquest draw or pick card" &&
+            props.ctx.phase === "conquest" &&
+            props.G.conquestState !== undefined &&
+            props.G.conquestState.id === props.playerID))
       }
     >
       <DialogTitle>Draw or Pick a Card</DialogTitle>
@@ -79,6 +81,8 @@ const DrawOrPickCardDialog = (props: DrawOrPickCardDialogProps) => {
             props.ctx.phase === "conquest"
               ? props.moves.pickCardConquest(currentCard)
               : props.moves.pickCard(currentCard);
+
+            setOpen(false);
           }}
           disabled={cards.length === 0}
         >
@@ -87,11 +91,13 @@ const DrawOrPickCardDialog = (props: DrawOrPickCardDialogProps) => {
         <Button
           variant="contained"
           color="secondary"
-          onClick={
+          onClick={() => {
             props.ctx.phase === "conquest"
-              ? props.moves.drawCardConquest
-              : props.moves.drawCard
-          }
+              ? props.moves.drawCardConquest()
+              : props.moves.drawCard();
+
+            setOpen(false);
+          }}
         >
           Draw random card
         </Button>

@@ -6,6 +6,7 @@ const relocateDefeatedFleet: Move<MyGameState> = (
   { G, ctx, playerID, events, random },
   ...args
 ) => {
+  console.log("relocation initiated");
   const destination = args[0];
   console.log(destination);
   const defeatedPlayer = args[1];

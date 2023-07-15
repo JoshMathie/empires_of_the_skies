@@ -15,16 +15,6 @@ import { ButtonRow } from "./ActionBoardButtonRow";
 import { KingdomButton } from "../shared/KingdomButton";
 //Consider using a dropdown menu for selecting the kingdom to curse or bless, could make the experience clearer
 const HolyDecreeDialog = (props: HolyDecreeDialogProps) => {
-  const colourToKingdomMap = {
-    "#DC5454": "Angland",
-    "#51658D": "Gallois",
-    "#F5DE48": "Castillia",
-    // "#FE9F10":"Zeeland",
-    // "#FE9ACC":"Venoa",
-    "#A0522D": "Nordmark",
-    "#E6EFE9": "Ostreich",
-    "#478779": "Constantium",
-  };
   const mostHereticalKingdoms = findMostHereticalKingdoms(props.G);
   let hereticButtons: JSX.Element[] = [];
   const [hereticKingdom, setHereticKingdom] = useState(

@@ -385,9 +385,13 @@ const MyGame: Game<MyGameState> = {
         context.G.firstTurnOfRound = true;
         context.G.stage = "actions";
         console.log("Actions phase has begun");
+        context.ctx.playOrder.forEach((id, index) => {
+          context.G.playerInfo[id].resources.gold += 4 + index;
+        });
       },
       turn: {
         onBegin: (context) => {
+          console.log("new turn in action phase");
           if (context.G.firstTurnOfRound && context.ctx.playOrderPos !== 0) {
             context.events.endTurn({ next: context.ctx.playOrder[0] });
           }
@@ -431,7 +435,7 @@ const MyGame: Game<MyGameState> = {
     },
     aerial_battle: {
       onBegin: (context) => {
-        findNextBattle(context.G, context.events, context.ctx);
+        findNextBattle(context.G, context.events);
         console.log("Aerial battle phase has begun");
       },
       turn: {

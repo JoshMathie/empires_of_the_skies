@@ -137,16 +137,32 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
               <Chat {...props} />
             </TabPanel>
           </TabContext>
-          <AttackOrPassDiaLog {...props} />
-          <AttackOrEvadeDialog {...props} />
+          {props.G.stage === "attack or pass" && (
+            <AttackOrPassDiaLog {...props} />
+          )}
+          {props.G.stage === "attack or evade" && (
+            <AttackOrEvadeDialog {...props} />
+          )}
           <DrawOrPickCardDialog {...props} />
-          <RelocateLoserDialog {...props} />
-          <PlunderLegendsDialog {...props} />
-          <GroundAttackOrPassDialog {...props} />
-          <DefendOrYieldDialog {...props} />
-          <GarrisonTroopsDialog {...props} />
-          <OutpostOrColonyDialog {...props} />
-          <RetrieveFleetsDialog {...props} />
+          {props.G.stage === "relocate loser" && (
+            <RelocateLoserDialog {...props} />
+          )}
+          {props.G.stage === "plunder legends" && (
+            <PlunderLegendsDialog {...props} />
+          )}
+          {props.G.stage === "attack or pass" && (
+            <GroundAttackOrPassDialog {...props} />
+          )}
+          {props.G.stage === "defend or yield" && (
+            <DefendOrYieldDialog {...props} />
+          )}
+          {props.G.stage === "garrison troops" && (
+            <GarrisonTroopsDialog {...props} />
+          )}
+          {props.G.stage === "conquest" && <OutpostOrColonyDialog {...props} />}
+          {props.G.stage === "retrieve fleets" && (
+            <RetrieveFleetsDialog {...props} />
+          )}
           <Dialog
             open={
               props.ctx.phase === "election" &&

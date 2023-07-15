@@ -7,7 +7,6 @@ import { Tooltip } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { generalTheme } from "../themes";
 import FortIcon from "../Icons/FortIcon";
-import { clearMoves } from "../../helpers/helpers";
 import FleetIcon from "../Icons/FleetIcon";
 import ColonyIcon from "../Icons/ColonyIcon";
 import OutpostIcon from "../Icons/OutpostIcon";

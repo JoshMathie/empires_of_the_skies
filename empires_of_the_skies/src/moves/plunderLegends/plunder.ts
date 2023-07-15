@@ -15,7 +15,7 @@ const plunder: Move<MyGameState> = (
     const lootNameAsResource = lootName as keyof typeof currentTile.loot.colony;
     currentPlayer.resources[lootNameAsResource] += lootAmount;
   });
-
+  console.log("about to find the next plunder or move to the next phase");
   findNextPlunder(G, events);
 };
 

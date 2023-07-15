@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { MyGameProps } from "../../types";
 import {
   Dialog,
@@ -12,6 +12,8 @@ import WorldMap from "../WorldMap/WorldMap";
 const AttackOrPassDiaLog = (props: AerialBattleDialogProps) => {
   const [x, y] = props.G.mapState.currentBattle;
 
+  const [open, setOpen] = useState(true);
+
   const inCurrentBattle =
     props.G.mapState.battleMap[y] &&
     props.G.mapState.battleMap[y][x].includes(
@@ -22,6 +24,7 @@ const AttackOrPassDiaLog = (props: AerialBattleDialogProps) => {
     <Dialog
       maxWidth={"xl"}
       open={
+        open &&
         props.ctx.currentPlayer === props.playerID &&
         props.ctx.phase === "conquest" &&
         inCurrentBattle &&
@@ -45,21 +48,30 @@ Current map tile: [${1 + x}, ${4 - y}]`}
         <Button
           color="warning"
           variant="contained"
-          onClick={props.moves.doNothing}
+          onClick={() => {
+            props.moves.doNothing();
+            setOpen(false);
+          }}
         >
           Pass
         </Button>
         <Button
           color="success"
           variant="contained"
-          onClick={props.moves.constructOutpost}
+          onClick={() => {
+            props.moves.constructOutpost();
+            setOpen(false);
+          }}
         >
           Outpost
         </Button>
         <Button
           color="success"
           variant="contained"
-          onClick={props.moves.coloniseLand}
+          onClick={() => {
+            props.moves.coloniseLand();
+            setOpen(false);
+          }}
         >
           Colony
         </Button>

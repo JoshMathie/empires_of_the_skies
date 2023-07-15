@@ -12,6 +12,7 @@ import WorldMap from "../WorldMap/WorldMap";
 
 const GroundAttackOrPassDialog = (props: GroundAttackOrPassDialogProps) => {
   const [x, y] = props.G.mapState.currentBattle;
+  const [open, setOpen] = useState(true);
 
   const inCurrentBattle =
     props.G.mapState.battleMap[y] &&
@@ -23,6 +24,7 @@ const GroundAttackOrPassDialog = (props: GroundAttackOrPassDialogProps) => {
     <Dialog
       maxWidth={"xl"}
       open={
+        open &&
         props.ctx.currentPlayer === props.playerID &&
         props.ctx.phase === "ground_battle" &&
         inCurrentBattle &&
@@ -48,14 +50,20 @@ Current battle tile: [${1 + x}, ${4 - y}]`}
         <Button
           color="warning"
           variant="contained"
-          onClick={props.moves.doNotGroundAttack}
+          onClick={() => {
+            props.moves.doNotGroundAttack();
+            setOpen(false);
+          }}
         >
           Pass
         </Button>
         <Button
           color="success"
           variant="contained"
-          onClick={props.moves.attackPlayersBuilding}
+          onClick={() => {
+            props.moves.attackPlayersBuilding();
+            setOpen(false);
+          }}
         >
           Attack!
         </Button>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { MyGameProps } from "../../types";
 import {
   Dialog,
@@ -12,6 +12,8 @@ import { colourToKingdomMap } from "../../codifiedGameInfo";
 import WorldMap from "../WorldMap/WorldMap";
 
 const AttackOrEvadeDialog = (props: AttackOrEvadeDialogProps) => {
+  const [open, setOpen] = useState(true);
+
   const [x, y] = props.G.mapState.currentBattle;
   const inCurrentBattle =
     props.G.mapState.battleMap[y] &&
@@ -23,6 +25,7 @@ const AttackOrEvadeDialog = (props: AttackOrEvadeDialogProps) => {
     <Dialog
       maxWidth={"xl"}
       open={
+        open &&
         props.ctx.currentPlayer === props.playerID &&
         props.ctx.phase === "aerial_battle" &&
         inCurrentBattle &&
@@ -49,14 +52,20 @@ You can either evade or fight back. If you evade, the attacking kingdom will get
         <Button
           color="warning"
           variant="contained"
-          onClick={props.moves.evadeAttackingFleet}
+          onClick={() => {
+            props.moves.evadeAttackingFleet();
+            setOpen(false);
+          }}
         >
           Evade
         </Button>
         <Button
           color="success"
           variant="contained"
-          onClick={props.moves.retaliate}
+          onClick={() => {
+            props.moves.retaliate();
+            setOpen(false);
+          }}
         >
           Attack!
         </Button>

@@ -12,6 +12,7 @@ import WorldMap from "../WorldMap/WorldMap";
 import { ButtonRow } from "../ActionBoard/ActionBoardButtonRow";
 
 const GarrisonTroopsDialog = (props: GarrisonTroopsDialogProps) => {
+  const [open, setOpen] = useState(true);
   const [x, y] = props.G.mapState.currentBattle;
   const inCurrentBattle =
     props.G.mapState.battleMap[y] &&
@@ -40,6 +41,7 @@ const GarrisonTroopsDialog = (props: GarrisonTroopsDialogProps) => {
     !(props.ctx.phase === "conquest" && inCurrentBattle && hasTroopsToGarrison)
   ) {
     console.log("Hold onto your hats!! We are entering the loop!!!");
+    console.log(props.ctx.phase);
     props.ctx.phase === "ground_battle"
       ? props.moves.doNotGroundAttack()
       : props.moves.doNothing();
@@ -73,6 +75,7 @@ const GarrisonTroopsDialog = (props: GarrisonTroopsDialogProps) => {
     <Dialog
       maxWidth={"xl"}
       open={
+        open &&
         props.ctx.currentPlayer === props.playerID &&
         props.G.stage === "garrison troops" &&
         ((props.ctx.phase === "ground_battle" &&
@@ -247,11 +250,13 @@ const GarrisonTroopsDialog = (props: GarrisonTroopsDialogProps) => {
         <Button
           color="warning"
           variant="contained"
-          onClick={
+          onClick={() => {
             props.ctx.phase === "ground_attack"
-              ? props.moves.doNotGroundAttack
-              : props.moves.doNothing
-          }
+              ? props.moves.doNotGroundAttack()
+              : props.moves.doNothing();
+
+            setOpen(false);
+          }}
         >
           Pass
         </Button>
@@ -266,6 +271,7 @@ const GarrisonTroopsDialog = (props: GarrisonTroopsDialogProps) => {
             //   levies: levyCountForDispatch,
             // };
             props.moves.garrisonTroops([regimentCount, levyCountForDispatch]);
+            setOpen(false);
           }}
         >
           Garrison

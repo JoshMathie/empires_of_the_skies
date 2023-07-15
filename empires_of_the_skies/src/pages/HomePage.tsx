@@ -65,19 +65,17 @@ const HomePage = () => {
   const [numPlayers, setNumPlayers] = useState(2);
   const [joinOrCreate, setJoinOrCreate] = useState<"join" | "create">("join");
 
-  const lobbyClient = new LobbyClient({ server: "http://192.168.1.113:8000" });
+  const lobbyClient = new LobbyClient({ server: "http://localhost:8000" });
 
   const EmpiresOfTheSkiesClient = Client({
     game: MyGame,
     board: ActionBoardsAndMap,
     numPlayers: numPlayers,
-    multiplayer: SocketIO({ server: "http://192.168.1.113:8000" }),
+    multiplayer: SocketIO({ server: "http://localhost:8000" }),
     debug: false,
-    loading: () => {
-      return <img src="./boards_and_assets/box_image.png"></img>;
-    },
   });
-
+  console.log(playerID);
+  console.log(matchReady);
   return startGame && playerID ? (
     <EmpiresOfTheSkiesClient
       playerID={playerID}

@@ -44,9 +44,10 @@ import issueHolyDecree from "../../boards_and_assets/issue_holy_decree.svg";
 import { MyGameProps, PlayerColour } from "../../types";
 import { ThemeProvider } from "@emotion/react";
 import { generalTheme, influencePrelatesTheme } from "../themes";
-import { Button } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
 import HolyDecreeDialog from "./HolyDecreeDialog";
 import CounsellorIcon from "../Icons/CounsellorIcon";
+import { Info } from "@mui/icons-material";
 
 //method which returns the complete action board
 
@@ -79,6 +80,21 @@ export const ActionBoard = (props: ActionBoardProps) => {
           {/* button row with the player order buttons */}
           <ButtonRow key={"player order buttons"}>
             {"Alter Player \n Order"}
+            <Tooltip
+              title={`Players are awarded taxes depending 
+on their position in the order of play.
+            
+Taxation is awarded as follows:
+1st: \t\t4 gold
+2nd: \t5 gold
+3rd: \t\t6 gold
+4th: \t\t7 gold
+5th: \t\t8 gold
+6th: \t\t9 gold
+            `}
+            >
+              <Info />
+            </Tooltip>
             {generateButtonsList(
               6,
               props.moves.alterPlayerOrder,

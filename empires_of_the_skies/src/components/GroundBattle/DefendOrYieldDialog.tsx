@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { MyGameProps } from "../../types";
 import {
   Dialog,
@@ -12,6 +12,8 @@ import { colourToKingdomMap } from "../../codifiedGameInfo";
 import WorldMap from "../WorldMap/WorldMap";
 
 const DefendOrYieldDialog = (props: DefendOrYieldDialogProps) => {
+  const [open, setOpen] = useState(true);
+
   const [x, y] = props.G.mapState.currentBattle;
   const inCurrentBattle =
     props.G.mapState.battleMap[y] &&
@@ -23,6 +25,7 @@ const DefendOrYieldDialog = (props: DefendOrYieldDialogProps) => {
     <Dialog
       maxWidth={"xl"}
       open={
+        open &&
         props.ctx.currentPlayer === props.playerID &&
         props.ctx.phase === "ground_battle" &&
         props.G.stage === "defend or yield" &&
@@ -50,14 +53,20 @@ You can either yield the region and all its buildings or fight back. If you yiel
         <Button
           color="warning"
           variant="contained"
-          onClick={props.moves.yieldToAttacker}
+          onClick={() => {
+            props.moves.yieldToAttacker();
+            setOpen(false);
+          }}
         >
           Yield
         </Button>
         <Button
           color="success"
           variant="contained"
-          onClick={props.moves.defendGroundAttack}
+          onClick={() => {
+            props.moves.defendGroundAttack();
+            setOpen(false);
+          }}
         >
           Defend
         </Button>

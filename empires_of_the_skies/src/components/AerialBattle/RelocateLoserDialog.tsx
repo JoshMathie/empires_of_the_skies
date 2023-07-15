@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { MyGameProps } from "../../types";
 import WorldMap from "../WorldMap/WorldMap";
@@ -12,6 +12,9 @@ import {
 import { findPossibleDestinations } from "../../helpers/helpers";
 
 const RelocateLoserDialog = (props: RelocateLoserDialogProps) => {
+  const [open, setOpen] = useState(true);
+
+  console.log("attempting to display relocation dialog");
   const [currentTile, setCurrentTile] = React.useState(
     props.G.mapState.currentBattle
   );
@@ -48,6 +51,7 @@ const RelocateLoserDialog = (props: RelocateLoserDialogProps) => {
   return (
     <Dialog
       open={
+        open &&
         props.playerID === props.ctx.currentPlayer &&
         (props.playerID === victor ||
           (props.playerID === props.G.battleState?.attacker.id &&
@@ -71,6 +75,7 @@ const RelocateLoserDialog = (props: RelocateLoserDialogProps) => {
           color="success"
           onClick={() => {
             props.moves.relocateDefeatedFleet(currentTile, loser);
+            setOpen(false);
           }}
         >
           Confirm

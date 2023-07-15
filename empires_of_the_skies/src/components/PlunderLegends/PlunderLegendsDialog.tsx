@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { MyGameProps } from "../../types";
 
 import WorldMap from "../WorldMap/WorldMap";
@@ -12,10 +12,13 @@ import {
 } from "@mui/material";
 
 const PlunderLegendsDialog = (props: PlunderLegendsDialogProps) => {
+  const [open, setOpen] = useState(true);
+
   return (
     <Dialog
       maxWidth={"xl"}
       open={
+        open &&
         props.playerID === props.ctx.currentPlayer &&
         props.G.stage === "plunder legends" &&
         props.ctx.phase === "plunder_legends"
@@ -32,14 +35,20 @@ const PlunderLegendsDialog = (props: PlunderLegendsDialogProps) => {
         <Button
           color="warning"
           variant="contained"
-          onClick={props.moves.doNotPlunder}
+          onClick={() => {
+            props.moves.doNotPlunder();
+            setOpen(false);
+          }}
         >
           Do not Plunder
         </Button>
         <Button
           color="success"
           variant="contained"
-          onClick={props.moves.plunder}
+          onClick={() => {
+            props.moves.plunder();
+            setOpen(false);
+          }}
         >
           Plunder Legend
         </Button>

@@ -196,6 +196,7 @@ export const checkIfCurrentPlayerIsInCurrentBattle = (
   console.log(`The bit just before the failure... ${[x, y]}`);
   if (G.mapState.battleMap[y][x].length > 0) {
     if (!G.mapState.battleMap[y][x].includes(ctx.currentPlayer)) {
+      console.log("ending turn");
       events.endTurn({
         next: G.mapState.battleMap[y][x][0],
       });
@@ -204,7 +205,7 @@ export const checkIfCurrentPlayerIsInCurrentBattle = (
     switch (ctx.phase) {
       case "aerial_battle":
         console.log("finding next aerial battle");
-        findNextBattle(G, events, ctx);
+        findNextBattle(G, events);
         break;
       case "ground_battle":
         console.log("finding next ground battle");

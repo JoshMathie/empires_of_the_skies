@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 
 const RetrieveFleetsDialog = (props: RetrieveFleetsDialogProps) => {
+  const [open, setOpen] = useState(true);
   const setFleetsHolder: number[] = [];
   const [selectedFleets, setSelectedFleets] = useState(setFleetsHolder);
   let hasNoFleets = true;
@@ -55,6 +56,7 @@ const RetrieveFleetsDialog = (props: RetrieveFleetsDialogProps) => {
     <Dialog
       maxWidth="xl"
       open={
+        open &&
         props.ctx.phase === "resolution" &&
         props.G.stage === "retrieve fleets" &&
         props.ctx.currentPlayer === props.playerID
@@ -73,6 +75,7 @@ const RetrieveFleetsDialog = (props: RetrieveFleetsDialogProps) => {
           variant="contained"
           onClick={() => {
             props.moves.retrieveFleets([]);
+            setOpen(false);
           }}
         >
           Cancel
@@ -82,6 +85,7 @@ const RetrieveFleetsDialog = (props: RetrieveFleetsDialogProps) => {
           variant="contained"
           onClick={() => {
             props.moves.retrieveFleets(selectedFleets);
+            setOpen(false);
           }}
         >
           Retrieve fleets
