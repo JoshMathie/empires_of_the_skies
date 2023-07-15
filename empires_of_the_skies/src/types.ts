@@ -25,7 +25,8 @@ export interface MyGameState {
     | "defend or yield"
     | "resolve ground battle"
     | "garrison troops"
-    | "retrieve fleets";
+    | "retrieve fleets"
+    | "pick legacy card";
   electionResults: Record<string, number>;
   hasVoted: string[];
   round: number;
@@ -100,9 +101,9 @@ export type PlayerInfo = {
   heresyTracker: number;
   prisoners: number;
   shipyards: number;
-  forts: FortInfo[];
   troopsToGarrison?: TroopInfo;
   turnComplete: boolean;
+  legacyCardOptions: LegacyCard[];
 };
 
 type TroopInfo = { regiments: number; levies: number };
@@ -114,10 +115,6 @@ export type KingdomName =
   | "Nordmark"
   | "Ostreich"
   | "Constantium";
-
-type FortInfo = {
-  location: number[];
-};
 
 export type FleetInfo = {
   fleetId: number;
@@ -153,8 +150,20 @@ export interface Resources extends TileLoot {
   fortuneCards: PlayerFortuneOfWarCardInfo[];
   advantageCard: string;
   eventCards: string[];
-  legacyCard: string;
+  legacyCard: LegacyCard;
 }
+
+export type LegacyCard =
+  | "the builder"
+  | "the conqueror"
+  | "the explorer"
+  | "the great"
+  | "the magnificent"
+  | "the merchant"
+  | "the mighty"
+  | "the navigator"
+  | "the pious"
+  | undefined;
 
 export const PlayerColour = {
   red: "#DC5454",

@@ -155,22 +155,11 @@ export const checkAndPlaceFort: Move<MyGameState> = (
     }
   }
 
-  let matched = false;
-  Object.values(G.playerInfo).forEach((playerInfo) => {
-    playerInfo.forts.forEach((fort) => {
-      if (fort.location[0] === x && fort.location[1] === y) {
-        matched = true;
-      }
-    });
-  });
-
-  if (!hasRelevantPresence || matched) {
+  if (!hasRelevantPresence) {
     clearMoves(props);
     return INVALID_MOVE;
   }
 
-  tileInfo.player = G.playerInfo[playerID];
-  G.playerInfo[playerID].forts.push({ location: [x, y] });
   tileInfo.fort = true;
   G.playerInfo[playerID].turnComplete = true;
 };

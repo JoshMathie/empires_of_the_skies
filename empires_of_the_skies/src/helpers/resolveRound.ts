@@ -1,5 +1,6 @@
 import { EventsAPI } from "boardgame.io/dist/types/src/plugins/plugin-events";
 import { MyGameState } from "../types";
+import legacyResolutions from "./legacyResolutions";
 
 const resolveRound = (G: MyGameState, events: EventsAPI) => {
   const resourceCounterMap: Record<string, number> = {
@@ -144,6 +145,7 @@ const resolveRound = (G: MyGameState, events: EventsAPI) => {
   }
 
   if (G.round === G.finalRound) {
+    legacyResolutions(G);
     events.endGame();
   }
 };

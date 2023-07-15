@@ -41,6 +41,15 @@ import shieldSix from "../../boards_and_assets/fortunes_of_war_cards/6_shield.sv
 import shieldSeven from "../../boards_and_assets/fortunes_of_war_cards/7_shield.svg";
 import shieldEight from "../../boards_and_assets/fortunes_of_war_cards/8_shield.svg";
 import noEffect from "../../boards_and_assets/fortunes_of_war_cards/no_effect.svg";
+import theBuilder from "../../boards_and_assets/legacy_cards/the_builder.svg";
+import theNavigator from "../../boards_and_assets/legacy_cards/the_navigator.svg";
+import theConqueror from "../../boards_and_assets/legacy_cards/the_conqueror.svg";
+import theExplorer from "../../boards_and_assets/legacy_cards/the_explorer.svg";
+import theGreat from "../../boards_and_assets/legacy_cards/the_great.svg";
+import theMagnificent from "../../boards_and_assets/legacy_cards/the_magnificent.svg";
+import theMerchant from "../../boards_and_assets/legacy_cards/the_merchant.svg";
+import theMighty from "../../boards_and_assets/legacy_cards/the_mighty.svg";
+import thePious from "../../boards_and_assets/legacy_cards/the_pious.svg";
 
 const svgNameToElementMap: Record<string, string> = {
   KnownWorld1: KnownWorldTile1,
@@ -86,6 +95,15 @@ const svgNameToElementMap: Record<string, string> = {
   ShieldSeven: shieldSeven,
   ShieldEight: shieldEight,
   noEffect: noEffect,
+  "the builder": theBuilder,
+  "the navigator": theNavigator,
+  "the conqueror": theConqueror,
+  "the explorer": theExplorer,
+  "the great": theGreat,
+  "the magnificent": theMagnificent,
+  "the merchant": theMerchant,
+  "the mighty": theMighty,
+  "the pious": thePious,
 };
 
 export default svgNameToElementMap;

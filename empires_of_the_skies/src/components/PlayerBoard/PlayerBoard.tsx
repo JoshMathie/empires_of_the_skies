@@ -20,6 +20,7 @@ import ShipYardDisplay from "./ShipYardDisplay";
 import FleetDisplay from "./FleetDisplay";
 import WorldMap from "../WorldMap/WorldMap";
 import { clearMoves, findPossibleDestinations } from "../../helpers/helpers";
+import svgNameToElementMap from "../WorldMap/nameToElementMap";
 
 // displays buttons which can build cathedrals, palaces and skyships
 // also displays the button to imprison dissenters and to dispatch skyship fleets
@@ -529,16 +530,6 @@ Selected tile: [${fleetDestination[0] + 1}, ${
               <DialogActions>
                 <Button
                   variant="contained"
-                  color="success"
-                  onClick={() => {
-                    props.moves.deployFleet(currentFleet, fleetDestination);
-                    setDispatchFleetMapVisible(false);
-                  }}
-                >
-                  Confirm
-                </Button>
-                <Button
-                  variant="contained"
                   color="error"
                   onClick={() => {
                     clearMoves(props);
@@ -547,11 +538,40 @@ Selected tile: [${fleetDestination[0] + 1}, ${
                 >
                   Cancel
                 </Button>
+                <Button
+                  disabled={
+                    fleetDestination[0] === 4 && fleetDestination[1] === 0
+                  }
+                  variant="contained"
+                  color="success"
+                  onClick={() => {
+                    props.moves.deployFleet(currentFleet, fleetDestination);
+                    setDispatchFleetMapVisible(false);
+                  }}
+                >
+                  Confirm
+                </Button>
               </DialogActions>
             </Dialog>
             <ButtonRow>{fleets}</ButtonRow>
             <div style={{ display: "flex", flexDirection: "row" }}>
               {fortuneOfWarCards}
+              <svg
+                style={{
+                  backgroundImage: `url(${
+                    svgNameToElementMap[
+                      props.G.playerInfo[
+                        props.playerID ?? props.ctx.currentPlayer
+                      ].resources.legacyCard ?? "the builder"
+                    ]
+                  })`,
+                  backgroundRepeat: "no-repeat",
+                  backgroundSize: "contain",
+                  width: "137px",
+                  height: "250px",
+                  margin: "5px",
+                }}
+              ></svg>
             </div>
           </div>
           <div

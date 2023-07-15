@@ -119,7 +119,6 @@ const foundFort = (
   G.playerInfo[playerID].resources.gold -= cost;
   removeOneCounsellor(G, playerID);
 
-  //should be G.turnComplete
-  G.playerInfo[playerID].turnComplete = true;
+  G.playerInfo[playerID].turnComplete = false;
 };
 export default foundBuildings;

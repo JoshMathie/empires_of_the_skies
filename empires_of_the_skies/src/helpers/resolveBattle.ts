@@ -185,6 +185,16 @@ export const resolveBattleAndReturnWinner = (
     G.battleState &&
       Object.values(G.battleState).forEach((player) => {
         if (player.id === winner) {
+          if (
+            G.battleState?.attacker.hereticOrOrthodox !==
+            G.battleState?.defender.hereticOrOrthodox
+          ) {
+            if (player.hereticOrOrthodox === "heretic") {
+              player.heresyTracker += 1;
+            } else {
+              player.heresyTracker -= 1;
+            }
+          }
           player.victorious = true;
           player.resources.victoryPoints += 1;
         } else {

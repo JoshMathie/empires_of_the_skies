@@ -1,6 +1,6 @@
 import type { Game, Ctx } from "boardgame.io";
 
-import { ActionBoardInfo, MyGameState } from "./types";
+import { ActionBoardInfo, LegacyCard, MyGameState } from "./types";
 
 import {
   TileInfoProps,
@@ -69,6 +69,7 @@ import setTurnCompleteFalse from "./moves/setTurnCompleteFalse";
 import { findNextBattle, findNextPlunder } from "./helpers/findNext";
 import { TurnOrder } from "boardgame.io/core";
 import resolveRound from "./helpers/resolveRound";
+import pickLegacyCard from "./moves/pickLegacyCard";
 
 const initialBoardState: ActionBoardInfo = {
   alterPlayerOrder: {
@@ -162,6 +163,7 @@ const MyGame: Game<MyGameState> = {
           id: playerID,
           kingdomName: colourToKingdomMap[playerColour ?? PlayerColour.green],
           colour: playerColour ?? PlayerColour.green,
+          legacyCardOptions: [],
           ready: true, //look into what this should be
           passed: false,
           turnComplete: false,
@@ -181,7 +183,7 @@ const MyGame: Game<MyGameState> = {
             fortuneCards: [],
             advantageCard: "",
             eventCards: [""],
-            legacyCard: "",
+            legacyCard: undefined,
           },
           isArchprelate: playerID === ctx.playOrder[ctx.playOrder.length - 1],
           playerBoardCounsellorLocations: {
@@ -219,7 +221,6 @@ const MyGame: Game<MyGameState> = {
           heresyTracker: 0,
           prisoners: 0,
           shipyards: 0,
-          forts: [],
         };
       });
       return playerIDMap;
@@ -289,8 +290,42 @@ const MyGame: Game<MyGameState> = {
     setTurnCompleteFalse,
   },
   phases: {
-    discovery: {
+    legacy_card: {
       start: true,
+      moves: { pickLegacyCard },
+      next: "discovery",
+      onBegin: (context) => {
+        context.G.stage = "pick legacy card";
+        const cards: LegacyCard[] = [
+          "the builder",
+          "the conqueror",
+          "the explorer",
+          "the great",
+          "the magnificent",
+          "the merchant",
+          "the mighty",
+          "the navigator",
+          "the pious",
+          "the builder",
+          "the conqueror",
+          "the explorer",
+          "the great",
+          "the magnificent",
+          "the merchant",
+          "the mighty",
+          "the navigator",
+          "the pious",
+        ];
+        Object.values(context.G.playerInfo).forEach((player) => {
+          for (let i = 0; i < 3; i++) {
+            let randomIndex = Math.floor(Math.random() * cards.length);
+            const card = cards.splice(randomIndex, 1);
+            player.legacyCardOptions.push(card[0]);
+          }
+        });
+      },
+    },
+    discovery: {
       onBegin: (context) => {
         context.ctx.playOrderPos = 0;
         context.G.stage = "discovery";
@@ -315,6 +350,7 @@ const MyGame: Game<MyGameState> = {
             }
           }
         );
+        newTurnOrder.push(...currentTurnOrder);
         if (newTurnOrder.length !== context.ctx.playOrder.length) {
           throw Error(`Something has gone wrong when updating the player order.
           old order: ${context.ctx.playOrder}

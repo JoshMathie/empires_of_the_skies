@@ -23,7 +23,7 @@ const pass: Move<MyGameState> = (
   G.playerInfo[playerID].passed = true;
   if (ctx.phase === "discovery") {
     G.firstTurnOfRound = false;
-    if (ctx.turn === ctx.numPlayers) {
+    if (ctx.playOrderPos === ctx.numPlayers - 1) {
       G.stage = "actions";
       events.endPhase();
     } else {

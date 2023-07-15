@@ -137,6 +137,17 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
         </DialogContent>
         <DialogActions>
           <>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={() => {
+                clearMoves(props);
+                setWorldMapDialogOpen(false);
+                setHeresyOrOrthodoxyDialogOpen(false);
+              }}
+            >
+              Cancel
+            </Button>
             {props.value === 1 ? (
               <>
                 <Button
@@ -177,17 +188,6 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
                 Confirm
               </Button>
             )}
-            <Button
-              variant="contained"
-              color="error"
-              onClick={() => {
-                clearMoves(props);
-                setWorldMapDialogOpen(false);
-                setHeresyOrOrthodoxyDialogOpen(false);
-              }}
-            >
-              Cancel
-            </Button>
           </>
         </DialogActions>
       </Dialog>

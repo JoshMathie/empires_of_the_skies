@@ -33,6 +33,7 @@ import HeresyTracker from "./PlayerTable/HeresyTracker";
 import Chat from "./Chat/Chat";
 import { generalTheme } from "./themes";
 import { Campaign } from "@mui/icons-material";
+import PickLegacyCardDialog from "./PickLegacyCardDialog";
 
 export const ActionBoardsAndMap = (props: MyGameProps) => {
   const [value, setValue] = useState("0");
@@ -137,6 +138,9 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
               <Chat {...props} />
             </TabPanel>
           </TabContext>
+          {props.G.stage === "pick legacy card" && (
+            <PickLegacyCardDialog {...props} />
+          )}
           {props.G.stage === "attack or pass" && (
             <AttackOrPassDiaLog {...props} />
           )}

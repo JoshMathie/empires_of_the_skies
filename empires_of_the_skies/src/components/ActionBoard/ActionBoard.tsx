@@ -47,7 +47,7 @@ import { generalTheme, influencePrelatesTheme } from "../themes";
 import { Button, Tooltip } from "@mui/material";
 import HolyDecreeDialog from "./HolyDecreeDialog";
 import CounsellorIcon from "../Icons/CounsellorIcon";
-import { Info } from "@mui/icons-material";
+import { InfoOutlined } from "@mui/icons-material";
 
 //method which returns the complete action board
 
@@ -93,7 +93,7 @@ Taxation is awarded as follows:
 6th: \t\t9 gold
             `}
             >
-              <Info />
+              <InfoOutlined />
             </Tooltip>
             {generateButtonsList(
               6,
