@@ -38,7 +38,8 @@ const createMatch = async (
 
 const HomePageComponent = (props: HomePageComponentProps) => {
   const [joinOrCreate, setJoinOrCreate] = useState<"join" | "create">("join");
-
+  const [playerName, setName] = useState("");
+  const [matchIDInput, setMatchIDInput] = useState("");
   return (
     <div
       style={{
@@ -75,9 +76,8 @@ const HomePageComponent = (props: HomePageComponentProps) => {
           Please enter your name/username
           <TextField
             sx={{ paddingBottom: 2 }}
-            // disabled={joinOrCreate === "create"}
             onChange={(event) => {
-              props.setName(event.target.value);
+              setName(event.target.value);
             }}
           ></TextField>
           Please enter your matchID
@@ -85,7 +85,7 @@ const HomePageComponent = (props: HomePageComponentProps) => {
             sx={{ paddingBottom: 2 }}
             disabled={joinOrCreate === "create"}
             onChange={(event) => {
-              props.setMatchIDInput(event.target.value);
+              setMatchIDInput(event.target.value);
             }}
           ></TextField>
           Please select the number of players
@@ -117,7 +117,6 @@ const HomePageComponent = (props: HomePageComponentProps) => {
           <Button
             color="success"
             variant="contained"
-            // href={`/match/${props.matchReady}/${props.playerName}`}
             onClick={(event) => {
               joinOrCreate === "create"
                 ? createMatch(
@@ -125,7 +124,7 @@ const HomePageComponent = (props: HomePageComponentProps) => {
                     props.numPlayers,
                     props.setMatchReady
                   )
-                : window.open(`/match/${props.matchReady}/${props.playerName}`);
+                : window.open(`/match/${matchIDInput}/${playerName}`);
             }}
           >
             {joinOrCreate === "join" ? "join" : "create"} game
@@ -147,7 +146,7 @@ const HomePageComponent = (props: HomePageComponentProps) => {
             <a
               target="_blank"
               style={{ display: "inline" }}
-              href={`/match/${props.matchReady}/${props.playerName}`}
+              href={`/match/${props.matchReady}/${playerName}`}
             >
               Click here to join the match.
             </a>{" "}
@@ -159,10 +158,6 @@ const HomePageComponent = (props: HomePageComponentProps) => {
 };
 
 interface HomePageComponentProps {
-  playerName: string;
-  setName: React.Dispatch<React.SetStateAction<string>>;
-  matchIDInput: string;
-  setMatchIDInput: React.Dispatch<React.SetStateAction<string>>;
   startGame: boolean;
   setStartGame: React.Dispatch<React.SetStateAction<boolean>>;
   matchReady: string | undefined;

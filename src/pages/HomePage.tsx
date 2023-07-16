@@ -7,8 +7,6 @@ import ClientComponent from "./Client";
 import HomePageComponent from "./HomePageComponent";
 
 const HomePage = () => {
-  const [name, setName] = useState("");
-  const [matchIDInput, setMatchIDInput] = useState("");
   const [startGame, setStartGame] = useState(false);
   const [matchReady, setMatchReady] = useState<string | undefined>(undefined);
   const [numPlayers, setNumPlayers] = useState(2);
@@ -23,10 +21,6 @@ const HomePage = () => {
             index
             element={
               <HomePageComponent
-                playerName={name}
-                setName={setName}
-                matchIDInput={matchIDInput}
-                setMatchIDInput={setMatchIDInput}
                 startGame={startGame}
                 setStartGame={setStartGame}
                 matchReady={matchReady}
@@ -42,8 +36,6 @@ const HomePage = () => {
             element={
               <ClientComponent
                 lobbyClient={lobbyClient}
-                matchIDInput={matchIDInput}
-                name={name}
                 setStartGame={setStartGame}
                 matchReady={matchReady}
               />

@@ -85,8 +85,7 @@ const ClientComponent = (props: ClientComponentProps) => {
 };
 interface ClientComponentProps {
   lobbyClient: LobbyClient;
-  matchIDInput: string;
-  name: string;
+
   setStartGame: React.Dispatch<React.SetStateAction<boolean>>;
   matchReady: string | undefined;
 }
