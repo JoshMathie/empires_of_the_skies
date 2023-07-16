@@ -12,7 +12,7 @@ const HomePage = () => {
   const [startGame, setStartGame] = useState(false);
   const [matchReady, setMatchReady] = useState<string | undefined>(undefined);
   const [numPlayers, setNumPlayers] = useState(2);
-  const server = "http://192.168.1.121:8000";
+  const server = "https://192.168.1.121:8000";
   const lobbyClient = new LobbyClient({ server: server });
 
   return (
