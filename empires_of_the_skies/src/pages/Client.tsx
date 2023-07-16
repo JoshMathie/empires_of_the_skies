@@ -22,10 +22,7 @@ const joinMatch = async (
     //   alert("This name is already in use, please try another");
     //   return;
     // } else
-    if (
-      player.name === undefined ||
-      (player.isConnected !== true && playerID === 10)
-    ) {
+    if (player.isConnected !== true && playerID === 10) {
       playerID = player.id;
       setPlayerID(player.id.toString());
     }

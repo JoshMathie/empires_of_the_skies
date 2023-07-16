@@ -30,7 +30,7 @@ export interface MyGameState {
   electionResults: Record<string, number>;
   hasVoted: string[];
   round: number;
-  finalRound: 4;
+  finalRound: number;
   firstTurnOfRound: boolean;
   turnOrder: string[];
 }

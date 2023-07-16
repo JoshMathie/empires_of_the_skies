@@ -593,6 +593,7 @@ const MyGame: Game<MyGameState> = {
       },
       onEnd: (context) => {
         resolveRound(context.G, context.events);
+        console.log(`Round number:${context.G.round}`);
       },
       moves: { retrieveFleets },
       next: "discovery",
