@@ -21,6 +21,10 @@ import { Person4Sharp } from "@mui/icons-material";
 import ArchprelateIcon from "../Icons/ArchprelateIcon";
 
 const ResourceTrackerBar = (props: ResourceTrackerBarProps) => {
+  const [passDialogOpen, setPassDialogOpen] = useState(false);
+  if (!props.playerID) {
+    return <></>;
+  }
   const currentPlayer = checkPlayerIDAndReturnPlayerInfo(props);
   const counsellors = currentPlayer.resources.counsellors;
   const gold = currentPlayer.resources.gold;
@@ -31,8 +35,6 @@ const ResourceTrackerBar = (props: ResourceTrackerBarProps) => {
   const levies = currentPlayer.resources.levies;
   const turnComplete =
     props.G.playerInfo[props.playerID ?? props.ctx.currentPlayer].turnComplete;
-
-  const [passDialogOpen, setPassDialogOpen] = useState(false);
 
   const endTurn = () => {
     if (props.events.endTurn) {
@@ -95,7 +97,7 @@ const ResourceTrackerBar = (props: ResourceTrackerBarProps) => {
                   fillRule="evenodd"
                   clipRule="evenodd"
                   d="M17.9062 25.5842C27.4438 25.5842 35.1753 27.1947 35.1753 29.1819C35.1753 31.1689 27.4438 32.7797 17.9062 32.7797C8.36817 32.7797 0.636719 31.1689 0.636719 29.1819C0.636719 27.1947 8.36817 25.5842 17.9062 25.5842Z"
-                  fill={colour}
+                  fill={colour ?? "white"}
                 />
                 <path
                   d="M17.9062 25.5842C27.4438 25.5842 35.1753 27.1947 35.1753 29.1819C35.1753 31.1689 27.4438 32.7797 17.9062 32.7797C8.36817 32.7797 0.636719 31.1689 0.636719 29.1819C0.636719 27.1947 8.36817 25.5842 17.9062 25.5842Z"

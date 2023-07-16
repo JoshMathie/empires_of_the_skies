@@ -45,7 +45,7 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
   return (
     <div>
       <ThemeProvider theme={generalTheme}>
-        <ResourceTrackerBar {...props} />
+        {<ResourceTrackerBar {...props} />}
         <Box
           sx={{
             flexGrow: 1,
