@@ -5,7 +5,11 @@ import { Server, Origins, SocketIO } from "boardgame.io/server";
 import { MyGame } from "../Game";
 const ServerComp = Server({
   games: [MyGame],
-  origins: [Origins.LOCALHOST, Origins.LOCALHOST_IN_DEVELOPMENT],
+  origins: [
+    Origins.LOCALHOST,
+    Origins.LOCALHOST_IN_DEVELOPMENT,
+    "https://empires-of-the-skies-53az.vercel.app/",
+  ],
   transport: new SocketIO(),
 });
 
@@ -18,5 +22,6 @@ ServerComp.run(PORT, () => {
   console.log(ServerComp.transport);
   console.log("App:");
   console.log(ServerComp.app);
+  console.log(`Process running on port: ${PORT}`);
 });
 ServerComp.router.allowedMethods;
