@@ -12,9 +12,9 @@ import {
 
 const RetrieveFleetsDialog = (props: RetrieveFleetsDialogProps) => {
   const [open, setOpen] = useState(true);
-  const setFleetsHolder: number[] = [];
-  const [selectedFleets, setSelectedFleets] = useState(setFleetsHolder);
   let hasNoFleets = true;
+  const setFleetsHolder: number[] = [0];
+  const [selectedFleets, setSelectedFleets] = useState(setFleetsHolder);
   const fleets = props.G.playerInfo[
     props.playerID ?? props.ctx.currentPlayer
   ].fleetInfo.map((fleet) => {

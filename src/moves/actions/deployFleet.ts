@@ -109,6 +109,13 @@ const deployFleet: Move<MyGameState> = (
   });
   G.playerInfo[playerID].fleetInfo[fleet.fleetId].location = [x, y];
 
+  G.mapState.battleMap[startingCoords[1]][startingCoords[0]].splice(
+    G.mapState.battleMap[startingCoords[1]][startingCoords[0]].indexOf(
+      playerID
+    ),
+    1
+  );
+
   if (!G.mapState.battleMap[y][x].includes(playerID)) {
     G.mapState.battleMap[y][x].push(playerID);
   }
