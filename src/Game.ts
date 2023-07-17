@@ -364,6 +364,9 @@ const MyGame: Game<MyGameState> = {
             if (key === "foundBuildings") {
               Object.values(gameStateObject).forEach((idArray: any) => {
                 idArray.forEach((id: string) => {
+                  console.log(
+                    "adding counsellor to player info for a founded building"
+                  );
                   context.G.playerInfo[id].resources.counsellors += 1;
                 });
               });
@@ -372,6 +375,9 @@ const MyGame: Game<MyGameState> = {
             } else {
               Object.values(gameStateObject).forEach((id: any) => {
                 if (id) {
+                  console.log(
+                    "adding counsellor to player info for an action board button"
+                  );
                   context.G.playerInfo[id].resources.counsellors += 1;
                 }
               });
@@ -383,8 +389,11 @@ const MyGame: Game<MyGameState> = {
 
         Object.values(context.G.playerInfo).forEach((player: any) => {
           Object.values(player.playerBoardCounsellorLocations).forEach(
-            (counsellor) => {
-              if (counsellor) {
+            (counsellor, index) => {
+              if (counsellor && index !== 3) {
+                console.log(
+                  "adding counsellor to player info for a player board button"
+                );
                 player.resources.counsellors += 1;
                 counsellor = false;
               }
@@ -393,6 +402,7 @@ const MyGame: Game<MyGameState> = {
           player.playerBoardCounsellorLocations.buildSkyships = false;
           player.playerBoardCounsellorLocations.conscriptLevies = false;
           player.playerBoardCounsellorLocations.dispatchSkyshipFleet = false;
+          player.playerBoardCounsellorLocations.dispatchDisabled = false;
         });
         context.events.endTurn({ next: context.ctx.playOrder[0] });
         context.events.pass();

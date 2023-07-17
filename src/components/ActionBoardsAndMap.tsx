@@ -130,6 +130,10 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
                   flexDirection: "column",
                 }}
               >
+                <div style={{ padding: 10 }}>
+                  Round number: {props.G.round}/{props.G.finalRound}
+                </div>
+
                 <PlayerTable {...props} />
                 <HeresyTracker {...props} />
               </div>
