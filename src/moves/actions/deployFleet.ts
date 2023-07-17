@@ -27,10 +27,46 @@ const deployFleet: Move<MyGameState> = (
   if (checkCounsellorsNotZero(playerID, G) !== undefined) {
     return INVALID_MOVE;
   }
-  const fleet = args[0];
+  const selectedFleetIndex = args[0];
+
+  const currentPlayer = G.playerInfo[playerID];
+  const fleet = currentPlayer.fleetInfo[selectedFleetIndex];
+
   const startingCoords = fleet.location;
+
   const [x, y] = args[1];
+
+  const skyshipCount = args[2];
+  const regimentCount = args[3];
+  const levyCount = args[4];
+
   const unladen = fleet.regiments === 0 && fleet.levies === 0;
+
+  if (fleet.location[0] === 4 && fleet.location[1] === 0) {
+    if (
+      currentPlayer.resources.skyships < skyshipCount ||
+      currentPlayer.resources.regiments < regimentCount ||
+      currentPlayer.resources.levies < levyCount
+    ) {
+      console.log(
+        "Player has attempted to deploy more of a resource than they have ready, something has gone wrong..."
+      );
+      return INVALID_MOVE;
+    }
+  }
+  if (skyshipCount === 0) {
+    console.log("Player has attempted to deploy a fleet with no skyships");
+    return INVALID_MOVE;
+  }
+
+  fleet.skyships = skyshipCount;
+  fleet.regiments = regimentCount;
+  fleet.levies = levyCount;
+
+  currentPlayer.resources.skyships -= skyshipCount;
+  currentPlayer.resources.regiments -= regimentCount;
+  currentPlayer.resources.levies -= levyCount;
+  G.playerInfo[playerID].turnComplete = true;
 
   let destinationValid = false;
 
@@ -79,7 +115,8 @@ const deployFleet: Move<MyGameState> = (
   console.log(G.mapState.battleMap[y][x]);
 
   removeGoldAmount(G, playerID, cost);
-
+  G.playerInfo[playerID].playerBoardCounsellorLocations.dispatchSkyshipFleet =
+    true;
   G.playerInfo[playerID].turnComplete = true;
 };
 

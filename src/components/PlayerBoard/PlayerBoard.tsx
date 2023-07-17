@@ -34,13 +34,6 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
   const [fleetDestination, setFleetDestination] = useState([4, 0]);
 
   let fleets: JSX.Element[] = [];
-  let currentFleet: FleetInfo = {
-    fleetId: 0,
-    location: [4, 0],
-    skyships: 0,
-    regiments: 0,
-    levies: 0,
-  };
 
   const playerInfo =
     props.G.playerInfo[props.playerID ?? props.ctx.currentPlayer];
@@ -60,7 +53,7 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
       ></FleetDisplay>
     );
   });
-  currentFleet = playerInfo.fleetInfo[selectedFleet];
+  let currentFleet = playerInfo.fleetInfo[selectedFleet];
 
   const fortuneOfWarCards: JSX.Element[] = [];
 
@@ -70,9 +63,24 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
     );
   }
 
+  const currentFleetAlreadyDispatched =
+    currentFleet.location[0] !== 4 || currentFleet.location[1] !== 0;
+
+  if (currentFleetAlreadyDispatched) {
+    if (skyshipCount > 0) {
+      setSkyshipCount(0);
+    }
+    if (levyCountForDispatch > 0) {
+      setLevyCountForDispatch(0);
+    }
+    if (regimentCount > 0) {
+      setRegimentCount(0);
+    }
+  }
+
   const dispatchDisabled =
     props.G.playerInfo[props.playerID ?? props.ctx.currentPlayer]
-      .playerBoardCounsellorLocations.dispatchDisabled;
+      .playerBoardCounsellorLocations.dispatchSkyshipFleet;
   return (
     <ThemeProvider theme={influencePrelatesTheme}>
       <div
@@ -212,7 +220,9 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
             <ButtonRow>
               Dispatch Skyship Fleet
               <PlayerBoardButton
-                onClick={() => props.moves.enableDispatchButtons(false)}
+                onClick={() => {
+                  setDispatchFleetMapVisible(true);
+                }}
                 backgroundImage={dispatchSkyshipFleet}
                 colour={colour}
                 height="70px"
@@ -241,6 +251,7 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
                 }}
                 disabled={
                   dispatchDisabled ||
+                  currentFleetAlreadyDispatched ||
                   skyshipCount >= 5 ||
                   skyshipCount >= playerSkyships
                 }
@@ -320,7 +331,11 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
                   cursor: dispatchDisabled ? "not-allowed" : "pointer",
                   color: dispatchDisabled ? "grey" : "#000000",
                 }}
-                disabled={dispatchDisabled || skyshipCount <= 0}
+                disabled={
+                  dispatchDisabled ||
+                  skyshipCount <= 0 ||
+                  currentFleetAlreadyDispatched
+                }
               >
                 -
               </Button>
@@ -339,6 +354,7 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
                 }}
                 disabled={
                   dispatchDisabled ||
+                  currentFleetAlreadyDispatched ||
                   regimentCount + levyCountForDispatch >= skyshipCount ||
                   regimentCount >= playerRegiments
                 }
@@ -416,6 +432,7 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
                 }}
                 disabled={
                   dispatchDisabled ||
+                  currentFleetAlreadyDispatched ||
                   regimentCount + levyCountForDispatch >= skyshipCount ||
                   levyCountForDispatch >= playerLevies
                 }
@@ -474,37 +491,13 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
                   cursor: dispatchDisabled ? "not-allowed" : "pointer",
                   color: dispatchDisabled ? "grey" : "#000000",
                 }}
-                disabled={dispatchDisabled || levyCountForDispatch <= 0}
+                disabled={
+                  dispatchDisabled ||
+                  levyCountForDispatch <= 0 ||
+                  currentFleetAlreadyDispatched
+                }
               >
                 -
-              </Button>
-              <Button
-                onClick={() => {
-                  setDispatchFleetMapVisible(true);
-                  props.moves.passFleetInfoToPlayerInfo(
-                    selectedFleet,
-                    skyshipCount,
-                    regimentCount,
-                    levyCountForDispatch
-                  );
-                  setRegimentCount(0);
-                  setLevyCountForDispatch(0);
-                  setSkyshipCount(0);
-                  props.moves.enableDispatchButtons(true);
-                }}
-                sx={{
-                  backgroundColor: colour,
-                  width: "80px",
-                  height: "50px",
-                  fontSize: "20px",
-                  cursor: dispatchDisabled ? "not-allowed" : "pointer",
-                  fontFamily: "dauphinn",
-                  color: dispatchDisabled ? "grey" : "#000000",
-                  borderColor: dispatchDisabled ? "grey" : "#000000",
-                }}
-                disabled={dispatchDisabled || skyshipCount <= 0}
-              >
-                Deploy
               </Button>
             </ButtonRow>
             <Dialog open={dispatchFleetMapVisible} maxWidth={false}>
@@ -545,7 +538,17 @@ Selected tile: [${fleetDestination[0] + 1}, ${
                   variant="contained"
                   color="success"
                   onClick={() => {
-                    props.moves.deployFleet(currentFleet, fleetDestination);
+                    setRegimentCount(0);
+                    setLevyCountForDispatch(0);
+                    setSkyshipCount(0);
+                    props.moves.enableDispatchButtons(true);
+                    props.moves.deployFleet(
+                      selectedFleet,
+                      fleetDestination,
+                      skyshipCount,
+                      regimentCount,
+                      levyCountForDispatch
+                    );
                     setDispatchFleetMapVisible(false);
                   }}
                 >

@@ -30,8 +30,6 @@ const enableDispatchButtons: Move<MyGameState> = (
     );
     return INVALID_MOVE;
   }
-  G.playerInfo[playerID].playerBoardCounsellorLocations.dispatchSkyshipFleet =
-    true;
 
   removeOneCounsellor(G, playerID);
   G.playerInfo[playerID].playerBoardCounsellorLocations.dispatchDisabled =
