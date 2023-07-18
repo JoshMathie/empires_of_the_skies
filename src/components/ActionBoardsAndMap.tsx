@@ -34,6 +34,8 @@ import Chat from "./Chat/Chat";
 import { generalTheme } from "./themes";
 import { Campaign } from "@mui/icons-material";
 import PickLegacyCardDialog from "./PickLegacyCardDialog";
+import GameOverView from "./GameOverView";
+import LootValueTable from "./PlayerTable/LootValueTable";
 
 export const ActionBoardsAndMap = (props: MyGameProps) => {
   const [value, setValue] = useState("0");
@@ -136,6 +138,7 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
 
                 <PlayerTable {...props} />
                 <HeresyTracker {...props} />
+                <LootValueTable {...props} />
               </div>
             </TabPanel>
             <TabPanel value={"4"} tabIndex={4}>
@@ -171,6 +174,7 @@ export const ActionBoardsAndMap = (props: MyGameProps) => {
           {props.G.stage === "retrieve fleets" && (
             <RetrieveFleetsDialog {...props} />
           )}
+          <GameOverView {...props} />
           <Dialog
             open={
               props.ctx.phase === "election" &&
