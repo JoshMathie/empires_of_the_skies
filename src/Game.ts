@@ -365,7 +365,7 @@ const MyGame: Game<MyGameState> = {
               Object.values(gameStateObject).forEach((idArray: any) => {
                 idArray.forEach((id: string) => {
                   console.log(
-                    "adding counsellor to player info for a founded building"
+                    `adding counsellor to player ${id} info for a founded ${key}`
                   );
                   context.G.playerInfo[id].resources.counsellors += 1;
                 });
@@ -376,7 +376,7 @@ const MyGame: Game<MyGameState> = {
               Object.values(gameStateObject).forEach((id: any) => {
                 if (id) {
                   console.log(
-                    "adding counsellor to player info for an action board button"
+                    `adding counsellor to player ${id} info for a ${key} button`
                   );
                   context.G.playerInfo[id].resources.counsellors += 1;
                 }
