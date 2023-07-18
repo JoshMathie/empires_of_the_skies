@@ -66,6 +66,7 @@ const PickLegacyCardDialog = (props: DrawOrPickCardDialogProps) => {
         <Button
           variant="contained"
           color="primary"
+          disabled={!currentCard}
           onClick={() => {
             props.moves.pickLegacyCard(currentCard);
             setOpen(false);

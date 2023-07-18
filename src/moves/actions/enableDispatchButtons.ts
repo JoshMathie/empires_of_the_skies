@@ -30,10 +30,6 @@ const enableDispatchButtons: Move<MyGameState> = (
     );
     return INVALID_MOVE;
   }
-
-  removeOneCounsellor(G, playerID);
-  G.playerInfo[playerID].playerBoardCounsellorLocations.dispatchDisabled =
-    args[0];
 };
 
 export default enableDispatchButtons;

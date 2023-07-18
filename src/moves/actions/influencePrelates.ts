@@ -2,7 +2,11 @@ import { Move } from "boardgame.io";
 import { MyGameState, PlayerColour } from "../../types";
 import { checkCounsellorsNotZero } from "../moveValidation";
 import { INVALID_MOVE } from "boardgame.io/core";
-import { addGoldAmount, removeGoldAmount } from "../resourceUpdates";
+import {
+  addGoldAmount,
+  removeGoldAmount,
+  removeOneCounsellor,
+} from "../resourceUpdates";
 import { EventsAPI } from "boardgame.io/dist/types/src/plugins/plugin-events";
 import { RandomAPI } from "boardgame.io/dist/types/src/plugins/random/random";
 import { Ctx } from "boardgame.io/dist/types/src/types";
@@ -58,6 +62,8 @@ export const influencePrelates: Move<MyGameState> = (
     addGoldAmount(G, recipientOfPayment, cost);
   }
   removeGoldAmount(G, playerID, cost);
+
+  removeOneCounsellor(G, playerID);
 
   G.boardState.influencePrelates[value] = playerID;
   G.playerInfo[playerID].turnComplete = true;

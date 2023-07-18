@@ -56,9 +56,8 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
   const [worldMapDialogOpen, setWorldMapDialogOpen] = useState(false);
   const [heresyOrOrthodoxyDialogOpen, setHeresyOrOrthodoxyDialogOpen] =
     useState(false);
-  const fortPlacementFailed = useRef(false);
 
-  const [selectedTile, setSelectedTile] = useState([0, 0]);
+  const [selectedTile, setSelectedTile] = useState([4, 0]);
 
   let listOfCounsellors: ReactElement[] = [];
   if (props.counsellors) {
@@ -73,6 +72,20 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
   const alternateOnClickFunction = (coords: number[]) => {
     setSelectedTile(coords);
   };
+
+  let possibleFortTiles: number[][] = [];
+  props.G.mapState.buildings.forEach((tileRow, yIndex) => {
+    tileRow.forEach((tile, xIndex) => {
+      if (
+        tile.player?.id === props.playerID &&
+        tile.buildings &&
+        (tile.garrisonedRegiments > 0 || tile.garrisonedLevies > 0) &&
+        !tile.fort
+      ) {
+        possibleFortTiles.push([xIndex, yIndex]);
+      }
+    });
+  });
 
   return (
     <>
@@ -132,7 +145,11 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
               earn at the end of the game.
             </DialogContentText>
           ) : (
-            <WorldMap {...props} alternateOnClick={alternateOnClickFunction} />
+            <WorldMap
+              {...props}
+              alternateOnClick={alternateOnClickFunction}
+              selectableTiles={possibleFortTiles}
+            />
           )}
         </DialogContent>
         <DialogActions>
@@ -177,11 +194,10 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
               <Button
                 variant="contained"
                 color="success"
+                disabled={selectedTile[0] === 4 && selectedTile[1] === 0}
                 onClick={() => {
                   props.moves.checkAndPlaceFort(selectedTile, props);
-                  if (fortPlacementFailed.current) {
-                    clearMoves(props);
-                  }
+
                   setWorldMapDialogOpen(false);
                 }}
               >

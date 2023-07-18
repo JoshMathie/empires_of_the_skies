@@ -53,9 +53,11 @@ export const resolveBattleAndReturnWinner = (
     const currentBuilding = G.mapState.buildings[y][x];
     defenderSwordValue += (currentBuilding.garrisonedRegiments ?? 0) * 2;
     defenderSwordValue += currentBuilding.garrisonedLevies ?? 0;
-    defenderShieldValue +=
-      (currentBuilding.garrisonedRegiments ?? 0) +
-      (currentBuilding.garrisonedLevies ?? 0);
+    if (currentBuilding.fort) {
+      defenderShieldValue +=
+        (currentBuilding.garrisonedRegiments ?? 0) +
+        (currentBuilding.garrisonedLevies ?? 0);
+    }
   }
   defenderSwordValue += G.battleState?.defender.fowCard?.sword ?? 0;
   defenderShieldValue += G.battleState?.defender.fowCard?.shield ?? 0;

@@ -2,7 +2,7 @@ import { Move } from "boardgame.io";
 import { MyGameState } from "../../types";
 import { findPossibleDestinations } from "../../helpers/helpers";
 import { INVALID_MOVE } from "boardgame.io/core";
-import { removeGoldAmount } from "../resourceUpdates";
+import { removeGoldAmount, removeOneCounsellor } from "../resourceUpdates";
 import { checkCounsellorsNotZero } from "../moveValidation";
 import { EventsAPI } from "boardgame.io/dist/types/src/plugins/events/events";
 import { RandomAPI } from "boardgame.io/dist/types/src/plugins/random/random";
@@ -124,6 +124,11 @@ const deployFleet: Move<MyGameState> = (
   removeGoldAmount(G, playerID, cost);
   G.playerInfo[playerID].playerBoardCounsellorLocations.dispatchSkyshipFleet =
     true;
+
+  removeOneCounsellor(G, playerID);
+  G.playerInfo[playerID].playerBoardCounsellorLocations.dispatchDisabled =
+    args[0];
+
   G.playerInfo[playerID].turnComplete = true;
 };
 
