@@ -63,7 +63,10 @@ const Chat = (props: MyGameProps) => {
               bgcolor: "grey.200",
             }}
           >
-            <ElectionDialog {...props} />
+            {props.ctx.phase === "election" &&
+              props.ctx.currentPlayer === props.playerID && (
+                <ElectionDialog {...props} />
+              )}
             <Box sx={{ flexGrow: 1, overflow: "auto", p: 2 }}>
               {props.chatMessages.map((message) => (
                 <Message key={message.id} message={message} {...props} />
