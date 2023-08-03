@@ -142,7 +142,6 @@ const initialBoardState: ActionBoardInfo = {
 
 const MyGame: Game<MyGameState> = {
   turn: { minMoves: 1 },
-
   name: "empires-of-the-skies",
   setup: ({ ctx }: { ctx: Ctx }): MyGameState => {
     const mapState: MapState = {

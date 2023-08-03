@@ -1,6 +1,3 @@
-// const Server = require("boardgame.io/server").Server;
-// const Origins = require("boardgame.io/multiplayer").Origins;
-// const { MyGame } = require("../Game");
 import { Server, Origins, SocketIO } from "boardgame.io/server";
 import { MyGame } from "../Game";
 const ServerComp = Server({
@@ -8,7 +5,6 @@ const ServerComp = Server({
   origins: [
     Origins.LOCALHOST,
     Origins.LOCALHOST_IN_DEVELOPMENT,
-    "*",
     "https://empires-of-the-skies-53az.vercel.app/",
     "http://192.168.1.121:3000",
   ],

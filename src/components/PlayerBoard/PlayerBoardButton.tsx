@@ -38,5 +38,4 @@ interface PlayerBoardButtonProps extends MyGameProps {
   disabled?: boolean;
   width?: string;
   height?: string;
-  children?: JSX.Element;
 }

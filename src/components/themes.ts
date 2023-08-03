@@ -6,7 +6,6 @@ export const generalTheme = createTheme({
     fontSize: 20,
     button: {
       textTransform: "none",
-
       border: "1px solid black",
       color: "#000000",
       textOverflow: "ellipsis",

@@ -125,7 +125,7 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
         maxWidth={false}
         open={heresyOrOrthodoxyDialogOpen || worldMapDialogOpen}
       >
-        <DialogTitle style={{ fontFamily: "dauphinn" }}>
+        <DialogTitle sx={{ fontFamily: "dauphinn" }}>
           {props.value === 1
             ? "Select direction to move heresy tracker"
             : `Select location for your fort. Current selection: [${
@@ -135,7 +135,7 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
         <DialogContent>
           {props.value === 1 ? (
             <DialogContentText
-              style={{
+              sx={{
                 fontFamily: "dauphinn",
                 color: "black",
               }}
@@ -169,7 +169,7 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
               <>
                 <Button
                   variant="contained"
-                  style={{
+                  sx={{
                     backgroundColor: "#E77B00",
                   }}
                   onClick={() => {
@@ -181,7 +181,7 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
                 </Button>
                 <Button
                   variant="contained"
-                  style={{ backgroundColor: "#A74383" }}
+                  sx={{ backgroundColor: "#A74383" }}
                   onClick={() => {
                     props.moves.increaseOrthodoxy();
                     setHeresyOrOrthodoxyDialogOpen(false);

@@ -3,7 +3,7 @@ import React, { useState, useRef, useCallback } from "react";
 import ReactCardFlip from "react-card-flip";
 import { useLongPress } from "use-long-press";
 import { MyGameProps } from "../../types";
-import { Tooltip } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import { generalTheme } from "../themes";
 import FortIcon from "../Icons/FortIcon";
@@ -129,10 +129,9 @@ Loot:
 
   return (
     <ReactCardFlip isFlipped={flip} key={props.location.toString()}>
-      <button
-        key={props.location.toString()}
+      <Button
         value={currentTile.name}
-        style={{
+        sx={{
           backgroundColor: "#298932",
           fontSize: "30px",
           height: "100%",
@@ -141,6 +140,9 @@ Loot:
           minHeight: "150px",
           minWidth: "150px",
           fontFamily: "dauphinn",
+          color: "black",
+          justifyContent: "center",
+          borderRadius: 0,
         }}
         onClick={
           !props.alternateOnClick
@@ -149,7 +151,6 @@ Loot:
                   Math.abs(event.clientX - xPosition.current) < 10 &&
                   Math.abs(event.clientY - yPosition.current) < 10
                 ) {
-                  setFlip(true);
                   props.moves.discoverTile([xLocation, yLocation]);
                 }
               }
@@ -158,7 +159,7 @@ Loot:
         {...bind}
       >
         ?
-      </button>
+      </Button>
       <ThemeProvider theme={generalTheme}>
         <Tooltip
           title={tooltipText}
@@ -174,9 +175,9 @@ Loot:
             (xLocation === 4 && yLocation === 0) || currentTile.type === "ocean"
           }
         >
-          <button
+          <Button
             className="front"
-            style={{
+            sx={{
               backgroundImage: `url(${svgNameToElementMap[currentTile.name]})`,
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",
@@ -186,13 +187,14 @@ Loot:
               minHeight: "150px",
               minWidth: "150px",
               border: props.selectable ? "5px solid yellow" : "0px ",
+              borderRadius: 0,
             }}
             onClick={props.selectable ? altOnClick : undefined}
           >
             {building()}
             {fort ? <FortIcon colour={fortColour ?? "white"}></FortIcon> : null}
             {xLocation !== 4 || yLocation !== 0 ? fleets : null}
-          </button>
+          </Button>
         </Tooltip>
       </ThemeProvider>
     </ReactCardFlip>
