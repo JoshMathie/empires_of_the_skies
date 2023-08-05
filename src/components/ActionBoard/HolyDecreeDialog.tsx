@@ -28,7 +28,7 @@ const HolyDecreeDialog = (props: HolyDecreeDialogProps) => {
         setSelectedKingdom={setHereticKingdom}
         id={id}
         {...props}
-        key={id}
+        key={`Holy decree heretic kingdom button-${id}`}
       ></KingdomButton>
     );
   });
@@ -44,6 +44,7 @@ const HolyDecreeDialog = (props: HolyDecreeDialogProps) => {
         setSelectedKingdom={setOrthodoxKingdom}
         id={id}
         {...props}
+        key={`Holy decree orthodox kingdom button-${id}`}
       ></KingdomButton>
     );
   });

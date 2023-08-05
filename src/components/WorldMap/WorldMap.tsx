@@ -22,14 +22,19 @@ const WorldMap = (props: WorldMapProps) => {
           }
         });
         tiles[y].push(
-          <Grid item lg={1} maxWidth={150} minWidth={150}>
+          <Grid
+            item
+            lg={1}
+            maxWidth={150}
+            minWidth={150}
+            key={`World Map Tile at (${x.toString()}, ${y.toString()})`}
+          >
             <WorldMapTile
               {...tileProps}
               alternateOnClick={
                 props.alternateOnClick ? props.alternateOnClick : undefined
               }
               selectable={selectable}
-              key={x.toString() + y.toString()}
             />
           </Grid>
         );

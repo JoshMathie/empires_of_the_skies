@@ -4,8 +4,9 @@ import React from "react";
 import PlayerTable from "./PlayerTable/PlayerTable";
 
 const GameOverView = (props: MyGameProps) => {
+  const open = props.ctx.gameover ?? false;
   return (
-    <Dialog open={props.ctx.gameover} maxWidth={"xl"}>
+    <Dialog open={open} maxWidth={"xl"}>
       <DialogTitle>Game over!</DialogTitle>
       <DialogContent>
         <PlayerTable {...props}></PlayerTable>

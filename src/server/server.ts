@@ -8,7 +8,6 @@ const ServerComp = Server({
     "https://empires-of-the-skies-53az.vercel.app/",
     "http://192.168.1.121:3000",
   ],
-
   transport: new SocketIO(),
 });
 

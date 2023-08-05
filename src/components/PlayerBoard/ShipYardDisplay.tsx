@@ -19,6 +19,7 @@ const ShipYardDisplay = (props: MyGameProps) => {
         xmlns="http://www.w3.org/2000/svg"
         opacity={i + 1 > numberOfShipyards ? 0.3 : 1}
         style={{ marginTop: "10px" }}
+        key={`shipyard-${i}`}
       >
         <rect
           x="1"
