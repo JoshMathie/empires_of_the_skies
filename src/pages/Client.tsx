@@ -53,7 +53,7 @@ const joinMatch = async (
 const ClientComponent = (props: ClientComponentProps) => {
   const { matchID, playerName } = useParams();
   const [playerID, setPlayerID] = useState<string | undefined>(undefined);
-  const server = "http://192.168.1.121:8000";
+  const server = props.server;
   if (playerID === undefined) {
     joinMatch(
       props.lobbyClient,
@@ -85,7 +85,7 @@ const ClientComponent = (props: ClientComponentProps) => {
 };
 interface ClientComponentProps {
   lobbyClient: LobbyClient;
-
+  server: string;
   setStartGame: React.Dispatch<React.SetStateAction<boolean>>;
   matchReady: string | undefined;
 }

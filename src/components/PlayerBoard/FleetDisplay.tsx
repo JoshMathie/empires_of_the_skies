@@ -1,6 +1,6 @@
 import React from "react";
 import { FleetInfo } from "../../types";
-import { Button } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 
 const FleetDisplay = (props: FleetDisplayProps) => {
   return (
@@ -14,11 +14,15 @@ const FleetDisplay = (props: FleetDisplayProps) => {
       color={props.selected === props.fleetId ? "success" : "primary"}
       onClick={() => props.onClickFunction(props.fleetId)}
     >
-      {`Fleet: ${props.fleetId + 1}
-Location: [${props.location[0] + 1}, ${4 - props.location[1]}]
-Skyships: ${props.skyships}
-Regiments: ${props.regiments}
-Levies: ${props.levies}`}
+      <Stack spacing={"xs"}>
+        <p>{`Fleet: ${props.fleetId + 1}`}</p>
+        <p>{`Location: [${props.location[0] + 1}, ${
+          4 - props.location[1]
+        }]`}</p>
+        <p>{`Skyships: ${props.skyships}`}</p>
+        <p>{`Regiments: ${props.regiments}`}</p>
+        <p>{`Levies: ${props.levies}`}</p>
+      </Stack>
     </Button>
   );
 };

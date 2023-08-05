@@ -50,6 +50,7 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
           setSelectedFleet(fleetId);
         }}
         selected={selectedFleet}
+        key={`Fleet display-${fleet.fleetId}`}
       ></FleetDisplay>
     );
   });
@@ -59,7 +60,11 @@ export const PlayerBoard = (props: PlayerBoardProps) => {
 
   for (let i = 0; i < 4; i++) {
     fortuneOfWarCards.push(
-      <FortuneOfWarCardDisplay {...props} value={i}></FortuneOfWarCardDisplay>
+      <FortuneOfWarCardDisplay
+        {...props}
+        value={i}
+        key={`FoWCardDisplay-${i}`}
+      ></FortuneOfWarCardDisplay>
     );
   }
 

@@ -6,7 +6,7 @@ const ServerComp = Server({
     Origins.LOCALHOST,
     Origins.LOCALHOST_IN_DEVELOPMENT,
     "https://empires-of-the-skies-53az.vercel.app/",
-    "http://192.168.1.121:3000",
+    "http://192.168.1.104:3000",
   ],
   transport: new SocketIO(),
 });
