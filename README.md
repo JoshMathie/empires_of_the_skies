@@ -6,7 +6,9 @@ An implementation of the unpublished boardgame 'Empires Of The Skies'
 
 -Ensure node is installed on your local machine (currently working on node v16)
 
--add your IP address to the server origins array e.g. "http://192.168.1.121:3000", but replace 192.168.1.121 with your IP address
+-add your IP address to the server origins array within server.ts e.g. "http://192.168.1.121:3000", but replace 192.168.1.121 with your IP address
+
+-swap the IP address for your IP address within the server URL within HomePage.tsx, keeping the port number the same (i.e. "YOUR.IP.ADDRESS:8000")
 
 -run 'npm run serve' to start the server from within the program root
 
@@ -16,4 +18,5 @@ An implementation of the unpublished boardgame 'Empires Of The Skies'
 
 ## notes on testing
 
--adjusting the number of players in the App.tsx client configuration will determine the number of players in the game, this should be reflected by the number of clients returned below
+If a client is unable to connect to the server, ensure the browser has not prepended https to the URL rather than HTTP.
+
