@@ -1,7 +1,9 @@
 import React, { ReactElement, useRef, useState } from "react";
 import { MyGameProps, PlayerColour } from "../../types";
 import {
+  Box,
   Button,
+  Container,
   Dialog,
   DialogActions,
   DialogContent,
@@ -35,6 +37,7 @@ export const ActionBoardButton = (props: ActionBoardButtonProps) => {
         backgroundColor: props.backgroundColour
           ? props.backgroundColour
           : "#e0e0e0",
+        overflow: "hidden",
       }}
       onClick={() => {
         clearMoves(props);
@@ -43,10 +46,18 @@ export const ActionBoardButton = (props: ActionBoardButtonProps) => {
       value={props.value}
     >
       {props.text}
+
       {props.counsellor ? (
-        <CounsellorIcon
-          colour={counsellorColour ? counsellorColour : PlayerColour.blue}
-        />
+        <Box
+          width={"100%"}
+          height={"100%"}
+          justifyContent={"flex-end"}
+          display={"flex"}
+        >
+          <CounsellorIcon
+            colour={counsellorColour ? counsellorColour : PlayerColour.blue}
+          />
+        </Box>
       ) : null}
     </Button>
   );
@@ -104,6 +115,7 @@ export const ActionBoardButtonLarge = (props: ActionBoardButtonProps) => {
           fontFamily: "dauphinn",
           fontSize: "18px",
           cursor: "pointer",
+          justifyContent: "center",
         }}
         onClick={() => {
           clearMoves(props);
