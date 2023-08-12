@@ -326,6 +326,8 @@ const MyGame: Game<MyGameState> = {
     },
     discovery: {
       onBegin: (context) => {
+        context.G.round += 1;
+        console.log(`Round: ${context.G.round}`);
         context.ctx.playOrderPos = 0;
         context.G.stage = "discovery";
         console.log("Discovery phase has begun");
@@ -590,9 +592,6 @@ const MyGame: Game<MyGameState> = {
       },
       moves: { vote },
       next: "resolution",
-      onEnd: (context) => {
-        context.G.round += 1;
-      },
     },
     resolution: {
       turn: { order: TurnOrder.ONCE },
